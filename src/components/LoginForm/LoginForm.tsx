@@ -10,6 +10,9 @@ import ButtonLoginX from "./components/ButtonLoginX"
 import ButtonLoginGoogle from "./components/ButtonLoginGoogle"
 
 const LoginForm = () => {
+  // const { setToken } = useAuth();
+  // const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -18,7 +21,11 @@ const LoginForm = () => {
     resolver: yupResolver(loginSchema),
   })
 
-  const onSubmit: SubmitHandler<LoginInput> = (data) => console.log(data)
+  const onSubmit: SubmitHandler<LoginInput> = (data) => {
+    // setToken("this is a test token");
+    // navigate("/", { replace: true });
+    console.log(data)
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
