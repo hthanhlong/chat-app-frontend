@@ -1,9 +1,9 @@
-import { capitalizeFirstLetter } from "../../../utils"
-import ErrorMessage from "../../ErrorMessage/ErrorMessage"
+import { capitalizeFirstLetter } from "../../utils"
+import ErrorMessage from "../ErrorMessage/ErrorMessage"
 
 const Input = ({ label = "username", errorMessage, register }: InputProps) => {
   return (
-    <>
+    <div className="flex flex-col mb-4">
       <label className="mb-2 text-neutral-400">
         {capitalizeFirstLetter(label)}
       </label>
@@ -13,7 +13,7 @@ const Input = ({ label = "username", errorMessage, register }: InputProps) => {
         placeholder="Enter your username"
       />
       <ErrorMessage errorMessage={errorMessage} />
-    </>
+    </div>
   )
 }
 

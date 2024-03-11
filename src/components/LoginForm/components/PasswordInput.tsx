@@ -11,7 +11,7 @@ const PasswordInput = ({
   const [showPassword, setShowPassword] = useState<boolean>(false)
 
   return (
-    <>
+    <div className="flex flex-col mb-4">
       <label className="mb-2 text-neutral-400">
         {capitalizeFirstLetter(label)}
       </label>
@@ -27,7 +27,7 @@ const PasswordInput = ({
         </button>
       </div>
       <ErrorMessage errorMessage={errorMessage} />
-    </>
+    </div>
   )
 }
 
