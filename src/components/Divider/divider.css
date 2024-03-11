@@ -1,0 +1,6 @@
+.my-divider {
+  display: inline-block;
+  height: 2px;
+  width: 100%;
+  background-color: rgb(212, 212, 212);
+}
