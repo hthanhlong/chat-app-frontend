@@ -28,7 +28,6 @@ const Login = () => {
                   type="text"
                   name="username"
                   placeholder="Enter your username"
-                  required
                 />
               </div>
               <div className="flex flex-col mb-4">
@@ -38,8 +37,7 @@ const Login = () => {
                     className="block w-full py-3 ps-3 text-sm focus:outline-none"
                     type={showPassword ? "text" : "password"}
                     name="password"
-                    placeholder="Enter your username"
-                    required
+                    placeholder="Enter your password"
                   />
                   <button onClick={() => setShowPassword(!showPassword)}>
                     {showPassword ? (
