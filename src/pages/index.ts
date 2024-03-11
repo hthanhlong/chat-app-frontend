@@ -1,5 +1,5 @@
-import Login from "./Login/Login"
-import Home from "./Home/Home"
-import ErrorPage from "./ErrorPage/ErrorPage"
+import Login from "./login/Login"
+import Home from "./home/Home"
+import ErrorPage from "./errorPage/ErrorPage"
 
 export { Login, Home, ErrorPage }

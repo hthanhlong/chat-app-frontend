@@ -1,4 +1,4 @@
-import RootLayout from "../../RootLayout"
+import RootLayout from "../../rootLayout"
 
 const Home = () => {
   return (
