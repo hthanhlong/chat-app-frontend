@@ -3,6 +3,13 @@ interface LoginInput {
   password: string
 }
 
+interface SignupInput {
+  username: string
+  email: string
+  password: string
+  confirmPassword: string
+}
+
 interface ERROR_MESSAGE {
   required: string
   maxLength: string
@@ -10,6 +17,9 @@ interface ERROR_MESSAGE {
 
 interface InputProps {
   label?: string
+  name: string
   errorMessage: string | undefined
   register: UseFormRegister<LoginInput>
+  placeholder?: string
+  type?: string
 }

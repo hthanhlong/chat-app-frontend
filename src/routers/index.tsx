@@ -1,20 +1,22 @@
-import { ErrorPage, Home, Login } from "../pages"
+import { ErrorPage, Home, Login, SignUp } from "../pages"
 import { createBrowserRouter } from "react-router-dom"
 import { ProtectedRoute } from "./ProtectedRoute"
 
-// Define public routes accessible to all users
 const routesForPublic = [
   {
     path: "/login",
     element: <Login />,
   },
+  {
+    path: "/signup",
+    element: <SignUp />,
+  },
 ]
 
-// Define routes accessible only to authenticated users
 const routesForAuthenticatedOnly = [
   {
     path: "/",
-    element: <ProtectedRoute />, // Wrap the component in ProtectedRoute
+    element: <ProtectedRoute />,
     errorElement: <ErrorPage />,
     children: [
       {

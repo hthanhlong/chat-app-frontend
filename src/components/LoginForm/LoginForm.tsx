@@ -31,10 +31,12 @@ const LoginForm = () => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <Input
         label="username"
+        name="username"
         register={register}
         errorMessage={errors.username?.message}
       />
       <PasswordInput
+        name="password"
         register={register}
         errorMessage={errors.password?.message}
       />
