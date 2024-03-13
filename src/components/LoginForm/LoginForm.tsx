@@ -8,10 +8,19 @@ import SignUpNow from "./components/SignUpNow"
 import ButtonLogin from "./components/ButtonLogin"
 import ButtonLoginX from "./components/ButtonLoginX"
 import ButtonLoginGoogle from "./components/ButtonLoginGoogle"
+import { useMutation } from "@tanstack/react-query"
+import { AuthLogin } from "../../axios/auth"
+import { toast } from "react-toastify"
+import { sleep } from "../../utils"
+import { useEffect } from "react"
+import { useLoading } from "../../hooks/useLoading"
 
 const LoginForm = () => {
   // const { setToken } = useAuth();
   // const navigate = useNavigate();
+
+  // const navigate = useNavigate()
+  const { setIsLoading } = useLoading()
 
   const {
     register,
@@ -22,10 +31,36 @@ const LoginForm = () => {
   })
 
   const onSubmit: SubmitHandler<LoginInput> = (data) => {
-    // setToken("this is a test token");
-    // navigate("/", { replace: true });
-    console.log(data)
+    loginFn(data)
   }
+
+  const {
+    mutate: loginFn,
+    //@ts-expect-error - //
+    isLoading,
+    // error,
+    data,
+  } = useMutation({
+    mutationFn: (data: LoginInput) => {
+      return AuthLogin(data)
+    },
+  })
+
+  const redirectFn = async (
+    data: SuccessResponse
+  ): Promise<void | undefined> => {
+    if (data && data.isSuccess) {
+      setIsLoading(true)
+      toast(data.message)
+      await sleep(3000)
+      // navigate("/login")
+    }
+  }
+
+  useEffect(() => {
+    if (data) redirectFn(data)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -40,7 +75,7 @@ const LoginForm = () => {
         register={register}
         errorMessage={errors.password?.message}
       />
-      <ButtonLogin />
+      <ButtonLogin isLoading={isLoading} />
       <SignUpNow />
       <LoginDivider />
       <ButtonLoginX />

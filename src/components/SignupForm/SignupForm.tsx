@@ -7,9 +7,9 @@ import Input from "../Input/Input"
 import ButtonSignup from "./components/ButtonSingup"
 import { signupSchema } from "./validation"
 import { useMutation } from "@tanstack/react-query"
-import { signup } from "../../services/auth"
 import { sleep } from "../../utils"
 import { useLoading } from "../../hooks/useLoading"
+import { AuthSignUp } from "../../axios/auth"
 
 const SignUpForm = () => {
   const navigate = useNavigate()
@@ -35,7 +35,7 @@ const SignUpForm = () => {
     data,
   } = useMutation({
     mutationFn: (data: SignupInput) => {
-      return signup(data)
+      return AuthSignUp(data)
     },
   })
 
@@ -54,9 +54,6 @@ const SignUpForm = () => {
 
   useEffect(() => {
     if (data) redirectFn(data)
-    return () => {
-      setIsLoading(false)
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
 

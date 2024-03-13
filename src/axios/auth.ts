@@ -1,4 +1,4 @@
-import { getRefreshToken } from "../services/auth"
+import { getRefreshToken, serviceSignup, serviceLogin } from "../services/auth"
 
 export const refreshToken = async () => {
   try {
@@ -8,4 +8,14 @@ export const refreshToken = async () => {
   } catch (error) {
     throw new Error("Failed to refresh token")
   }
+}
+
+export const AuthSignUp = (data: unknown) => {
+  //@ts-expect-error -//
+  delete data.confirmPassword
+  return serviceSignup(data)
+}
+
+export const AuthLogin = async (data: LoginInput) => {
+  return serviceLogin(data)
 }
