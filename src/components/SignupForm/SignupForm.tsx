@@ -1,3 +1,6 @@
+import { useEffect } from "react"
+import { toast } from "react-toastify"
+import { useNavigate } from "react-router-dom"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import Input from "../Input/Input"
@@ -5,10 +8,12 @@ import ButtonSignup from "./components/ButtonSingup"
 import { signupSchema } from "./validation"
 import { useMutation } from "@tanstack/react-query"
 import { signup } from "../../services/auth"
+import { sleep } from "../../utils"
+import { useLoading } from "../../hooks/useLoading"
 
 const SignUpForm = () => {
-  // const { setToken } = useAuth();
-  // const navigate = useNavigate();
+  const navigate = useNavigate()
+  const { setIsLoading } = useLoading()
 
   const {
     register,
@@ -19,24 +24,47 @@ const SignUpForm = () => {
   })
 
   const onSubmit: SubmitHandler<SignupInput> = (data) => {
-    //@ts-expect-error - we are deleting confirmPassword from the data
-    delete data.confirmPassword
     signupFn(data)
   }
 
   const {
     mutate: signupFn,
-    // isLoading,
-    // isError,
-    // error,
+    //@ts-expect-error - //
+    isLoading,
+    error,
+    data,
   } = useMutation({
-    mutationFn: (data: Omit<SignupInput, "confirmPassword">) => {
-      return signup<Omit<SignupInput, "confirmPassword">>(data)
+    mutationFn: (data: SignupInput) => {
+      return signup(data)
     },
   })
 
+  const redirectFn = async (
+    data: SuccessResponse
+  ): Promise<void | undefined> => {
+    if (data && data.isSuccess) {
+      setIsLoading(true)
+      toast(
+        `${data.message}, You will be redirected to login page in 5 seconds`
+      )
+      await sleep(5000)
+      navigate("/login")
+    }
+  }
+
+  useEffect(() => {
+    if (data) redirectFn(data)
+    return () => {
+      setIsLoading(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data])
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className={`${isLoading ? "pointer-events-none" : ""}`}
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <Input
         label="username"
         name="username"
@@ -64,7 +92,11 @@ const SignUpForm = () => {
         register={register}
         errorMessage={errors.confirmPassword?.message}
       />
-      <ButtonSignup />
+      <div className="text-center">
+        {/* @ts-expect-error - //*/}
+        <p className="text-red-500">{error?.response?.data.message}</p>
+      </div>
+      <ButtonSignup isLoading={isLoading} />
     </form>
   )
 }

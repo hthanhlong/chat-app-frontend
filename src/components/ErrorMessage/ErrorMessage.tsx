@@ -5,9 +5,9 @@ const ErrorMessage = ({
 }) => {
   return (
     <>
-      {errorMessage && (
-        <p className="text-red-500 text-xs italic">{errorMessage}</p>
-      )}
+      <p className="text-red-500 text-xs italic h-1">
+        {errorMessage ? errorMessage : ""}
+      </p>
     </>
   )
 }

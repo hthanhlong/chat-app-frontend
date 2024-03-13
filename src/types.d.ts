@@ -23,3 +23,10 @@ interface InputProps {
   placeholder?: string
   type?: string
 }
+
+interface SuccessResponse {
+  isSuccess: boolean
+  errorCode: unknown
+  message: string
+  data: unknown
+}

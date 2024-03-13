@@ -6,6 +6,8 @@ export const signup = <T>(
   data: T,
   options?: AxiosRequestConfig
 ): Promise<void> => {
+  // @ts-expect-error - //
+  delete data.confirmPassword
   return http.post(END_POINT.signup, data, { ...options })
 }
 

@@ -9,7 +9,9 @@ const GoogleIcon = () => <CustomSvg src={googleSvg} alt="google" />
 const XIcon = () => <CustomSvg src={x} alt="x" />
 const OpenPasswordIcon = () => <CustomSvg src={OpenEye} alt="none" />
 const HiddenPasswordIcon = () => <CustomSvg src={HiddenEye} alt="none" />
-const LoginBackground = () => <img src={LoginImage} />
+const LoginBackground = () => (
+  <img src={LoginImage} className="object-fit h-full w-full" />
+)
 
 export {
   GoogleIcon,

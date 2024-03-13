@@ -4,7 +4,7 @@ export const signupSchema = yup
   .object({
     username: yup.string().required(),
     email: yup.string().email().required(),
-    password: yup.string().required().max(20),
+    password: yup.string().required().max(20).min(6),
     confirmPassword: yup
       .string()
       .oneOf([yup.ref("password"), undefined], "Passwords must match")

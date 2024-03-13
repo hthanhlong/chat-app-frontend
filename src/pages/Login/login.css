@@ -1,6 +1,6 @@
 .login-back-ground {
   background-color: var(--main-back-ground);
-  height: 100vh;
+  min-height: 100vh;
 }
 
 /* #b49ae1 */
