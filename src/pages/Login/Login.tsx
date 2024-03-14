@@ -1,4 +1,5 @@
 import { LoginBackground } from "../../assets"
+import { Title } from "../../components"
 import LoginForm from "../../components/LoginForm/LoginForm"
 
 import "./login.css"
@@ -12,7 +13,7 @@ const Login = () => {
         </div>
         <div className="login-column-left-content p-28 flex-1">
           <div className="content">
-            <h3 className="text-lg mb-4 font-medium">Log in</h3>
+            <Title text="Log in" />
             <LoginForm />
           </div>
         </div>

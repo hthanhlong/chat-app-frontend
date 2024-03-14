@@ -54,6 +54,9 @@ const SignUpForm = () => {
 
   useEffect(() => {
     if (data) redirectFn(data)
+    return () => {
+      setIsLoading(false)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
 
