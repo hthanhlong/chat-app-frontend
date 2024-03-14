@@ -14,13 +14,14 @@ import { toast } from "react-toastify"
 import { sleep } from "../../utils"
 import { useEffect } from "react"
 import { useLoading } from "../../hooks/useLoading"
+import { useAuth } from "../../hooks/useAuth"
+import { useNavigate } from "react-router-dom"
 
 const LoginForm = () => {
-  // const { setToken } = useAuth();
-  // const navigate = useNavigate();
+  const { token, setToken } = useAuth()
+  const navigate = useNavigate()
 
-  // const navigate = useNavigate()
-  const { setIsLoading } = useLoading()
+  const { setGlobalLoading } = useLoading()
 
   const {
     register,
@@ -38,7 +39,7 @@ const LoginForm = () => {
     mutate: loginFn,
     //@ts-expect-error - //
     isLoading,
-    // error,
+    error,
     data,
   } = useMutation({
     mutationFn: (data: LoginInput) => {
@@ -47,13 +48,15 @@ const LoginForm = () => {
   })
 
   const redirectFn = async (
-    data: SuccessResponse
+    data: SuccessResponse<{
+      accessToken: string
+    }>
   ): Promise<void | undefined> => {
     if (data && data.isSuccess) {
-      setIsLoading(true)
+      setGlobalLoading(true)
       toast(data.message)
       await sleep(3000)
-      // navigate("/login")
+      setToken(data?.data?.accessToken)
     }
   }
 
@@ -61,6 +64,14 @@ const LoginForm = () => {
     if (data) redirectFn(data)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
+
+  useEffect(() => {
+    if (token) navigate("/")
+    return () => {
+      setGlobalLoading(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -75,6 +86,10 @@ const LoginForm = () => {
         register={register}
         errorMessage={errors.password?.message}
       />
+      <div className="text-center">
+        {/* @ts-expect-error - //*/}
+        <p className="text-red-500">{error?.response?.data.message}</p>
+      </div>
       <ButtonLogin isLoading={isLoading} />
       <SignUpNow />
       <LoginDivider />

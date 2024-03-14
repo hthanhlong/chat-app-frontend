@@ -13,7 +13,7 @@ import { AuthSignUp } from "../../axios/auth"
 
 const SignUpForm = () => {
   const navigate = useNavigate()
-  const { setIsLoading } = useLoading()
+  const { setGlobalLoading } = useLoading()
 
   const {
     register,
@@ -40,10 +40,10 @@ const SignUpForm = () => {
   })
 
   const redirectFn = async (
-    data: SuccessResponse
+    data: SuccessResponse<null>
   ): Promise<void | undefined> => {
     if (data && data.isSuccess) {
-      setIsLoading(true)
+      setGlobalLoading(true)
       toast(
         `${data.message}, You will be redirected to login page in 5 seconds`
       )
@@ -55,7 +55,7 @@ const SignUpForm = () => {
   useEffect(() => {
     if (data) redirectFn(data)
     return () => {
-      setIsLoading(false)
+      setGlobalLoading(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])

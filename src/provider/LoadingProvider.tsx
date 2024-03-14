@@ -2,21 +2,21 @@ import { ReactNode, createContext, useMemo, useState } from "react"
 
 type LoadingContextType = {
   isLoading: boolean
-  setIsLoading: (isLoading: boolean) => void
+  setGlobalLoading: (isLoading: boolean) => void
 }
 
 export const LoadingContext = createContext<LoadingContextType>({
   isLoading: false,
-  setIsLoading: () => {},
+  setGlobalLoading: () => {},
 })
 
 const LoadingProvider = ({ children }: { children: ReactNode }) => {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setGlobalLoading] = useState(false)
 
   const contextValue = useMemo(
     () => ({
       isLoading,
-      setIsLoading,
+      setGlobalLoading,
     }),
     [isLoading]
   )

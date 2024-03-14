@@ -24,9 +24,9 @@ interface InputProps {
   type?: string
 }
 
-interface SuccessResponse {
+interface SuccessResponse<T> {
   isSuccess: boolean
   errorCode: unknown
   message: string
-  data: unknown
+  data: T
 }
