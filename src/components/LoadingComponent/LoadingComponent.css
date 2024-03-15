@@ -9,7 +9,7 @@
   width: 40px;
   height: 40px;
   animation: spin 1s linear infinite;
-  margin: 20px auto; /* Adjust margin to center the loader */
+  margin: 20px auto;
   z-index: 100;
   top: 50%;
   left: 50%;

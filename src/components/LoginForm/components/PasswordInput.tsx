@@ -15,14 +15,17 @@ const PasswordInput = ({
       <label className="mb-2 text-neutral-400">
         {capitalizeFirstLetter(label)}
       </label>
-      <div className="flex border rounded">
+      <div className="relative flex border rounded">
         <input
           className=" block w-full py-3 ps-3 text-sm focus:outline-none"
           {...register("password", { required: true, maxLength: 64 })}
           type={showPassword ? "text" : "password"}
           placeholder="Enter your password"
         />
-        <button onClick={() => setShowPassword(!showPassword)}>
+        <button
+          className="absolute right-0 bottom-3"
+          onClick={() => setShowPassword(!showPassword)}
+        >
           {showPassword ? <HiddenPasswordIcon /> : <OpenPasswordIcon />}
         </button>
       </div>

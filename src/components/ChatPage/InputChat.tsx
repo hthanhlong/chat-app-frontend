@@ -10,7 +10,6 @@ const InputChat = () => {
           id="search-dropdown"
           className="rounded-full block p-3.5 w-full z-20 text-sm text-gray-900 bg-gray-50 outline-none border-gray-300 border-2"
           placeholder="Type a message..."
-          required
         />
         <button
           type="submit"
