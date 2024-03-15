@@ -3,28 +3,27 @@ import "./ChatSection.css"
 
 const ChatSection = () => {
   return (
-    <div className="chat-section h-full flex flex-col">
-      <Message
-        isSender
-        message="hello kjdhskf ksdjfh ksdjfh ksdjfh skdfjh skdfjh skdfjh ksdjfhks dfjhksdf hskdjfh ksdjfh ksdjfhs kdfjhs kdfjhks dfjhsdk j"
-      />
+    <div className="chat-section flex flex-col h-[1006px] overflow-auto">
+      <Message isSender message="hello Lorem ipsum" />
       <Message isSender message="hello" />
       <Message isSender message="hello" />
       <Message isSender message="hello" />
       <Message isSender message="hello" />
-      <Message message="Lorem ldkhjf dslf lsdjkf lsdkfj lsdfj lsdkfj lsdkfsldkfj lsdkfj sldkf sldkfj sldkfj sldkfj sldfkj dlfkj lsdkf lsdfkj lsdkfj lsdkfj lkdfjlskdfjls dkfjls dkfj dlfkjsdlfkj " />
+      <Message message="Lorem Lorem ipsum dolor sit amet consectetur" />
+      <Message message="Lorem Lorem ipsum dolor sit amet consectetur" />
+      <Message message="Lorem Lorem ipsum dolor sit amet consectetur" />
+      <Message message="Lorem Lorem ipsum dolor sit amet consectetur" />
+      <Message message="Lorem Lorem ipsum dolor sit amet consectetur" />
+      <Message message="Lorem Lorem ipsum dolor sit amet consectetur" />
       <Message isSender message="hello" />
       <Message isSender message="hello" />
       <Message isSender message="hello" />
       <Message isSender message="hello" />
       <Message isSender message="hello" />
-      <Message message="Lorem ldkhjf dslf lsdjkf lsdkfj lsdfj lsdkfj lsdkfsldkfj lsdkfj sldkf sldkfj sldkfj sldkfj sldfkj dlfkj lsdkf lsdfkj lsdkfj lsdkfj lkdfjlskdfjls dkfjls dkfj dlfkjsdlfkj " />
-      <Message message="Lorem ldkhjf dslf lsdjkf lsdkfj lsdfj lsdkfj lsdkfsldkfj lsdkfj sldkf sldkfj sldkfj sldkfj sldfkj dlfkj lsdkf lsdfkj lsdkfj lsdkfj lkdfjlskdfjls dkfjls dkfj dlfkjsdlfkj " />
-      <Message message="Lorem ldkhjf dslf lsdjkf lsdkfj lsdfj lsdkfj lsdkfsldkfj lsdkfj sldkf sldkfj sldkfj sldkfj sldfkj dlfkj lsdkf lsdfkj lsdkfj lsdkfj lkdfjlskdfjls dkfjls dkfj dlfkjsdlfkj " />
-      <Message message="Lorem ldkhjf dslf lsdjkf lsdkfj lsdfj lsdkfj lsdkfsldkfj lsdkfj sldkf sldkfj sldkfj sldkfj sldfkj dlfkj lsdkf lsdfkj lsdkfj lsdkfj lkdfjlskdfjls dkfjls dkfj dlfkjsdlfkj " />
-      <Message isSender message="hello" />
-      <Message isSender message="hello" />
-      <Message isSender message="hello" />
+      <Message message="ipsum dolor sit amet consectetur" />
+      <Message message="dolor sit amet consectetur" />
+      <Message message="dolor sit amet consectetur" />
+      <Message message="dolor sit amet consectetur" />
       <Message isSender message="hello" />
     </div>
   )

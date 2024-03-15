@@ -7,12 +7,13 @@ import Title from "./Title/Title"
 import Avatar from "./Avatar/Avatar"
 import SearchBar from "./SearchBar/SearchBar"
 import LeftTop from "./ChatPage/LeftTop"
-import LeftContent from "./ChatPage/LeftContent"
 import RightTop from "./ChatPage/RightTop"
 import RightContent from "./ChatPage/RightContent"
 import InputChat from "./ChatPage/InputChat"
 import Ping from "./Ping/Ping"
 import Message from "./Message/Message"
+import ChatLeft from "./ChatPage/ChatLeft"
+import ChatRight from "./ChatPage/ChatRight"
 
 export {
   Divider,
@@ -24,10 +25,11 @@ export {
   Avatar,
   SearchBar,
   LeftTop,
-  LeftContent,
   RightTop,
   RightContent,
   InputChat,
   Ping,
   Message,
+  ChatLeft,
+  ChatRight,
 }
