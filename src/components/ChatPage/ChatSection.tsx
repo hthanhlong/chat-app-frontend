@@ -18,6 +18,10 @@ const ChatSection = () => {
       <Message isSender message="hello" />
       <Message isSender message="hello" />
       <Message isSender message="hello" />
+      <Message message="Lorem ldkhjf dslf lsdjkf lsdkfj lsdfj lsdkfj lsdkfsldkfj lsdkfj sldkf sldkfj sldkfj sldkfj sldfkj dlfkj lsdkf lsdfkj lsdkfj lsdkfj lkdfjlskdfjls dkfjls dkfj dlfkjsdlfkj " />
+      <Message message="Lorem ldkhjf dslf lsdjkf lsdkfj lsdfj lsdkfj lsdkfsldkfj lsdkfj sldkf sldkfj sldkfj sldkfj sldfkj dlfkj lsdkf lsdfkj lsdkfj lsdkfj lkdfjlskdfjls dkfjls dkfj dlfkjsdlfkj " />
+      <Message message="Lorem ldkhjf dslf lsdjkf lsdkfj lsdfj lsdkfj lsdkfsldkfj lsdkfj sldkf sldkfj sldkfj sldkfj sldfkj dlfkj lsdkf lsdfkj lsdkfj lsdkfj lkdfjlskdfjls dkfjls dkfj dlfkjsdlfkj " />
+      <Message message="Lorem ldkhjf dslf lsdjkf lsdkfj lsdfj lsdkfj lsdkfsldkfj lsdkfj sldkf sldkfj sldkfj sldkfj sldfkj dlfkj lsdkf lsdfkj lsdkfj lsdkfj lkdfjlskdfjls dkfjls dkfj dlfkjsdlfkj " />
       <Message isSender message="hello" />
       <Message isSender message="hello" />
       <Message isSender message="hello" />

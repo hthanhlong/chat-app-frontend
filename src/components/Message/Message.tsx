@@ -5,7 +5,7 @@ const Message = ({
   isSender?: boolean
   message: string
 }) => {
-  const classSender = isSender ? "ml-auto bg-sky-500" : ""
+  const classSender = isSender ? "ml-auto bg-blue-300" : ""
 
   return (
     <div
