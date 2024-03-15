@@ -19,15 +19,16 @@ const PasswordInput = ({
         <input
           className=" block w-full py-3 ps-3 text-sm focus:outline-none"
           {...register("password", { required: true, maxLength: 64 })}
-          type={showPassword ? "text" : "password"}
+          type={!showPassword ? "password" : "text"}
           placeholder="Enter your password"
+          autoComplete="new-password"
         />
-        <button
-          className="absolute right-0 bottom-3"
-          onClick={() => setShowPassword(!showPassword)}
+        <div
+          className="absolute right-0 bottom-3 cursor-pointer"
+          onClick={() => setShowPassword((prev) => !prev)}
         >
           {showPassword ? <HiddenPasswordIcon /> : <OpenPasswordIcon />}
-        </button>
+        </div>
       </div>
       <ErrorMessage errorMessage={errorMessage} />
     </div>

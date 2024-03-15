@@ -11,6 +11,13 @@ type AuthContextType = {
   setAuth: (data: Record<string, unknown>) => void
 }
 
+const helperIsLogged = (data: string | null) => {
+  if (data === "true") {
+    return true
+  }
+  return false
+}
+
 export const AuthContext = createContext<AuthContextType>({
   id: "",
   username: "",
@@ -26,8 +33,10 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     username: localStorage.getItem(AUTH_VARIABLE.USERNAME),
     accessToken: localStorage.getItem(AUTH_VARIABLE.ACCESS_TOKEN),
     refreshToken: localStorage.getItem(AUTH_VARIABLE.REFRESH_TOKEN),
-    isLogged: Boolean(localStorage.getItem(AUTH_VARIABLE.IS_LOGGED)) || false,
+    isLogged: helperIsLogged(localStorage.getItem(AUTH_VARIABLE.IS_LOGGED)),
   })
+
+  console.log("authObject", authObject)
 
   const setAuth = (data: Record<string, unknown>) => {
     setAuthObject_((prev) => ({ ...prev, ...data, isLogged: true }))

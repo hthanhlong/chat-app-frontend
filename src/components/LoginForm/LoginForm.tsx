@@ -74,7 +74,7 @@ const LoginForm = () => {
   }, [accessToken])
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
       <Input
         label="username"
         name="username"

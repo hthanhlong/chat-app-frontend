@@ -19,6 +19,7 @@ const Input = ({
         className="border rounded block w-full py-3 ps-3 text-sm focus:outline-none"
         {...register(name, { required: true, maxLength: 64 })}
         placeholder={placeholder ? placeholder : `Enter your ${label}`}
+        autoComplete="false"
       />
       <ErrorMessage errorMessage={errorMessage} />
     </div>

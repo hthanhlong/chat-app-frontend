@@ -6,10 +6,11 @@ const RightTop = () => {
   return (
     <div className="border-b-4 flex items-center justify-between">
       <Avatar name="Brett Johnson" caption="Active" />
-      <div>
+      <div className="relative">
         <button
           id="dropdownDefaultButton"
-          data-dropdown-toggle="dropdown"
+          className="hover:text-blue-700"
+          data-dropdown-toggle="settings-dropdown"
           type="button"
         >
           <FontAwesomeIcon
@@ -18,27 +19,18 @@ const RightTop = () => {
             fontSize={26}
           />
         </button>
-
         <div
-          id="dropdown"
-          className="z-50 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+          id="settings-dropdown"
+          className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow"
         >
           <ul
-            className="py-2 text-sm text-gray-700 dark:text-gray-200"
+            className="text-sm text-gray-700 rounded-lg"
             aria-labelledby="dropdownDefaultButton"
           >
             <li>
               <a
                 href="#"
-                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-              >
-                Dashboard
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                className="block px-4 py-2 hover:bg-gray-100 hover:rounded-lg"
               >
                 Settings
               </a>
@@ -46,15 +38,7 @@ const RightTop = () => {
             <li>
               <a
                 href="#"
-                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-              >
-                Earnings
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                className="block px-4 py-2 hover:bg-gray-100 hover:rounded-lg"
               >
                 Sign out
               </a>
