@@ -1,23 +1,24 @@
-import Avatar from "../Avatar/Avatar"
+import UserItem from "./UserItem"
 
 const ListUsers = () => {
   return (
-    <div className="h-[396px] overflow-auto">
-      <Avatar name="Brett Johnson" caption="This is my Caption" />
-      <Avatar name="Brett Johnson" caption="This is my Caption" />
-      <Avatar name="Brett Johnson" caption="This is my Caption" />
-      <Avatar name="Brett Johnson" caption="This is my Caption" />
-      <Avatar name="Brett Johnson" caption="This is my Caption" />
-      <Avatar name="Brett Johnson" caption="This is my Caption" />
-      <Avatar name="Brett Johnson" caption="This is my Caption" />
-      <Avatar name="Brett Johnson" caption="This is my Caption" />
-      <Avatar name="Brett Johnson" caption="This is my Caption" />
-      <Avatar name="Brett Johnson" caption="This is my Caption" />
-      <Avatar name="Brett Johnson" caption="This is my Caption" />
-      <Avatar name="Brett Johnson" caption="This is my Caption" />
-      <Avatar name="Brett Johnson" caption="This is my Caption" />
-      <Avatar name="Brett Johnson" caption="This is my Caption" />
-      <Avatar name="Brett Johnson" caption="This is my Caption" />
+    <div className="h-full overflow-auto">
+      <UserItem />
+      <UserItem />
+      <UserItem />
+      <UserItem />
+      <UserItem />
+      <UserItem />
+      <UserItem />
+      <UserItem />
+      <UserItem />
+      <UserItem />
+      <UserItem />
+      <UserItem />
+      <UserItem />
+      <UserItem />
+      <UserItem />
+      <UserItem />
     </div>
   )
 }

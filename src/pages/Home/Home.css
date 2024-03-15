@@ -6,3 +6,8 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.chat-root {
+  height: calc(100vh - 180px);
+  min-height: 600px;
+}

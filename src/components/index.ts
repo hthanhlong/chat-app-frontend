@@ -10,6 +10,9 @@ import LeftTop from "./ChatPage/LeftTop"
 import LeftContent from "./ChatPage/LeftContent"
 import RightTop from "./ChatPage/RightTop"
 import RightContent from "./ChatPage/RightContent"
+import InputChat from "./ChatPage/InputChat"
+import Ping from "./Ping/Ping"
+import Message from "./Message/Message"
 
 export {
   Divider,
@@ -24,4 +27,7 @@ export {
   LeftContent,
   RightTop,
   RightContent,
+  InputChat,
+  Ping,
+  Message,
 }

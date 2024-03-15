@@ -1,7 +1,11 @@
+import ChatSection from "./ChatSection"
+import InputChat from "./InputChat"
+
 const RightContent = () => {
   return (
-    <div>
-      <div className="chat-right-header">right content</div>
+    <div className="flex-1 flex flex-col p-3 pb-0 bg-slate-100 overflow-auto">
+      <ChatSection />
+      <InputChat />
     </div>
   )
 }
