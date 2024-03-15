@@ -5,7 +5,7 @@ import Ping from "../Ping/Ping"
 
 const LeftTop = () => {
   return (
-    <div className="flex items-center">
+    <div className="flex items-center border-b-4">
       <Avatar name="Brett Johnson" caption="This is my Caption" />
       <div className="ml-auto mr-4">
         <button>

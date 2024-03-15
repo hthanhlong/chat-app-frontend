@@ -1,10 +1,10 @@
 import { ChatLeft, ChatRight } from "../../components"
-import RootLayout from "../../rootLayout"
+import RootLayout from "../../Layouts/RootLayout"
 
 const Home = () => {
   return (
     <RootLayout>
-      <div className="flex overflow-hidden">
+      <div className="flex">
         <ChatLeft />
         <ChatRight />
       </div>

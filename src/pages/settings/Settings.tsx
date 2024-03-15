@@ -1,4 +1,4 @@
-import RootLayout from "../../rootLayout"
+import RootLayout from "../../Layouts/RootLayout"
 
 const Settings = () => {
   return (

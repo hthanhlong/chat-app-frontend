@@ -5,12 +5,10 @@ import { PADDING_CONTAINER } from "./utils"
 
 const ChatLeft = () => {
   return (
-    <div className="chat-left border-r-4 flex flex-col bg-red-100">
+    <div className="chat-left border-r-4 flex flex-col">
       <LeftTop />
-      <SearchBar className={`${PADDING_CONTAINER} py-6`} />
-      <div className="flex-1 overflow-scroll">
-        <ListUsers />
-      </div>
+      <SearchBar className={`${PADDING_CONTAINER} py-6 border-b-4`} />
+      <ListUsers />
     </div>
   )
 }
