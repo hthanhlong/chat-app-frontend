@@ -18,7 +18,7 @@ import { useAuth } from "../../hooks/useAuth"
 import { useNavigate } from "react-router-dom"
 
 const LoginForm = () => {
-  const { token, setToken } = useAuth()
+  const { accessToken, setAuth } = useAuth()
   const navigate = useNavigate()
 
   const { setGlobalLoading } = useLoading()
@@ -54,9 +54,9 @@ const LoginForm = () => {
   ): Promise<void | undefined> => {
     if (data && data.isSuccess) {
       setGlobalLoading(true)
-      toast(data.message)
       await sleep(3000)
-      setToken(data?.data?.accessToken)
+      toast(data.message)
+      setAuth(data?.data)
     }
   }
 
@@ -66,12 +66,12 @@ const LoginForm = () => {
   }, [data])
 
   useEffect(() => {
-    if (token) navigate("/")
+    if (accessToken) navigate("/")
     return () => {
       setGlobalLoading(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token])
+  }, [accessToken])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
