@@ -1,27 +1,20 @@
-import { useEffect, useState } from "react"
 import usePropertiesElement from "../../hooks/usePropertiesElement"
 import Message from "../Message/Message"
 import "./ChatSection.css"
 
 const OFFSET_BORDER = 24
-const TOP_AND_SEARCH_BAR = 172
+const TOP_AND_SEARCH_BAR = 182
+const TOTAL = OFFSET_BORDER + TOP_AND_SEARCH_BAR
 
 const ChatSection = () => {
   const properties = usePropertiesElement("main-layout")
-  const [userHeight, setUserHeight] = useState(0)
-
-  useEffect(() => {
-    if (properties) {
-      const newH = properties.height - OFFSET_BORDER - TOP_AND_SEARCH_BAR
-      setUserHeight(newH)
-    }
-  }, [userHeight, properties])
+  const newH = properties && properties.height - TOTAL
 
   return (
     <div
       className="chat-section flex flex-col overflow-auto"
       style={{
-        height: userHeight,
+        height: newH ? newH : "",
       }}
     >
       <Message isSender message="hello Lorem ipsum" />
