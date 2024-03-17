@@ -14,6 +14,7 @@ import Ping from "./Ping/Ping"
 import Message from "./Message/Message"
 import ChatLeft from "./ChatPage/ChatLeft"
 import ChatRight from "./ChatPage/ChatRight"
+import LogoutModal from "./Modal/LogoutModal"
 
 export {
   Divider,
@@ -32,4 +33,5 @@ export {
   Message,
   ChatLeft,
   ChatRight,
+  LogoutModal,
 }

@@ -9,7 +9,7 @@ const LoadingComponent = () => {
       {isLoading ? (
         <>
           <div className="absolute loader z-10"></div>
-          <div className="fixed bg-white top-0 right-0 left-0 bottom-0 opacity-30 flex items-center justify-center"></div>
+          <div className="fixed bg-blue-200 top-0 right-0 left-0 bottom-0 opacity-30 flex items-center justify-center"></div>
         </>
       ) : (
         <></>
