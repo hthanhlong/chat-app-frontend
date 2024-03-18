@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
+import { toast } from "react-toastify"
 import Input from "../Input/Input"
 import ButtonSignup from "./components/ButtonSingup"
 import { signupSchema } from "./validation"
@@ -43,7 +44,11 @@ const SignUpForm = () => {
   ): Promise<void | undefined> => {
     if (data && data.isSuccess) {
       setGlobalLoading(true)
-      await sleep(5000)
+      await sleep(2000)
+      toast.success(
+        "Account created successfully, redirecting to login page..."
+      )
+      await sleep(2000)
       navigate("/login")
     }
   }
