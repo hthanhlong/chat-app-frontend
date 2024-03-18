@@ -8,6 +8,7 @@ import { CustomLink, LogoutModal } from "../../components"
 import { useLoading } from "../../hooks/useLoading"
 import { sleep } from "../../utils"
 import { LIST_COMPONENTS, LIST_SETTINGS } from "./utils"
+import WsService from "../../services/WsService"
 
 const Settings = () => {
   const [openModal, setOpenModal] = useState(false)
@@ -77,6 +78,7 @@ const Settings = () => {
           setOpenModal(false)
           setGlobalLoading(true)
           await sleep(3000)
+          new WsService().close()
           window.localStorage.clear()
           window.location.reload()
         }}
