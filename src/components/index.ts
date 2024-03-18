@@ -15,6 +15,7 @@ import Message from "./Message/Message"
 import ChatLeft from "./ChatPage/ChatLeft"
 import ChatRight from "./ChatPage/ChatRight"
 import LogoutModal from "./Modal/LogoutModal"
+import CustomLink from "./CustomLink/CustomLink"
 
 export {
   Divider,
@@ -34,4 +35,5 @@ export {
   ChatLeft,
   ChatRight,
   LogoutModal,
+  CustomLink,
 }

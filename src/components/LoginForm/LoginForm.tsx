@@ -10,7 +10,6 @@ import ButtonLoginX from "./components/ButtonLoginX"
 import ButtonLoginGoogle from "./components/ButtonLoginGoogle"
 import { useMutation } from "@tanstack/react-query"
 import { AuthLogin } from "../../axios/auth"
-import { toast } from "react-toastify"
 import { sleep } from "../../utils"
 import { useEffect } from "react"
 import { useLoading } from "../../hooks/useLoading"
@@ -55,7 +54,6 @@ const LoginForm = () => {
     if (data && data.isSuccess) {
       setGlobalLoading(true)
       await sleep(3000)
-      toast(data.message)
       setAuth(data?.data)
     }
   }

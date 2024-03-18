@@ -17,7 +17,7 @@ const PasswordInput = ({
       </label>
       <div className="relative flex border rounded">
         <input
-          className=" block w-full py-3 ps-3 text-sm focus:outline-none"
+          className=" block w-full py-3 ps-3 text-sm rounded"
           {...register("password", { required: true, maxLength: 64 })}
           type={!showPassword ? "password" : "text"}
           placeholder="Enter your password"

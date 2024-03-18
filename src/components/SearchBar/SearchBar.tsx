@@ -29,7 +29,7 @@ const SearchBar = (
         <input
           type="search"
           id="default-search"
-          className="block w-full p-2.5 ps-10 text-sm text-black bg-gray-300 rounded-full"
+          className="block w-full p-2.5 ps-10 text-sm text-black bg-gray-100 rounded-full focus:ring-0 border-0"
           placeholder="Searching..."
           required
         />

@@ -3,8 +3,6 @@ import * as ReactDOM from "react-dom/client"
 import "./index.css"
 import AuthProvider from "./provider/AuthProvider"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { ToastContainer } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
 import App from "./App"
 import LoadingProvider from "./provider/LoadingProvider"
 
@@ -17,7 +15,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <LoadingProvider>
           <App />
         </LoadingProvider>
-        <ToastContainer />
       </QueryClientProvider>
     </AuthProvider>
   </React.StrictMode>

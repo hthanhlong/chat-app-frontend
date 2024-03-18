@@ -1,5 +1,4 @@
 import { useEffect } from "react"
-import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -44,9 +43,6 @@ const SignUpForm = () => {
   ): Promise<void | undefined> => {
     if (data && data.isSuccess) {
       setGlobalLoading(true)
-      toast(
-        `${data.message}, You will be redirected to login page in 5 seconds`
-      )
       await sleep(5000)
       navigate("/login")
     }
