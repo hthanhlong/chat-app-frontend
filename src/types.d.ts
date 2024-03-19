@@ -4,6 +4,7 @@ interface LoginInput {
 }
 
 interface SignupInput {
+  nickname: string
   username: string
   email: string
   password: string

@@ -67,6 +67,12 @@ const SignUpForm = () => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <Input
+        label="nickname"
+        name="nickname"
+        register={register}
+        errorMessage={errors.nickname?.message}
+      />
+      <Input
         label="username"
         name="username"
         register={register}
