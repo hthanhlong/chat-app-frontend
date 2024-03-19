@@ -15,7 +15,6 @@ const Settings = () => {
   const [selected, setSelected] = useState(0)
   const properties = usePropertiesElement("main-layout")
   const { setGlobalLoading } = useLoading()
-  console.log("selected", selected)
 
   const newH = properties && properties.height - 88
 
@@ -50,7 +49,9 @@ const Settings = () => {
                 <CustomLink
                   key={index}
                   text={item.title}
+                  id={item.id}
                   onClick={() => setSelected(item.id)}
+                  selected={selected}
                 />
               ))}
               <li

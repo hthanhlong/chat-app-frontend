@@ -1,0 +1,24 @@
+.add-friend-list {
+  scrollbar-width: thin;
+  scrollbar-color: white white;
+}
+
+.add-friend-list::-webkit-scrollbar {
+  width: 12px;
+}
+
+.add-friend-list::-webkit-scrollbar-track {
+  background: white;
+}
+
+.add-friend-list::-webkit-scrollbar-thumb {
+  background: white;
+}
+
+.add-friend-list::-webkit-scrollbar-thumb:hover {
+  background: white;
+}
+
+.add-friend-list:hover {
+  scrollbar-color: rgb(237, 237, 237) white;
+}

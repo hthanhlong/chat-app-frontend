@@ -6,12 +6,14 @@ const Avatar = ({
   caption,
   className,
   size = "xl",
+  textSize = "lg",
 }: {
-  name: string
+  name?: string
   avatarUrl?: string
   caption?: string
   className?: string
   size?: "xs" | "sm" | "md" | "lg" | "xl"
+  textSize?: "xs" | "sm" | "md" | "lg" | "xl"
 }) => {
   return (
     <div className={`flex items-center ${className}`}>
@@ -23,13 +25,13 @@ const Avatar = ({
       />
       {caption ? (
         <div>
-          <div className="ml-3">{name}</div>
+          <div className={`ml-3 text-${textSize}`}>{name}</div>
           <div className="ml-3 text-xs text-gray-500 dark:text-gray-400">
             {caption}
           </div>
         </div>
       ) : (
-        <span className="ml-3">{name}</span>
+        <span className={`ml-3 text-${textSize}`}>{name}</span>
       )}
     </div>
   )
