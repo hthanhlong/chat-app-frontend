@@ -1,4 +1,4 @@
-import { getRefreshToken, serviceSignup, serviceLogin } from "../services/auth"
+import { getRefreshToken, serviceSignup, serviceLogin } from "../services/authService"
 
 export const refreshToken = async () => {
   try {
