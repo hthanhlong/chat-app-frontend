@@ -3,17 +3,20 @@ import { router } from "./routers"
 import { LoadingComponent } from "./components"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-import WsService from "./services/WsService"
-import { useAuth } from "./hooks/useAuth"
-import { useEffect } from "react"
+// import WsService from "./services/WsService"
+// import { useAuth } from "./hooks/useAuth"
+// import { useEffect } from "react"
 
 const App = () => {
-  const { id } = useAuth()
+  // const { id } = useAuth()
 
-  useEffect(() => {
-    const ws = new WsService()
-    ws.connect()
-  }, [id])
+  // useEffect(() => {
+  //   const ws = new WsService()
+  //   ws.connect()
+  //   return () => {
+  //     ws.close()
+  //   }
+  // }, [id])
 
   return (
     <div className="relative">

@@ -1,18 +1,26 @@
 import { AvatarDefault } from "../../assets"
-import { PADDING_CONTAINER } from "../ChatPage/utils"
 
 const Avatar = ({
   avatarUrl,
   name,
   caption,
+  className,
+  size = "xl",
 }: {
-  avatarUrl?: string
   name: string
+  avatarUrl?: string
   caption?: string
+  className?: string
+  size?: "xs" | "sm" | "md" | "lg" | "xl"
 }) => {
   return (
-    <div className={`flex items-center ${PADDING_CONTAINER}`}>
-      <AvatarDefault avatarUrl={avatarUrl} />
+    <div className={`flex items-center ${className}`}>
+      <AvatarDefault
+        size={size}
+        avatarUrl={
+          avatarUrl || "https://avatars.githubusercontent.com/u/54071671?v=4"
+        }
+      />
       {caption ? (
         <div>
           <div className="ml-3">{name}</div>

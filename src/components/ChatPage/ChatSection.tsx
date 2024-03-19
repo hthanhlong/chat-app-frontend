@@ -2,7 +2,7 @@ import usePropertiesElement from "../../hooks/usePropertiesElement"
 import Message from "../Message/Message"
 import "./ChatSection.css"
 
-const OFFSET_BORDER = 24
+const OFFSET_BORDER = 6
 const TOP_AND_SEARCH_BAR = 182
 const TOTAL = OFFSET_BORDER + TOP_AND_SEARCH_BAR
 

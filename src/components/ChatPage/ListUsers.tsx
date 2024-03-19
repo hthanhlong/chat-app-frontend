@@ -1,7 +1,7 @@
 import UserItem from "./UserItem"
 import usePropertiesElement from "../../hooks/usePropertiesElement"
 
-const OFFSET_BORDER = 24
+const OFFSET_BORDER = 6
 const TOP_AND_SEARCH_BAR = 186
 const TOTAL = OFFSET_BORDER + TOP_AND_SEARCH_BAR
 

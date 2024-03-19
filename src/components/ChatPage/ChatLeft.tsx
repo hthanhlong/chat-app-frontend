@@ -5,7 +5,7 @@ import { PADDING_CONTAINER } from "./utils"
 
 const ChatLeft = () => {
   return (
-    <div className="chat-left border-r-4 flex flex-col">
+    <div className="chat-left border-r-4 flex flex-col w-[300px]">
       <LeftTop />
       <SearchBar className={`${PADDING_CONTAINER} py-6 border-b-4`} />
       <ListUsers />

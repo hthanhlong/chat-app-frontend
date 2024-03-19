@@ -6,7 +6,9 @@ import { faGear } from "@fortawesome/free-solid-svg-icons"
 const RightTop = () => {
   return (
     <div className="border-b-4 flex items-center justify-between">
-      <Avatar name="Brett Johnson" caption="Active" />
+      <div className="p-2">
+        <Avatar name="Brett Johnson" caption="Active" />
+      </div>
       <Link to="/settings">
         <FontAwesomeIcon
           icon={faGear}

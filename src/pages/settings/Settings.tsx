@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons"
 import RootLayout from "../../Layouts/RootLayout"
 import { Link } from "react-router-dom"
-import { CustomLink, LogoutModal } from "../../components"
+import { CustomLink, CustomModal } from "../../components"
 import { useLoading } from "../../hooks/useLoading"
 import { sleep } from "../../utils"
 import { LIST_COMPONENTS, LIST_SETTINGS } from "./utils"
@@ -68,11 +68,12 @@ const Settings = () => {
           </div>
         </div>
       </div>
-      <LogoutModal
+      <CustomModal
         openModal={openModal}
         body="Are you sure you want to logout?"
         textAccept="Yes, I'm sure"
         textClose="No, Cancel"
+        actionArea={true}
         onClose={() => setOpenModal(false)}
         onAccept={async () => {
           setOpenModal(false)

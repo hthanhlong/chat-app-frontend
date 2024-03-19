@@ -1,6 +1,7 @@
 import { Button, Modal } from "flowbite-react"
+import { ReactNode } from "react"
 
-function LogoutModal({
+function CustomModal({
   openModal,
   onClose,
   onAccept,
@@ -9,6 +10,7 @@ function LogoutModal({
   header,
   body,
   size,
+  actionArea,
 }: {
   openModal: boolean
   onClose: () => void
@@ -16,7 +18,8 @@ function LogoutModal({
   textClose?: string
   textAccept?: string
   header?: string
-  body?: string
+  body?: string | ReactNode
+  actionArea?: boolean
   size?:
     | "xs"
     | "sm"
@@ -42,17 +45,19 @@ function LogoutModal({
             </h3>
           ) || "Body"}
         </Modal.Body>
-        <Modal.Footer>
-          <Button color="failure" onClick={onAccept}>
-            {textAccept || "Accept"}
-          </Button>
-          <Button color="gray" onClick={onClose}>
-            {textClose || "Close"}
-          </Button>
-        </Modal.Footer>
+        {actionArea && (
+          <Modal.Footer>
+            <Button color="failure" onClick={onAccept}>
+              {textAccept || "Accept"}
+            </Button>
+            <Button color="gray" onClick={onClose}>
+              {textClose || "Close"}
+            </Button>
+          </Modal.Footer>
+        )}
       </Modal>
     </>
   )
 }
 
-export default LogoutModal
+export default CustomModal

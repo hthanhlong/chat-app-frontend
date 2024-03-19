@@ -14,7 +14,7 @@ import Ping from "./Ping/Ping"
 import Message from "./Message/Message"
 import ChatLeft from "./ChatPage/ChatLeft"
 import ChatRight from "./ChatPage/ChatRight"
-import LogoutModal from "./Modal/LogoutModal"
+import CustomModal from "./Modal/CustomModal"
 import CustomLink from "./CustomLink/CustomLink"
 
 export {
@@ -34,6 +34,6 @@ export {
   Message,
   ChatLeft,
   ChatRight,
-  LogoutModal,
+  CustomModal,
   CustomLink,
 }
