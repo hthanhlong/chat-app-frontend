@@ -16,6 +16,7 @@ import ChatLeft from "./ChatPage/ChatLeft"
 import ChatRight from "./ChatPage/ChatRight"
 import CustomModal from "./Modal/CustomModal"
 import CustomLink from "./CustomLink/CustomLink"
+import Skeleton from "./Skeleton/Skeleton"
 
 export {
   Divider,
@@ -36,4 +37,5 @@ export {
   ChatRight,
   CustomModal,
   CustomLink,
+  Skeleton,
 }

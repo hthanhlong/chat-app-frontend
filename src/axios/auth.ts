@@ -1,8 +1,8 @@
-import { getRefreshToken, serviceSignup, serviceLogin } from "../services/authService"
+import AuthService from "../services/AuthService"
 
 export const refreshToken = async () => {
   try {
-    const response = await getRefreshToken()
+    const response = await AuthService.getRefreshToken()
     const newToken = response
     return newToken
   } catch (error) {
@@ -13,9 +13,9 @@ export const refreshToken = async () => {
 export const AuthSignUp = (data: unknown) => {
   //@ts-expect-error -//
   delete data.confirmPassword
-  return serviceSignup(data)
+  return AuthService.signup(data)
 }
 
 export const AuthLogin = async (data: LoginInput) => {
-  return serviceLogin(data)
+  return AuthService.login(data)
 }

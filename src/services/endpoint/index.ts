@@ -3,6 +3,8 @@ const END_POINT = {
   signup: "/signup",
   refreshToken: "/refreshToken",
   users: "/users",
+  friendRequest: "/send-friend-request",
+  getFriendRequests: "/friend-requests",
 }
 
 export default END_POINT

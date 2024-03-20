@@ -31,3 +31,9 @@ interface SuccessResponse<T> {
   message: string
   data: T
 }
+
+interface FriendRequest {
+  senderId: string
+  receiverId: string
+  status: "PENDING" | "FRIEND" | "UNFRIEND"
+}

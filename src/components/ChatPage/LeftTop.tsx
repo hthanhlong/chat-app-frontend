@@ -2,18 +2,31 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faBell, faPlus } from "@fortawesome/free-solid-svg-icons"
 import Avatar from "../Avatar/Avatar"
 import { Button, Dropdown, Tooltip } from "flowbite-react"
-// import Ping from "../Ping/Ping"
 import CustomModal from "../Modal/CustomModal"
 import { useState } from "react"
 import AddFriends from "../AddFriends/AddFriends"
+import { useQuery } from "@tanstack/react-query"
+import { getUserById } from "../../axios/user"
+import { useAuth } from "../../hooks/useAuth"
+import Skeleton from "../Skeleton/Skeleton"
 
 const LeftTop = () => {
   const [openModal, setOpenModal] = useState(false)
+  const { id } = useAuth()
+
+  const { data } = useQuery({
+    queryKey: ["user"],
+    queryFn: () => getUserById(id),
+  })
 
   return (
     <>
       <div className="flex items-center justify-between border-b-4 p-2">
-        <Avatar name="Brett Johnson" caption="This is my Caption" />
+        {data?.data ? (
+          <Avatar name={data?.data.nickname} caption={data.data.caption} />
+        ) : (
+          <Skeleton />
+        )}
         <div className="flex">
           <Tooltip content="Finding new friends">
             <Button
@@ -21,7 +34,6 @@ const LeftTop = () => {
               size="xs"
               onClick={() => setOpenModal(true)}
               className="text-center mr-1 hover:bg-gray-100"
-              data-tooltip-target="tooltip-default"
               color="gray"
             >
               <FontAwesomeIcon icon={faPlus} fontSize={20} />
@@ -147,14 +159,6 @@ const LeftTop = () => {
             </Dropdown.Item>
           </Dropdown>
         </div>
-      </div>
-      <div
-        id="tooltip-default"
-        role="tooltip"
-        className="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
-      >
-        Finding friends
-        <div className="tooltip-arrow" data-popper-arrow></div>
       </div>
       <CustomModal
         header="Finding friends"

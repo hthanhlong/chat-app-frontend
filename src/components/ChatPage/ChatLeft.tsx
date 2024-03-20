@@ -4,6 +4,11 @@ import ListUsers from "./ListUsers"
 import { PADDING_CONTAINER } from "./utils"
 
 const ChatLeft = () => {
+
+
+
+
+
   return (
     <div className="chat-left border-r-4 flex flex-col w-[340px]">
       <LeftTop />
