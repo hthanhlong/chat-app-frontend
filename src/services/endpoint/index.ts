@@ -5,6 +5,8 @@ const END_POINT = {
   users: "/users",
   friendRequest: "/send-friend-request",
   getFriendRequests: "/friend-requests",
+  getMyFriends: "/get-friends",
+  updateFriendStatus: "/update-status-friend",
 }
 
 export default END_POINT

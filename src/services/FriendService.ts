@@ -10,6 +10,14 @@ class FriendService {
   getFriendRequests(id: string, options?: AxiosRequestConfig) {
     return http.get(`${END_POINT.getFriendRequests}/${id}`, { ...options })
   }
+
+  updateFriendStatus(data: FriendRequest, options?: AxiosRequestConfig) {
+    return http.post(`${END_POINT.updateFriendStatus}`, data, { ...options })
+  }
+
+  getMyFriends(id: string, options?: AxiosRequestConfig) {
+    return http.get(`${END_POINT.getMyFriends}/${id}`, { ...options })
+  }
 }
 
 export default new FriendService()

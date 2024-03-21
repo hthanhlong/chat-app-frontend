@@ -17,3 +17,21 @@ export const getFriendRequests = async (id: string) => {
     throw new Error("Failed to get friend requests")
   }
 }
+
+export const getMyFriends = async (id: string) => {
+  try {
+    const response = await FriendService.getMyFriends(id)
+    return response
+  } catch (error) {
+    throw new Error("Failed to get friends")
+  }
+}
+
+export const updateFriendStatus = async (data: FriendRequest) => {
+  try {
+    const response = await FriendService.updateFriendStatus(data)
+    return response
+  } catch (error) {
+    throw new Error("Failed to update friend status")
+  }
+}

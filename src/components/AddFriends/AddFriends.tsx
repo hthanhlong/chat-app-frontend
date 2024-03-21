@@ -1,5 +1,5 @@
 import { Button } from "flowbite-react"
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import Avatar from "../Avatar/Avatar"
 import Skeleton from "../Skeleton/Skeleton"
 import { useAuth } from "../../hooks/useAuth"
@@ -9,6 +9,7 @@ import "./AddFriend.css"
 
 const AddFriends = () => {
   const { id: senderId } = useAuth()
+  const queryClient = useQueryClient()
 
   const { data: ListUser, isLoading: isLoadingGetListUser } = useQuery({
     queryKey: ["listUser"],
@@ -16,13 +17,16 @@ const AddFriends = () => {
   })
 
   const {
-    mutate,
+    mutateAsync,
     //@ts-expect-error - //
     isLoading,
     error,
     data,
   } = useMutation({
     mutationFn: (data: FriendRequest) => sendFriendRequest(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries("listUser") // Fix: Pass the query key as an array
+    },
   })
 
   return (
@@ -42,7 +46,7 @@ const AddFriends = () => {
                 size="xs"
                 className="h-[32px]"
                 onClick={() => {
-                  mutate({
+                  mutateAsync({
                     senderId: senderId,
                     receiverId: user._id,
                     status: "PENDING",
