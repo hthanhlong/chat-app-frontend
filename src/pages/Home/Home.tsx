@@ -1,12 +1,15 @@
 import { ChatLeft, ChatRight } from "../../components"
 import RootLayout from "../../Layouts/RootLayout"
+import SelectedUserChatProvider from "../../provider/SelectedUserChatProvider"
 
 const Home = () => {
   return (
     <RootLayout>
       <div className="flex">
-        <ChatLeft />
-        <ChatRight />
+        <SelectedUserChatProvider>
+          <ChatLeft />
+          <ChatRight />
+        </SelectedUserChatProvider>
       </div>
     </RootLayout>
   )

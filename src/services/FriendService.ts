@@ -18,6 +18,15 @@ class FriendService {
   getMyFriends(id: string, options?: AxiosRequestConfig) {
     return http.get(`${END_POINT.getMyFriends}/${id}`, { ...options })
   }
+
+  searchFriends(
+    data: { id: string; keyword: string },
+    options?: AxiosRequestConfig
+  ) {
+    return http.get(`${END_POINT.searchFriend}/${data.id}/?q=${data.keyword}`, {
+      ...options,
+    })
+  }
 }
 
 export default new FriendService()

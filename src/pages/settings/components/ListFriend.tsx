@@ -5,18 +5,17 @@ import { useAuth } from "../../../hooks/useAuth"
 import { getMyFriends, updateFriendStatus } from "../../../axios/friend"
 
 const ListFriend = () => {
-  // getMyFriends
   const { id } = useAuth()
   const queryClient = useQueryClient()
 
   const { data: ListFriend, isLoading } = useQuery({
-    queryKey: ["myFriends"],
+    queryKey: ["my-friends"],
     queryFn: () => getMyFriends(id),
   })
 
   const { mutate } = useMutation({
     mutationFn: (request: FriendRequest) => updateFriendStatus(request),
-    onSuccess: () => queryClient.invalidateQueries("myFriends"),
+    onSuccess: () => queryClient.invalidateQueries(["my-friends"]),
   })
 
   return (

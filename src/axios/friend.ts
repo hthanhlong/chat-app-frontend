@@ -35,3 +35,12 @@ export const updateFriendStatus = async (data: FriendRequest) => {
     throw new Error("Failed to update friend status")
   }
 }
+
+export const searchFriends = async (data: { id: string; keyword: string }) => {
+  try {
+    const response = await FriendService.searchFriends(data)
+    return response
+  } catch (error) {
+    throw new Error("Failed to search friends")
+  }
+}
