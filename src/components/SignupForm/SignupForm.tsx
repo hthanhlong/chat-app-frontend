@@ -10,9 +10,11 @@ import { useMutation } from "@tanstack/react-query"
 import { sleep } from "../../utils"
 import { useLoading } from "../../hooks/useLoading"
 import { AuthSignUp } from "../../axios/auth"
+import { useAuth } from "../../hooks/useAuth"
 
 const SignUpForm = () => {
   const navigate = useNavigate()
+  const { accessToken } = useAuth()
   const { setGlobalLoading } = useLoading()
 
   const {
@@ -60,6 +62,14 @@ const SignUpForm = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
+
+  useEffect(() => {
+    if (accessToken) navigate("/")
+    return () => {
+      setGlobalLoading(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [accessToken])
 
   return (
     <form
