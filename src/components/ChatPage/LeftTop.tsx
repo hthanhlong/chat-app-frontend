@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faBell, faPlus } from "@fortawesome/free-solid-svg-icons"
+import { faPlus } from "@fortawesome/free-solid-svg-icons"
 import Avatar from "../Avatar/Avatar"
-import { Button, Dropdown, Tooltip } from "flowbite-react"
+import { Button, Tooltip } from "flowbite-react"
 import CustomModal from "../Modal/CustomModal"
 import { useState } from "react"
 import AddFriends from "../AddFriends/AddFriends"
@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query"
 import { getUserById } from "../../axios/user"
 import { useAuth } from "../../hooks/useAuth"
 import Skeleton from "../Skeleton/Skeleton"
+import Notification from "./Notification"
 
 const LeftTop = () => {
   const [openModal, setOpenModal] = useState(false)
@@ -39,125 +40,7 @@ const LeftTop = () => {
               <FontAwesomeIcon icon={faPlus} fontSize={20} />
             </Button>
           </Tooltip>
-          <Dropdown
-            label={<FontAwesomeIcon icon={faBell} fontSize={20} />}
-            dismissOnClick={false}
-            arrowIcon={false}
-            className="h-[400px] w-[400px] overflow-auto shadow-lg"
-            placement="bottom-start"
-            size="xs"
-            color="gray"
-          >
-            <Dropdown.Header className="flex justify-between">
-              <div>Notifications</div>
-              <button className="underline">Mark as all read</button>
-            </Dropdown.Header>
-            <Dropdown.Item className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center">
-              <Avatar />
-              <div className="text-left">
-                <div>Meena accepted your friend request.</div>
-                <div>2h ago</div>
-              </div>
-            </Dropdown.Item>
-            <Dropdown.Item className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center">
-              <Avatar />
-              <div className="text-left">
-                <div>Meena accepted your friend request.</div>
-                <div>2h ago</div>
-              </div>
-            </Dropdown.Item>
-            <Dropdown.Item className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center">
-              <Avatar />
-              <div className="text-left">
-                <div>Meena accepted your friend request.</div>
-                <div>2h ago</div>
-              </div>
-            </Dropdown.Item>
-            <Dropdown.Item className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center">
-              <Avatar />
-              <div className="text-left">
-                <div>Meena accepted your friend request.</div>
-                <div>2h ago</div>
-              </div>
-            </Dropdown.Item>
-            <Dropdown.Item className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center">
-              <Avatar />
-              <div className="text-left">
-                <div>Meena accepted your friend request.</div>
-                <div>2h ago</div>
-              </div>
-            </Dropdown.Item>
-            <Dropdown.Item className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center">
-              <Avatar />
-              <div className="text-left">
-                <div>Meena accepted your friend request.</div>
-                <div>2h ago</div>
-              </div>
-            </Dropdown.Item>
-            <Dropdown.Item className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center">
-              <Avatar />
-              <div className="text-left">
-                <div>Meena accepted your friend request.</div>
-                <div>2h ago</div>
-              </div>
-            </Dropdown.Item>
-            <Dropdown.Item className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center">
-              <Avatar />
-              <div className="text-left">
-                <div>Meena accepted your friend request.</div>
-                <div>2h ago</div>
-              </div>
-            </Dropdown.Item>
-            <Dropdown.Item className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center">
-              <Avatar />
-              <div className="text-left">
-                <div>Meena accepted your friend request.</div>
-                <div>2h ago</div>
-              </div>
-            </Dropdown.Item>
-            <Dropdown.Item className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center">
-              <Avatar />
-              <div className="text-left">
-                <div>Meena accepted your friend request.</div>
-                <div>2h ago</div>
-              </div>
-            </Dropdown.Item>
-            <Dropdown.Item className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center">
-              <Avatar />
-              <div className="text-left">
-                <div>Meena accepted your friend request.</div>
-                <div>2h ago</div>
-              </div>
-            </Dropdown.Item>
-            <Dropdown.Item className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center">
-              <Avatar />
-              <div className="text-left">
-                <div>Meena accepted your friend request.</div>
-                <div>2h ago</div>
-              </div>
-            </Dropdown.Item>
-            <Dropdown.Item className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center">
-              <Avatar />
-              <div className="text-left">
-                <div>Meena accepted your friend request.</div>
-                <div>2h ago</div>
-              </div>
-            </Dropdown.Item>
-            <Dropdown.Item className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center">
-              <Avatar />
-              <div className="text-left">
-                <div>Meena accepted your friend request.</div>
-                <div>2h ago</div>
-              </div>
-            </Dropdown.Item>
-            <Dropdown.Item className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center">
-              <Avatar />
-              <div className="text-left">
-                <div>Meena accepted your friend request.</div>
-                <div>2h ago</div>
-              </div>
-            </Dropdown.Item>
-          </Dropdown>
+          <Notification />
         </div>
       </div>
       <CustomModal

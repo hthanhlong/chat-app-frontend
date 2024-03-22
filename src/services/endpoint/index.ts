@@ -8,6 +8,7 @@ const END_POINT = {
   getMyFriends: "/get-friends",
   updateFriendStatus: "/update-status-friend",
   searchFriend: "/search-friend",
+  notifications: "/notifications",
 }
 
 export default END_POINT

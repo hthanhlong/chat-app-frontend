@@ -23,7 +23,7 @@ const ListUsers = () => {
   })
 
   useEffect(() => {
-    if (data) {
+    if (data && data.data?.length > 0) {
       setSelectedId(data?.data?.[0]._id)
       setListFriends(data?.data)
     }
