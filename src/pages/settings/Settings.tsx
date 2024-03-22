@@ -8,13 +8,14 @@ import { CustomLink, CustomModal } from "../../components"
 import { useLoading } from "../../hooks/useLoading"
 import { sleep } from "../../utils"
 import { LIST_COMPONENTS, LIST_SETTINGS } from "./utils"
+import { useSocketStates } from "../../hooks/useSocketStates"
 
 const Settings = () => {
   const [openModal, setOpenModal] = useState(false)
   const [selected, setSelected] = useState(0)
   const properties = usePropertiesElement("main-layout")
   const { setGlobalLoading } = useLoading()
-
+  const { ws, setWs } = useSocketStates()
   const newH = properties && properties.height - 88
 
   useEffect(() => {
@@ -78,6 +79,9 @@ const Settings = () => {
         onAccept={async () => {
           setOpenModal(false)
           setGlobalLoading(true)
+          ws?.close()
+          // @ts-expect-error - //
+          setWs(null)
           await sleep(3000)
           window.localStorage.clear()
           window.location.reload()

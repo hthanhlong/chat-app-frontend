@@ -9,10 +9,13 @@ import {
 } from "../../axios/notification"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import Skeleton from "../Skeleton/Skeleton"
+import { useSocketStates } from "../../hooks/useSocketStates"
+import Ping from "../Ping/Ping"
 
 const Notification = () => {
   const { id } = useAuth()
   const queryClient = useQueryClient()
+  const { isHasNotification } = useSocketStates()
 
   const { data: listNotis, isLoading } = useQuery({
     queryKey: ["notifications", id],
@@ -44,6 +47,7 @@ const Notification = () => {
           <button className="underline">Mark as all read</button>
         </Dropdown.Header>
         {!isLoading ? (
+          // @ts-expect-error - //
           listNotis?.data.map(
             (notification: {
               _id: string
@@ -77,7 +81,7 @@ const Notification = () => {
           <Skeleton />
         )}
       </Dropdown>
-      {/* {isHasNotification && <Ping />} */}
+      {isHasNotification && <Ping />}
     </div>
   )
 }
