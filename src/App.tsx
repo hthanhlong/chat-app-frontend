@@ -10,22 +10,17 @@ import { useAuth } from "./hooks/useAuth"
 
 const App = () => {
   const { id } = useAuth()
-  const { setIsHasNotification, setWs } = useSocketStates()
+  const { setWs, setIsHasNotification } = useSocketStates()
 
   const init = async () => {
-    const ws = new WebSocket("ws://localhost:8081")
-    setWs(ws)
+    const ws = new WebSocket("ws://localhost:8081") as CusTomeWebSocket
+
     ws.onopen = () => {
       if (ws.readyState === 1) {
-        ws.send(
-          JSON.stringify({
-            accessToken: localStorage.getItem(AUTH_VARIABLE.ACCESS_TOKEN),
-            data: {
-              type: "INIT",
-              payload: null,
-            },
-          })
-        )
+        ws.sendDataToServer({
+          type: "INIT",
+          payload: null,
+        })
       }
     }
 
@@ -40,12 +35,24 @@ const App = () => {
       console.log("error", event)
     }
 
-    ws.onclose = () => {
-      setTimeout(() => {
-        console.log("reconnecting")
-        init()
-      }, 1000)
+    ws.sendDataToServer = (data: {
+      type: string
+      payload?: unknown | null
+    }) => {
+      if (ws.readyState === 1) {
+        const accessToken =
+          localStorage.getItem(AUTH_VARIABLE.ACCESS_TOKEN) || ""
+        const templateData = {
+          accessToken,
+          data: {
+            type: data.type,
+            payload: data.payload || null,
+          },
+        }
+        ws.send(JSON.stringify(templateData))
+      }
     }
+    setWs(ws)
   }
 
   useEffect(() => {

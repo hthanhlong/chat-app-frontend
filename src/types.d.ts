@@ -37,3 +37,8 @@ interface FriendRequest {
   receiverId: string
   status: "PENDING" | "FRIEND" | "UNFRIEND" | "REJECT"
 }
+
+interface CusTomeWebSocket extends WebSocket {
+  sendDataToServer: (data: { type: string; payload?: unknown | null }) => void
+  pong: (data: string) => void
+}

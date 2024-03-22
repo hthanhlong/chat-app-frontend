@@ -79,7 +79,9 @@ const Settings = () => {
         onAccept={async () => {
           setOpenModal(false)
           setGlobalLoading(true)
-          ws?.close()
+          ws?.sendDataToServer({
+            type: "CLOSE_CONNECTION",
+          })
           // @ts-expect-error - //
           setWs(null)
           await sleep(3000)

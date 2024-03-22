@@ -1,10 +1,10 @@
 import { ReactNode, createContext, useMemo, useState } from "react"
 
 type SocketStatesContextType = {
-  ws: WebSocket | null
+  ws: CusTomeWebSocket | null
   isHasNotification: boolean
   setIsHasNotification: (isHasNotification: boolean) => void
-  setWs: (ws: WebSocket) => void
+  setWs: (ws: CusTomeWebSocket) => void
 }
 
 export const SocketStatesContext = createContext<SocketStatesContextType>({
@@ -16,7 +16,7 @@ export const SocketStatesContext = createContext<SocketStatesContextType>({
 
 const SocketProvider = ({ children }: { children: ReactNode }) => {
   const [isHasNotification, setIsHasNotification] = useState(false)
-  const [ws, setWs] = useState<WebSocket | null>(null)
+  const [ws, setWs] = useState<CusTomeWebSocket | null>(null)
 
   const contextValue = useMemo(
     () => ({
