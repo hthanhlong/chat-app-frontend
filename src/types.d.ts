@@ -38,7 +38,7 @@ interface FriendRequest {
   status: "PENDING" | "FRIEND" | "UNFRIEND" | "REJECT"
 }
 
-interface CusTomeWebSocket extends WebSocket {
+interface CustomWebSocket extends WebSocket {
   sendDataToServer: (data: { type: string; payload?: unknown | null }) => void
   pong: (data: string) => void
 }

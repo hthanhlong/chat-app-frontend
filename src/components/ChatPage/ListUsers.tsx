@@ -26,9 +26,7 @@ const ListUsers = () => {
 
   useEffect(() => {
     if (data && data.data?.length > 0) {
-      ws?.sendDataToServer({
-        type: "GET_ONLINE_USERS",
-      })
+      ws?.sendDataToServer({ type: "GET_ONLINE_USERS" })
       setSelectedId(data?.data?.[0]._id)
       setListFriends(data?.data)
     }
