@@ -1,7 +1,7 @@
 import "./Ping.css"
 
 const Ping = () => {
-  return <div className="ping absolute -top-1 right-3.5"></div>
+  return <div className="ping absolute -top-2 right-[8px]"></div>
 }
 
 export default Ping

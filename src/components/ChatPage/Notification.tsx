@@ -14,7 +14,7 @@ const Notification = () => {
   const { id } = useAuth()
   const queryClient = useQueryClient()
 
-  const { data, isLoading } = useQuery({
+  const { data: listNotis, isLoading } = useQuery({
     queryKey: ["notifications", id],
     queryFn: () => getAllNotifications(id),
   })
@@ -29,53 +29,56 @@ const Notification = () => {
   })
 
   return (
-    <Dropdown
-      label={<FontAwesomeIcon icon={faBell} fontSize={20} />}
-      dismissOnClick={false}
-      arrowIcon={false}
-      className="h-[400px] w-[400px] overflow-auto shadow-lg"
-      placement="bottom-start"
-      size="xs"
-      color="gray"
-    >
-      <Dropdown.Header className="flex justify-between">
-        <div>Notifications</div>
-        <button className="underline">Mark as all read</button>
-      </Dropdown.Header>
-      {!isLoading ? (
-        data?.data.map(
-          (notification: {
-            _id: string
-            content: string
-            status: string
-            updateAt: string
-          }) => (
-            <Dropdown.Item
-              key={notification._id}
-              className={`${
-                notification.status === "UNREAD"
-                  ? "text-red-500 bg-gray-100"
-                  : ""
-              } `}
-              onClick={() =>
-                mutate({
-                  id: notification._id,
-                  status: "READ",
-                })
-              }
-            >
-              <Avatar />
-              <div className="text-left">
-                <div>{notification.content}</div>
-                <div>{notification.updateAt}</div>
-              </div>
-            </Dropdown.Item>
+    <div className="relative">
+      <Dropdown
+        label={<FontAwesomeIcon icon={faBell} fontSize={20} />}
+        dismissOnClick={false}
+        arrowIcon={false}
+        className="h-[400px] w-[400px] overflow-auto shadow-lg"
+        placement="bottom-start"
+        size="xs"
+        color="gray"
+      >
+        <Dropdown.Header className="flex justify-between">
+          <div>Notifications</div>
+          <button className="underline">Mark as all read</button>
+        </Dropdown.Header>
+        {!isLoading ? (
+          listNotis?.data.map(
+            (notification: {
+              _id: string
+              content: string
+              status: string
+              updateAt: string
+            }) => (
+              <Dropdown.Item
+                key={notification._id}
+                className={`${
+                  notification.status === "UNREAD"
+                    ? "text-red-500 bg-gray-100"
+                    : ""
+                } `}
+                onClick={() =>
+                  mutate({
+                    id: notification._id,
+                    status: "READ",
+                  })
+                }
+              >
+                <Avatar />
+                <div className="text-left">
+                  <div>{notification.content}</div>
+                  <div>{notification.updateAt}</div>
+                </div>
+              </Dropdown.Item>
+            )
           )
-        )
-      ) : (
-        <Skeleton />
-      )}
-    </Dropdown>
+        ) : (
+          <Skeleton />
+        )}
+      </Dropdown>
+      {/* {isHasNotification && <Ping />} */}
+    </div>
   )
 }
 
