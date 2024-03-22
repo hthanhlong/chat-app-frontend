@@ -1,62 +1,62 @@
 import { AUTH_VARIABLE } from "../constant"
 
+interface customTypeWsService extends WebSocket {
+  sendDataToServer: (data: Record<string, unknown>) => void
+}
+
 class WsService {
-  private ws: WebSocket | null = null
-  public readyState: number = 0
+  static instance: customTypeWsService
+  static ReadyState: number = 0
 
-  constructor(url: string = "ws://localhost:8081") {
-    if (!this.ws) {
-      this.ws = new WebSocket(url)
-      this.ws.onopen = () => {
-        this.readyState = this.ws?.readyState || WebSocket.OPEN
-        this.sendData({
-          type: "INIT",
-          payload: "",
-        })
-      }
-      this.ws.onclose = () => {
-        this.readyState = this.ws?.readyState || WebSocket.CLOSED
-        console.log("socket server closed")
-      }
-      this.ws.onerror = (error) => {
-        console.log("error", error)
-      }
-      console.log("this.ws", this.ws)
-      this.ws.onmessage = this.handleOnMessage
+  constructor() {}
+
+  static init(url: string = "ws://localhost:8081") {
+    WsService.instance = new WebSocket(url) as customTypeWsService
+    WsService.instance.onopen = WsService._onOpen
+    WsService.instance.onmessage = WsService._onMessage
+    return WsService.instance
+  }
+
+  static _onMessage = (event: MessageEvent) => {
+    if (WsService.ReadyState === WebSocket.OPEN) {
+      console.log("event.data", event.data)
     }
   }
 
-  handleOnMessage(event: MessageEvent) {
-    console.log("event", event)
-    const { type, payload } = JSON.parse(event.data)
-    console.log("type ====>", type)
-    switch (type) {
-      case "INIT":
-        console.log("init", payload)
-        break
-      case "HAS_NEW_NOTIFICATION":
-        console.log("HAS_NEW_NOTIFICATION ====>")
-        break
-      default:
-        break
+  // Static method to get the WsService instance
+  static getInstance(): WsService {
+    if (!WsService.instance) {
+      WsService.instance = WsService.init()
+    }
+    return WsService.instance
+  }
+
+  static _onOpen = () => {
+    WsService.ReadyState = WsService.instance.readyState
+    WsService.sendDataToServer({ type: "INIT" })
+  }
+
+  static sendDataToServer = <T>({
+    type,
+    payload,
+  }: {
+    type: string
+    payload?: T
+  }) => {
+    if (WsService.ReadyState === WebSocket.OPEN) {
+      const newData = {
+        accessToken: localStorage.getItem(AUTH_VARIABLE.ACCESS_TOKEN),
+        data: {
+          type: type,
+          payload: payload || null,
+        },
+      }
+      WsService.instance.send(JSON.stringify(newData))
     }
   }
 
-  sendData({ type, payload }: { type: string; payload?: unknown }) {
-    if (this.readyState !== WebSocket.OPEN) return
-    const newData = {
-      accessToken: localStorage.getItem(AUTH_VARIABLE.ACCESS_TOKEN),
-      data: {
-        type: type,
-        payload: payload,
-      },
-    }
-    this.ws?.send(JSON.stringify(newData))
-  }
-
-  close() {
-    if (this.readyState !== WebSocket.OPEN) return
-    this.ws?.close()
+  static close = () => {
+    WsService.instance.close()
   }
 }
 
