@@ -16,16 +16,10 @@ const AddFriends = () => {
     queryFn: () => getAllUsers(senderId),
   })
 
-  const {
-    mutateAsync,
-    //@ts-expect-error - //
-    isLoading,
-    error,
-    data,
-  } = useMutation({
+  const { mutateAsync } = useMutation({
     mutationFn: (data: FriendRequest) => sendFriendRequest(data),
     onSuccess: () => {
-      queryClient.invalidateQueries("listUser") // Fix: Pass the query key as an array
+      queryClient.invalidateQueries({ queryKey: ["listUser"] })
     },
   })
 

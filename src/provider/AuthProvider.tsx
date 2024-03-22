@@ -36,8 +36,6 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     isLogged: helperIsLogged(localStorage.getItem(AUTH_VARIABLE.IS_LOGGED)),
   })
 
-  console.log("authObject", authObject)
-
   const setAuth = (data: Record<string, unknown>) => {
     setAuthObject_((prev) => ({ ...prev, ...data, isLogged: true }))
   }

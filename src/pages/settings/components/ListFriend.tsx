@@ -15,7 +15,8 @@ const ListFriend = () => {
 
   const { mutate } = useMutation({
     mutationFn: (request: FriendRequest) => updateFriendStatus(request),
-    onSuccess: () => queryClient.invalidateQueries(["my-friends"]),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["my-friends"] }),
   })
 
   return (
