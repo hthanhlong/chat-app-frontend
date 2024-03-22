@@ -10,7 +10,7 @@ import { useAuth } from "./hooks/useAuth"
 
 const App = () => {
   const { id } = useAuth()
-  const { setWs, setIsHasNotification } = useSocketStates()
+  const { ws, setWs, setIsHasNotification } = useSocketStates()
 
   const init = async () => {
     const ws = new WebSocket("ws://localhost:8081") as CusTomeWebSocket
@@ -59,6 +59,18 @@ const App = () => {
     init()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      ws?.sendDataToServer({
+        type: "CLOSE_CONNECTION",
+      })
+    }
+    window.addEventListener("beforeunload", handleBeforeUnload)
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload)
+    }
+  }, [ws])
 
   return (
     <div className="relative">
