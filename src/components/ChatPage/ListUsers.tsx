@@ -5,6 +5,7 @@ import { getMyFriends } from "../../axios/friend"
 import { useAuth } from "../../hooks/useAuth"
 import { useEffect } from "react"
 import { useSelectedUserChat } from "../../hooks/useSelectedUserChat"
+import { useSocketStates } from "../../hooks/useSocketStates"
 
 const OFFSET_BORDER = 6
 const TOP_AND_SEARCH_BAR = 186
@@ -14,6 +15,7 @@ const ListUsers = () => {
   const { id } = useAuth()
   const { selectedId, listFriends, setSelectedId, setListFriends } =
     useSelectedUserChat()
+  const { ws, listOnLineUsers } = useSocketStates()
   const properties = usePropertiesElement("main-layout")
   const newH = properties && properties.height - TOTAL
 
@@ -24,11 +26,14 @@ const ListUsers = () => {
 
   useEffect(() => {
     if (data && data.data?.length > 0) {
+      ws?.sendDataToServer({
+        type: "GET_ONLINE_USERS",
+      })
       setSelectedId(data?.data?.[0]._id)
       setListFriends(data?.data)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data])
+  }, [data, ws])
 
   return (
     <div className="overflow-auto" style={{ height: newH || "" }}>
@@ -36,6 +41,7 @@ const ListUsers = () => {
         listFriends?.map(
           (user: { _id: string; nickname: string; caption: string }) => (
             <UserItem
+              isOnline={listOnLineUsers.includes(user._id)}
               active={selectedId === user._id}
               key={user._id}
               name={user.nickname}

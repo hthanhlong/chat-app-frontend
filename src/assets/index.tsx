@@ -14,11 +14,11 @@ const HiddenPasswordIcon = () => <CustomSvg src={HiddenEye} alt="none" />
 
 const AvatarDefault = ({
   avatarUrl,
-  isActive = false,
+  isOnline = false,
   size = "xl",
 }: {
   avatarUrl?: string
-  isActive?: boolean
+  isOnline?: boolean
   size?: "xs" | "sm" | "md" | "lg" | "xl"
 }) => {
   const sizeMap = {
@@ -38,7 +38,7 @@ const AvatarDefault = ({
         src={avatarUrl || AvatarSvg.toString()}
         alt="none"
       />
-      {isActive && (
+      {isOnline && (
         <span className="bottom-0 left-9 absolute w-2.5 h-2.5 bg-lime-600 rounded-full"></span>
       )}
     </div>

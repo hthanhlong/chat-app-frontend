@@ -10,7 +10,8 @@ import { useAuth } from "./hooks/useAuth"
 
 const App = () => {
   const { id } = useAuth()
-  const { ws, setWs, setIsHasNotification } = useSocketStates()
+  const { ws, setWs, setIsHasNotification, setListOnLineUsers } =
+    useSocketStates()
 
   const init = async () => {
     const ws = new WebSocket("ws://localhost:8081") as CusTomeWebSocket
@@ -28,6 +29,11 @@ const App = () => {
       const data = JSON.parse(event.data)
       if (data.type === "HAS_NEW_NOTIFICATION") {
         setIsHasNotification(true)
+      }
+      if (data.type === "ONLINE_USERS") {
+        const onlineUsers = data.payload as string[]
+        const filterOnlineUsers = onlineUsers.filter((user) => user !== id)
+        setListOnLineUsers(filterOnlineUsers)
       }
     }
 

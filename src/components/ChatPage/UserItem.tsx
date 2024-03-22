@@ -5,10 +5,12 @@ const UserItem = ({
   caption,
   active,
   onClick,
+  isOnline,
 }: {
   name: string
   caption: string
   active?: boolean
+  isOnline?: boolean
   onClick?: () => void
 }) => {
   return (
@@ -18,7 +20,7 @@ const UserItem = ({
       }`}
       onClick={onClick}
     >
-      <Avatar name={name} caption={caption} />
+      <Avatar name={name} caption={caption} isOnline={isOnline} />
       <div>
         <div className="text-xs opacity-30">10:45</div>
         <div className="flex justify-center">

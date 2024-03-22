@@ -7,6 +7,7 @@ const Avatar = ({
   className,
   size = "xl",
   textSize = "lg",
+  isOnline = false,
 }: {
   name?: string
   avatarUrl?: string
@@ -14,10 +15,12 @@ const Avatar = ({
   className?: string
   size?: "xs" | "sm" | "md" | "lg" | "xl"
   textSize?: "xs" | "sm" | "md" | "lg" | "xl"
+  isOnline?: boolean
 }) => {
   return (
     <div className={`flex items-center ${className}`}>
       <AvatarDefault
+        isOnline={isOnline}
         size={size}
         avatarUrl={
           avatarUrl || "https://avatars.githubusercontent.com/u/54071671?v=4"
