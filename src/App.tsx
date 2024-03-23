@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css"
 
 const App = () => {
   return (
-    <div className="relative">
+    <div className="relative scroll-smooth">
       <RouterProvider router={router} />
       <LoadingComponent />
       <ToastContainer autoClose={2000} />

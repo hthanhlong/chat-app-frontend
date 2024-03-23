@@ -42,3 +42,10 @@ interface CustomWebSocket extends WebSocket {
   sendDataToServer: (data: { type: string; payload?: unknown | null }) => void
   pong: (data: string) => void
 }
+
+interface TypeMessage {
+  senderId: string
+  receiverId: string
+  message: string
+  createAt?: string
+}

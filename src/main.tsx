@@ -5,20 +5,23 @@ import AuthProvider from "./provider/AuthProvider"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import App from "./App"
 import LoadingProvider from "./provider/LoadingProvider"
-import SocketStatesContext from "./provider/SocketProvider"
+import SocketProvider from "./provider/SocketProvider"
+import SelectedUserChatProvider from "./provider/SelectedUserChatProvider"
 
 const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <AuthProvider>
-      <SocketStatesContext>
-        <QueryClientProvider client={queryClient}>
-          <LoadingProvider>
-            <App />
-          </LoadingProvider>
-        </QueryClientProvider>
-      </SocketStatesContext>
+      <QueryClientProvider client={queryClient}>
+        <SelectedUserChatProvider>
+          <SocketProvider>
+            <LoadingProvider>
+              <App />
+            </LoadingProvider>
+          </SocketProvider>
+        </SelectedUserChatProvider>
+      </QueryClientProvider>
     </AuthProvider>
   </React.StrictMode>
 )

@@ -6,6 +6,8 @@ type SocketStatesContextType = {
   ws: CustomWebSocket | null
   setWs: (ws: CustomWebSocket) => void
   listOnLineUsers: string[]
+  triggerUpdate: number
+  setTriggerUpdate: (triggerUpdate: number) => void
   setListOnLineUsers: (listOnLineUsers: string[]) => void
   isHasNotification: boolean
   setIsHasNotification: (isHasNotification: boolean) => void
@@ -15,6 +17,8 @@ export const SocketStatesContext = createContext<SocketStatesContextType>({
   ws: null,
   setWs: () => {},
   listOnLineUsers: [],
+  triggerUpdate: 0,
+  setTriggerUpdate: () => {},
   setListOnLineUsers: () => {},
   isHasNotification: false,
   setIsHasNotification: () => {},
@@ -25,9 +29,16 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
   const [isHasNotification, setIsHasNotification] = useState(false)
   const [ws, setWs] = useState<CustomWebSocket | null>(null)
   const [listOnLineUsers, setListOnLineUsers] = useState<string[]>([])
+  const [triggerUpdate, _setTriggerUpdate] = useState(0)
+
+  const setTriggerUpdate = () => {
+    const random = Math.floor(Math.random() * 100000000)
+    _setTriggerUpdate(random)
+  }
 
   const init = async () => {
     const ws = new WebSocket("ws://localhost:8081") as CustomWebSocket
+
     ws.onopen = () => _handleOpen(ws)
     ws.onmessage = _handleOnMessage
     ws.onerror = (event) => console.log("error", event)
@@ -74,6 +85,10 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
       const filterOnlineUsers = onlineUsers.filter((user) => user !== id)
       setListOnLineUsers(filterOnlineUsers)
     }
+    if (data.type === "HAS_NEW_MESSAGE") {
+      console.log("HAS_NEW_MESSAGE")
+      setTriggerUpdate()
+    }
   }
 
   useEffect(() => {
@@ -96,6 +111,8 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
       value={{
         ws,
         setWs,
+        triggerUpdate,
+        setTriggerUpdate,
         listOnLineUsers,
         setListOnLineUsers,
         isHasNotification,

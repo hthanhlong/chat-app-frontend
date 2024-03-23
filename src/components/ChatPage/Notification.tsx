@@ -27,7 +27,7 @@ const Notification = () => {
       return updateNotification(data)
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["notifications"] })
+      queryClient.invalidateQueries({ queryKey: ["notifications", id] })
     },
   })
 
