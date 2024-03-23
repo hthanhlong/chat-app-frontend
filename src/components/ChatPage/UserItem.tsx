@@ -1,3 +1,4 @@
+import { MouseEventHandler } from "react"
 import Avatar from "../Avatar/Avatar"
 
 const UserItem = ({
@@ -5,13 +6,15 @@ const UserItem = ({
   caption,
   active,
   onClick,
+  onContextMenu,
   isOnline,
 }: {
   name: string
   caption: string
   active?: boolean
   isOnline?: boolean
-  onClick?: () => void
+  onClick?: MouseEventHandler
+  onContextMenu?: MouseEventHandler
 }) => {
   return (
     <div
@@ -19,6 +22,7 @@ const UserItem = ({
         active ? "bg-gray-100 rounded-md" : ""
       }`}
       onClick={onClick}
+      onContextMenu={onContextMenu}
     >
       <Avatar name={name} caption={caption} isOnline={isOnline} />
       <div>

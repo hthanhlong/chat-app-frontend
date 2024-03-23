@@ -34,7 +34,7 @@ const LeftTop = () => {
               type="button"
               size="xs"
               onClick={() => setOpenModal(true)}
-              className="text-center mr-1 hover:bg-gray-100"
+              className="text-center mr-2 hover:bg-gray-100"
               color="gray"
             >
               <FontAwesomeIcon icon={faPlus} fontSize={20} />
