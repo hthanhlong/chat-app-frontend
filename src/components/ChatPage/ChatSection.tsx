@@ -20,6 +20,7 @@ const ChatSection = () => {
   const properties = usePropertiesElement("main-layout")
   const newH = properties && properties.height - TOTAL
   const queryClient = useQueryClient()
+
   const { data, isLoading } = useQuery({
     queryKey: ["get-message", partnerId],
     queryFn: () => getAllMessages(partnerId),
@@ -36,7 +37,7 @@ const ChatSection = () => {
   useEffect(() => {
     queryClient.invalidateQueries({ queryKey: ["get-message", partnerId] })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [triggerUpdate])
+  }, [triggerUpdate, partnerId])
 
   return (
     <div

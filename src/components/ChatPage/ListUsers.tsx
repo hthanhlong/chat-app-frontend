@@ -33,6 +33,14 @@ const ListUsers = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, ws])
 
+  useEffect(() => {
+    const TIME_CALL_GET_ONLINE_USERS = 1000 * 60 * 5 // 5 minutes
+    const id = setInterval(() => {
+      ws?.sendDataToServer({ type: "GET_ONLINE_USERS" })
+    }, TIME_CALL_GET_ONLINE_USERS)
+    return () => clearInterval(id)
+  }, [ws])
+
   return (
     <div className="overflow-auto" style={{ height: newH || "" }}>
       {!isLoading ? (
