@@ -86,7 +86,6 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
       setListOnLineUsers(filterOnlineUsers)
     }
     if (data.type === "HAS_NEW_MESSAGE") {
-      console.log("HAS_NEW_MESSAGE")
       setTriggerUpdate()
     }
   }
