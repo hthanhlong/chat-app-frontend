@@ -16,19 +16,18 @@ const RightTop = () => {
   })
 
   return (
-    <div className="border-b-4 flex items-center justify-between">
+    <div className="border-b-4 flex items-center justify-between dark:border-gray-600">
       {!isLoading ? (
         <div className="p-2">
           <Avatar name={data?.data.nickname} caption={data?.data.caption} />
         </div>
       ) : (
-        <Skeleton />
+        <Skeleton className="h-[72px]" />
       )}
       <Link to="/settings">
         <FontAwesomeIcon
           icon={faGear}
-          className="mx-1 p-2 text-gray-500 hover:text-gray-700"
-          fontSize={24}
+          className="dark:text-white p-2.5 rounded-xl h-[20px] w-[20px]"
         />
       </Link>
     </div>

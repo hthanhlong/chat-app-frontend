@@ -5,7 +5,7 @@ import InputChat from "./InputChat"
 const RightContent = () => {
   return (
     <MessageProvider>
-      <div className="flex-1 flex flex-col p-3 pb-0 bg-slate-100">
+      <div className="flex-1 flex flex-col p-3 pr-0 pb-0 bg-slate-100 dark:bg-slate-800">
         <ChatSection />
         <InputChat />
       </div>

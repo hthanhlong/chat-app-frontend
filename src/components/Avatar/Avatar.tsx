@@ -18,7 +18,7 @@ const Avatar = ({
   isOnline?: boolean
 }) => {
   return (
-    <div className={`flex items-center ${className}`}>
+    <div className={`flex items-center ${className ? className : ""}`}>
       <AvatarDefault
         isOnline={isOnline}
         size={size}
@@ -28,13 +28,17 @@ const Avatar = ({
       />
       {caption ? (
         <div>
-          <div className={`ml-3 text-${textSize}`}>{name}</div>
-          <div className="ml-3 text-xs text-gray-500 dark:text-gray-400">
+          <div className={`ml-3 text-${textSize} dark:text-gray-300`}>
+            {name}
+          </div>
+          <div className="ml-3 text-xs text-gray-500 dark:text-gray-300">
             {caption}
           </div>
         </div>
       ) : (
-        <span className={`ml-3 text-${textSize}`}>{name}</span>
+        <span className={`ml-3 text-${textSize} dark:text-gray-300`}>
+          {name}
+        </span>
       )}
     </div>
   )

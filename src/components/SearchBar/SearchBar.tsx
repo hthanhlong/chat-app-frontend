@@ -64,8 +64,9 @@ const SearchBar = (
           {...register("search-friend", { required: true, maxLength: 64 })}
           type="search"
           id="default-search"
-          className="block w-full p-2.5 ps-10 text-sm text-black bg-gray-100 rounded-full focus:ring-0 border-0"
+          className="block w-full p-2.5 ps-10 text-sm text-black bg-gray-100 dark:text-white dark:bg-slate-800 rounded-full focus:ring-0 border-0"
           placeholder="Searching..."
+          autoComplete="off"
         />
       </div>
     </form>

@@ -18,17 +18,17 @@ const UserItem = ({
 }) => {
   return (
     <div
-      className={`flex items-center justify-between my-2 p-1 hover:bg-gray-100 hover:rounded-md cursor-pointer mx-1 ${
-        active ? "bg-gray-100 rounded-md" : ""
+      className={`flex items-center justify-between my-2 p-1 hover:bg-gray-200 hover:dark:bg-slate-800 hover:rounded-md cursor-pointer mx-1 ${
+        active ? "bg-gray-100 dark:bg-slate-800 rounded-md" : ""
       }`}
       onClick={onClick}
       onContextMenu={onContextMenu}
     >
       <Avatar name={name} caption={caption} isOnline={isOnline} />
       <div>
-        <div className="text-xs opacity-30">10:45</div>
+        <div className="text-xs opacity-30 dark:text-gray-300">10:45</div>
         <div className="flex justify-center">
-          <p className="bg-red-500 rounded-full text-center text-white text-sm w-5 justify-end">
+          <p className="bg-red-500 rounded-full text-center text-white text-sm w-5 justify-end dark:text-gray-300">
             5
           </p>
         </div>

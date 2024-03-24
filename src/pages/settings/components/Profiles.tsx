@@ -1,7 +1,5 @@
-import React from "react"
-
 const Profiles = () => {
-  return <div>Profiles in processing...</div>
+  return <div className="dark:text-white">Profiles in processing...</div>
 }
 
 export default Profiles

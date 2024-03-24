@@ -2,7 +2,7 @@ import React from 'react'
 
 const Privacy = () => {
   return (
-    <div>Privacy in processing...</div>
+    <div className="dark:text-white">Privacy in processing...</div>
   )
 }
 

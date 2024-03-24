@@ -28,7 +28,7 @@ const Settings = () => {
     <RootLayout>
       <div className="setting w-full">
         <div className="setting-top flex w-full h-[88px] justify-between p-4 border-b-2 items-center">
-          <h1 className="text-xl">Settings</h1>
+          <h1 className="text-xl dark:text-white">Settings</h1>
           <Link to="/">
             <FontAwesomeIcon
               icon={faArrowRightFromBracket}
@@ -58,7 +58,7 @@ const Settings = () => {
                 onClick={() => {
                   setOpenModal(true)
                 }}
-                className="mx-4 px-2 hover:text-blue-700 hover:bg-gray-100 py-3 cursor-pointer rounded"
+                className="mx-4 px-2 hover:text-blue-700 hover:bg-gray-100 py-3 cursor-pointer rounded dark:text-white hover:dark:bg-gray-800"
               >
                 Sign out
               </li>

@@ -22,7 +22,7 @@ const LeftTop = () => {
 
   return (
     <>
-      <div className="flex items-center justify-between border-b-4 p-2">
+      <div className="flex items-center justify-between border-b-4 p-2 dark:border-gray-600">
         {data?.data ? (
           <Avatar name={data?.data.nickname} caption={data.data.caption} />
         ) : (

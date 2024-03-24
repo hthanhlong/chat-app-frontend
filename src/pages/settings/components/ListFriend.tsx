@@ -25,7 +25,7 @@ const ListFriend = () => {
         ListFriend?.data?.map((user: { _id: string; nickname: string }) => (
           <div
             key={user._id}
-            className="border-[1px] w-[calc(50%-8px)] h-20 m-1 rounded-md py-1 px-2 flex items-center justify-between hover:bg-gray-100"
+            className="border-[1px] w-[calc(50%-8px)] h-20 m-1 rounded-md py-1 px-2 flex items-center justify-between hover:bg-gray-100 hover:dark:bg-gray-800"
           >
             <Avatar name={user.nickname} textSize="md" />
             <div className="flex">

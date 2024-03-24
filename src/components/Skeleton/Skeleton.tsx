@@ -1,6 +1,10 @@
-const Skeleton = () => {
+const Skeleton = ({ className }: { className?: string }) => {
   return (
-    <div className="flex animate-pulse dark:border-gray-700 items-center flex-1 mr-1 p-1 h-[56px]">
+    <div
+      className={`flex animate-pulse dark:border-gray-700 items-center flex-1 mr-1 p-1 h-[56px] ${
+        className ? className : ""
+      }`}
+    >
       <svg
         className="w-10 h-10 me-3 text-gray-200 dark:text-gray-700"
         aria-hidden="true"

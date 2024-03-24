@@ -15,13 +15,14 @@ import Ping from "../Ping/Ping"
 const Notification = () => {
   const { id } = useAuth()
   const queryClient = useQueryClient()
-  const { isHasNotification } = useSocketStates()
+  const { isHasNotification, setIsHasNotification } = useSocketStates()
 
-  const { data: listNotis, isLoading } = useQuery({
+  const { data: listNotis, isSuccess } = useQuery({
     queryKey: ["notifications", id],
     queryFn: () => getAllNotifications(id),
   })
 
+  console.log("isSuccess", isSuccess)
   const { mutate } = useMutation({
     mutationFn: (data: { id: string; status: "READ" | "UNREAD" }) => {
       return updateNotification(data)
@@ -32,10 +33,15 @@ const Notification = () => {
   })
 
   return (
-    <div className="relative">
+    <div
+      className="relative"
+      onClick={() => {
+        queryClient.invalidateQueries({ queryKey: ["notifications", id] })
+        setIsHasNotification(false)
+      }}
+    >
       <Dropdown
         label={<FontAwesomeIcon icon={faBell} fontSize={20} />}
-        dismissOnClick={false}
         arrowIcon={false}
         className="h-[400px] w-[400px] overflow-auto shadow-lg"
         placement="bottom-start"
@@ -46,7 +52,7 @@ const Notification = () => {
           <div>Notifications</div>
           <button className="underline">Mark as all read</button>
         </Dropdown.Header>
-        {!isLoading ? (
+        {isSuccess ? (
           // @ts-expect-error - //
           listNotis?.data.map(
             (notification: {
@@ -57,9 +63,9 @@ const Notification = () => {
             }) => (
               <Dropdown.Item
                 key={notification._id}
-                className={`${
+                className={`mb-1 dark:text-gray-500 ${
                   notification.status === "UNREAD"
-                    ? "text-red-500 bg-gray-100"
+                    ? "dark:bg-gray-600 text-red-500 dark:text-gray-500"
                     : ""
                 } `}
                 onClick={() =>

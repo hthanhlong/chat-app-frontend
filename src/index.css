@@ -11,7 +11,6 @@
 }
 
 .home {
-  background-image: url("./assets/images/background.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -21,4 +20,10 @@
 
 .main-layout {
   height: calc(100vh - 80px);
+}
+
+.chat-root {
+  height: calc(100vh - 180px);
+  min-height: 600px;
+  max-width: 1200px;
 }

@@ -28,7 +28,8 @@ const AddFriends = () => {
       <input
         type="search"
         placeholder="Search friends"
-        className="w-full rounded mb-3"
+        className="block w-full text-sm py-3 ps-5 text-black bg-gray-100 dark:text-white dark:bg-slate-800 rounded-full focus:ring-0 border-0 mb-3"
+        autoComplete="off"
       />
       <ul className="add-friend-list h-[400px] overflow-auto">
         {!isLoadingGetListUser ? (

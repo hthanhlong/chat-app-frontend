@@ -33,12 +33,13 @@ const InputChat = () => {
   return (
     // @ts-expect-error - //
     <form className="h-20 flex items-center" onSubmit={handleSubmit(onsubmit)}>
-      <div className="relative w-full border-2 rounded-full">
+      <div className="relative w-full border-2 dark:border-gray-500 rounded-full">
         <input
           type="text"
           {...register("message", { required: true })}
-          className="rounded-full block p-3.5 w-full z-20 text-sm text-gray-900 bg-gray-50 outline-none border-0 focus:ring-0"
+          className="rounded-full block p-3.5 w-full z-20 text-sm text-gray-900 bg-gray-50 outline-none border-0 focus:ring-0 dark:text-white dark:bg-slate-800"
           placeholder="Type a message..."
+          autoComplete="off"
         />
         <button
           type="submit"
