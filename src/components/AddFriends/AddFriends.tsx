@@ -12,7 +12,7 @@ const AddFriends = () => {
   const queryClient = useQueryClient()
 
   const { data: ListUser, isLoading: isLoadingGetListUser } = useQuery({
-    queryKey: ["listUser"],
+    queryKey: ["listUser", senderId],
     queryFn: () => getAllUsers(senderId),
   })
 

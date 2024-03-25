@@ -16,8 +16,14 @@ const LeftTop = () => {
   const { id } = useAuth()
 
   const { data } = useQuery({
-    queryKey: ["user"],
-    queryFn: () => getUserById(id),
+    queryKey: ["user", id],
+    queryFn: () => {
+      if (id) {
+        return getUserById(id)
+      } else {
+        Promise.resolve({ data: null })
+      }
+    },
   })
 
   return (

@@ -1,5 +1,4 @@
-import { http } from "../axios"
-import { ReactNode, createContext, useEffect, useMemo, useState } from "react"
+import { ReactNode, createContext, useEffect, useState } from "react"
 import { AUTH_VARIABLE } from "../constant"
 
 type AuthContextType = {
@@ -40,22 +39,20 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     setAuthObject_((prev) => ({ ...prev, ...data, isLogged: true }))
   }
 
-  const contextValue = useMemo(
-    () => ({
-      id: authObject.id || "",
-      username: authObject.username || "",
-      accessToken: authObject.accessToken || "",
-      refreshToken: authObject.refreshToken || "",
-      isLogged: authObject.isLogged || false,
-      setAuth,
-    }),
-    [authObject]
-  )
+  useEffect(() => {
+    const handleLocalStorageChange = (event: StorageEvent) => {
+      if (event.key === AUTH_VARIABLE.ACCESS_TOKEN) {
+        setAuthObject_((prev) => ({ ...prev, accessToken: event.newValue }))
+      }
+    }
+    window.addEventListener("storage", handleLocalStorageChange)
+    return () => {
+      window.removeEventListener("storage", handleLocalStorageChange)
+    }
+  }, [])
 
   useEffect(() => {
     if (authObject.accessToken) {
-      const Token = "Bearer " + authObject.accessToken
-      http.defaults.headers.common["Authorization"] = Token
       localStorage.setItem(AUTH_VARIABLE.ID, authObject.id)
       localStorage.setItem(AUTH_VARIABLE.USERNAME, authObject.username ?? "")
       localStorage.setItem(AUTH_VARIABLE.ACCESS_TOKEN, authObject.accessToken)
@@ -68,14 +65,23 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         authObject.refreshToken ?? ""
       )
     } else {
-      delete http.defaults.headers.common["Authorization"]
-      localStorage.removeItem(AUTH_VARIABLE.ACCESS_TOKEN)
-      localStorage.removeItem(AUTH_VARIABLE.REFRESH_TOKEN)
+      localStorage.clear()
     }
   }, [authObject])
 
   return (
-    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
+    <AuthContext.Provider
+      value={{
+        id: authObject.id || "",
+        username: authObject.username || "",
+        accessToken: authObject.accessToken || "",
+        refreshToken: authObject.refreshToken || "",
+        isLogged: authObject.isLogged || false,
+        setAuth,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
   )
 }
 

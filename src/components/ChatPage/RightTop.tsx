@@ -16,7 +16,18 @@ const RightTop = () => {
 
   const { data, isLoading } = useQuery({
     queryKey: ["get-user-top-right", selectedId],
-    queryFn: () => getUserById(selectedId),
+    // @ts-expect-error - //
+    queryFn: () => {
+      if (selectedId) {
+        return getUserById(selectedId)
+      }
+      return Promise.resolve({
+        data: {
+          nickname: "",
+          caption: "",
+        },
+      })
+    },
   })
 
   return (

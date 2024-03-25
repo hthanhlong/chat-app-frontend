@@ -23,7 +23,13 @@ const ChatSection = () => {
 
   const { data, isLoading } = useQuery({
     queryKey: ["get-message", partnerId],
-    queryFn: () => getAllMessages(partnerId),
+    // @ts-expect-error -//
+    queryFn: () => {
+      if (partnerId) {
+        return getAllMessages(partnerId)
+      }
+      return Promise.resolve({ data: [] })
+    },
   })
 
   useEffect(() => {
