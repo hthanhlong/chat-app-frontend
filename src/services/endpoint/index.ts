@@ -1,7 +1,7 @@
 const END_POINT = {
   login: "/login",
   signup: "/signup",
-  refreshToken: "/refreshToken",
+  refreshToken: "/refresh-token",
   users: "/users",
   friendRequest: "/send-friend-request",
   getFriendRequests: "/friend-requests",

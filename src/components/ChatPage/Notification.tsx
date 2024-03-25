@@ -11,18 +11,18 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import Skeleton from "../Skeleton/Skeleton"
 import { useSocketStates } from "../../hooks/useSocketStates"
 import Ping from "../Ping/Ping"
+import { useEffect } from "react"
 
 const Notification = () => {
   const { id } = useAuth()
   const queryClient = useQueryClient()
-  const { isHasNotification, setIsHasNotification } = useSocketStates()
+  const { socketEvent, setSocketEvent } = useSocketStates()
 
   const { data: listNotis, isSuccess } = useQuery({
     queryKey: ["notifications", id],
     queryFn: () => getAllNotifications(id),
   })
 
-  console.log("isSuccess", isSuccess)
   const { mutate } = useMutation({
     mutationFn: (data: { id: string; status: "READ" | "UNREAD" }) => {
       return updateNotification(data)
@@ -32,12 +32,18 @@ const Notification = () => {
     },
   })
 
+  useEffect(() => {
+    if (socketEvent?.type === "HAS_NEW_NOTIFICATION") {
+      queryClient.invalidateQueries({ queryKey: ["notifications", id] })
+    }
+  }, [socketEvent, id, queryClient])
+
   return (
     <div
       className="relative"
       onClick={() => {
         queryClient.invalidateQueries({ queryKey: ["notifications", id] })
-        setIsHasNotification(false)
+        setSocketEvent(null)
       }}
     >
       <Dropdown
@@ -87,7 +93,7 @@ const Notification = () => {
           <Skeleton />
         )}
       </Dropdown>
-      {isHasNotification && <Ping />}
+      {socketEvent?.type === "HAS_NEW_NOTIFICATION" && <Ping />}
     </div>
   )
 }

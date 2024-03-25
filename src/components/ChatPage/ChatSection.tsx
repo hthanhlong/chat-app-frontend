@@ -16,7 +16,7 @@ const TOTAL = OFFSET_BORDER + TOP_AND_SEARCH_BAR
 const ChatSection = () => {
   const { id } = useAuth()
   const { selectedId: partnerId } = useSelectedUserChat()
-  const { triggerUpdate } = useSocketStates()
+  const { socketEvent } = useSocketStates()
   const properties = usePropertiesElement("main-layout")
   const newH = properties && properties.height - TOTAL
   const queryClient = useQueryClient()
@@ -35,9 +35,10 @@ const ChatSection = () => {
   }, [data])
 
   useEffect(() => {
-    queryClient.invalidateQueries({ queryKey: ["get-message", partnerId] })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [triggerUpdate, partnerId])
+    if (socketEvent?.type === "HAS_NEW_MESSAGE") {
+      queryClient.invalidateQueries({ queryKey: ["get-message", partnerId] })
+    }
+  }, [socketEvent, partnerId, queryClient])
 
   return (
     <div

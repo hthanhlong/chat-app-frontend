@@ -2,39 +2,31 @@ import { ReactNode, createContext, useEffect, useState } from "react"
 import { AUTH_VARIABLE } from "../constant"
 import { useAuth } from "../hooks/useAuth"
 
+type SocketEvent<T> = {
+  type: string
+  payload: T
+}
+
 type SocketStatesContextType = {
   ws: CustomWebSocket | null
   setWs: (ws: CustomWebSocket) => void
-  listOnLineUsers: string[]
-  triggerUpdate: number
-  setTriggerUpdate: (triggerUpdate: number) => void
-  setListOnLineUsers: (listOnLineUsers: string[]) => void
-  isHasNotification: boolean
-  setIsHasNotification: (isHasNotification: boolean) => void
+  socketEvent: SocketEvent<unknown> | null
+  setSocketEvent: (data: SocketEvent<unknown> | null) => void
 }
 
 export const SocketStatesContext = createContext<SocketStatesContextType>({
   ws: null,
   setWs: () => {},
-  listOnLineUsers: [],
-  triggerUpdate: 0,
-  setTriggerUpdate: () => {},
-  setListOnLineUsers: () => {},
-  isHasNotification: false,
-  setIsHasNotification: () => {},
+  socketEvent: null,
+  setSocketEvent: () => {},
 })
 
 const SocketProvider = ({ children }: { children: ReactNode }) => {
   const { id } = useAuth()
-  const [isHasNotification, setIsHasNotification] = useState(false)
   const [ws, setWs] = useState<CustomWebSocket | null>(null)
-  const [listOnLineUsers, setListOnLineUsers] = useState<string[]>([])
-  const [triggerUpdate, _setTriggerUpdate] = useState(0)
-
-  const setTriggerUpdate = () => {
-    const random = Math.floor(Math.random() * 100000000)
-    _setTriggerUpdate(random)
-  }
+  const [socketEvent, setSocketEvent] = useState<SocketEvent<unknown> | null>(
+    null
+  )
 
   const init = async () => {
     const ws = new WebSocket("ws://localhost:8081") as CustomWebSocket
@@ -77,16 +69,8 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
 
   const _handleOnMessage = (event: MessageEvent) => {
     const data = JSON.parse(event.data)
-    if (data.type === "HAS_NEW_NOTIFICATION") {
-      setIsHasNotification(true)
-    }
-    if (data.type === "ONLINE_USERS") {
-      const onlineUsers = data.payload as string[]
-      const filterOnlineUsers = onlineUsers.filter((user) => user !== id)
-      setListOnLineUsers(filterOnlineUsers)
-    }
-    if (data.type === "HAS_NEW_MESSAGE") {
-      setTriggerUpdate()
+    if (data) {
+      setSocketEvent(data as SocketEvent<unknown>)
     }
   }
 
@@ -110,12 +94,8 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
       value={{
         ws,
         setWs,
-        triggerUpdate,
-        setTriggerUpdate,
-        listOnLineUsers,
-        setListOnLineUsers,
-        isHasNotification,
-        setIsHasNotification,
+        socketEvent,
+        setSocketEvent,
       }}
     >
       {children}

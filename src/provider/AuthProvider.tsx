@@ -54,8 +54,8 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (authObject.accessToken) {
-      http.defaults.headers.common["Authorization"] =
-        "Bearer " + authObject.accessToken
+      const Token = "Bearer " + authObject.accessToken
+      http.defaults.headers.common["Authorization"] = Token
       localStorage.setItem(AUTH_VARIABLE.ID, authObject.id)
       localStorage.setItem(AUTH_VARIABLE.USERNAME, authObject.username ?? "")
       localStorage.setItem(AUTH_VARIABLE.ACCESS_TOKEN, authObject.accessToken)

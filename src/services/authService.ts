@@ -11,8 +11,8 @@ class AuthService {
     return http.post(END_POINT.login, data, { ...options })
   }
 
-  getRefreshToken(): Promise<void> {
-    return Promise.resolve()
+  callRefreshToken<T>(data: T, options?: AxiosRequestConfig): Promise<void> {
+    return http.post(END_POINT.refreshToken, data, { ...options })
   }
 }
 

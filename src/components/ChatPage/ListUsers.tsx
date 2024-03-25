@@ -15,7 +15,8 @@ const ListUsers = () => {
   const { id } = useAuth()
   const { selectedId, listFriends, setSelectedId, setListFriends } =
     useSelectedUserChat()
-  const { ws, listOnLineUsers } = useSocketStates()
+  const { ws, socketEvent } = useSocketStates()
+  const [listOnLineUsers, setListOnLineUsers] = useState<string[]>([])
   const properties = usePropertiesElement("main-layout")
   const newH = properties && properties.height - TOTAL
   const [rightClick, setRightClick] = useState("")
@@ -53,6 +54,14 @@ const ListUsers = () => {
       document.removeEventListener("click", handleClick)
     }
   }, [])
+
+  useEffect(() => {
+    if (socketEvent?.type === "ONLINE_USERS") {
+      const onlineUsers = socketEvent.payload as string[]
+      const filterOnlineUsers = onlineUsers.filter((user) => user !== id)
+      setListOnLineUsers(filterOnlineUsers)
+    }
+  }, [id, listFriends, socketEvent])
 
   return (
     <div className="overflow-auto" style={{ height: newH || "" }}>
