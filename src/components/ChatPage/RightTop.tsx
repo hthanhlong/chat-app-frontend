@@ -54,15 +54,16 @@ const RightTop = () => {
             fontSize={24}
           />
         </div>
-        <div className="inline-block dark:hover:text-orange-500 w-full rounded-lg text-center p-1">
-          <Link to="/settings">
-            <FontAwesomeIcon
-              icon={faEllipsisVertical}
-              className="dark:text-white"
-              fontSize={24}
-            />
-          </Link>
-        </div>
+        <Link
+          to="/settings"
+          className="inline-block dark:hover:text-orange-500 w-full rounded-lg text-center p-1"
+        >
+          <FontAwesomeIcon
+            icon={faEllipsisVertical}
+            className="dark:text-white"
+            fontSize={24}
+          />
+        </Link>
       </div>
     </div>
   )

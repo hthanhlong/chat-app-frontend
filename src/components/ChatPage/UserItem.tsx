@@ -18,10 +18,10 @@ const UserItem = ({
 }) => {
   return (
     <div
-      className={`flex items-center justify-between my-2 p-1 hover:bg-gray-200 hover:dark:bg-slate-800 bg-opacity-0 cursor-pointer mx-1 dark:border-l-4 dark:border-black rounded-s-lg ${
+      className={`flex items-center justify-between bg-opacity-0 my-2 p-1 cursor-pointer mx-1 rounded-s-lg hover:dark:bg-slate-800 dark:border-l-4 dark:border-black ${
         active
-          ? "bg-gray-100 dark:bg-gradient-to-r from-yellow-800 to-black dark:!border-yellow-200"
-          : ""
+          ? "!bg-gray-100 dark:bg-gradient-to-r from-yellow-800 to-black dark:!border-yellow-200"
+          : "hover:bg-gray-100 dark:hover:bg-slate-800 dark:border-slate-800 dark:border-opacity-50 dark:border-transparent"
       }`}
       onClick={onClick}
       onContextMenu={onContextMenu}

@@ -49,6 +49,7 @@ const Notification = () => {
       <Dropdown
         label={<FontAwesomeIcon icon={faBell} fontSize={20} />}
         arrowIcon={false}
+        dismissOnClick={false}
         className="h-[400px] w-[400px] overflow-auto shadow-lg"
         placement="bottom-start"
         size="xs"
@@ -69,9 +70,9 @@ const Notification = () => {
             }) => (
               <Dropdown.Item
                 key={notification._id}
-                className={`mb-1 dark:text-gray-500 ${
+                className={`mb-1 ${
                   notification.status === "UNREAD"
-                    ? "dark:bg-gray-600 text-red-500 dark:text-gray-500"
+                    ? "dark:bg-gray-600 dark:text-sky-500 text-red-500"
                     : ""
                 } `}
                 onClick={() =>

@@ -6,7 +6,7 @@ import "./login.css"
 
 const Login = () => {
   return (
-    <div className="login-back-ground flex items-center justify-center ">
+    <div className="login-back-ground flex items-center justify-center">
       <div className="login-wrapper flex rounded w-[1200px] border-[18px] border-purple-500 border-opacity-25">
         <div className="login-column-left w-[620px]">
           <LoginBackground />

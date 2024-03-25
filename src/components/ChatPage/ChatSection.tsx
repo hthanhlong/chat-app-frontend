@@ -1,19 +1,21 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { useAuth } from "../../hooks/useAuth"
 import usePropertiesElement from "../../hooks/usePropertiesElement"
-import "./ChatSection.css"
+import "./css/ChatSection.css"
 import { getAllMessages } from "../../axios/message"
 import { useSelectedUserChat } from "../../hooks/useSelectedUserChat"
 import { useEffect } from "react"
 import Message from "../Message/Message"
 import Skeleton from "../Skeleton/Skeleton"
 import { useSocketStates } from "../../hooks/useSocketStates"
+import { useThemeMode } from "flowbite-react"
 
 const OFFSET_BORDER = 6
 const TOP_AND_SEARCH_BAR = 182
 const TOTAL = OFFSET_BORDER + TOP_AND_SEARCH_BAR
 
 const ChatSection = () => {
+  const { mode } = useThemeMode()
   const { id } = useAuth()
   const { selectedId: partnerId } = useSelectedUserChat()
   const { socketEvent } = useSocketStates()
@@ -48,7 +50,9 @@ const ChatSection = () => {
 
   return (
     <div
-      className="chat-section flex flex-col overflow-auto pl-2 pt-2"
+      className={`${
+        mode === "light" ? "chat-section" : "dark-chat-section"
+      } flex flex-col overflow-auto pl-2 pt-2`}
       style={{
         height: newH ? newH : "",
       }}
