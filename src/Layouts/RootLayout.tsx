@@ -20,7 +20,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
     <Flowbite>
       <div className="home grid place-items-center">
-        <div className="main-layout bg-white w-[1200px] rounded border-[12px] border-opacity-40 overflow-hidden dark:bg-black dark:border-gray-700">
+        <div className="main-layout bg-white w-[1200px] rounded border-[12px] border-opacity-25 overflow-hidden dark:bg-black dark:border-gray-800">
           {children}
         </div>
       </div>

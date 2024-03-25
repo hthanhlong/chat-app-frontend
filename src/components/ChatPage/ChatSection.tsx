@@ -41,7 +41,7 @@ const ChatSection = () => {
 
   return (
     <div
-      className="chat-section flex flex-col overflow-auto"
+      className="chat-section flex flex-col overflow-auto pl-2 pt-2"
       style={{
         height: newH ? newH : "",
       }}

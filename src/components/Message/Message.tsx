@@ -5,7 +5,7 @@ const Message = ({
   isSender?: boolean
   message: string
 }) => {
-  const classSender = isSender ? "ml-auto mr-2" : ""
+  const classSender = isSender ? "ml-auto" : ""
 
   return (
     <div

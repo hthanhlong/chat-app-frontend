@@ -31,8 +31,11 @@ const InputChat = () => {
   }
 
   return (
-    // @ts-expect-error - //
-    <form className="h-20 flex items-center" onSubmit={handleSubmit(onsubmit)}>
+    <form
+      className="h-20 flex items-center px-2"
+      // @ts-expect-error - //
+      onSubmit={handleSubmit(onsubmit)}
+    >
       <div className="relative w-full border-2 dark:border-gray-500 rounded-full">
         <input
           type="text"

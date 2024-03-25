@@ -1,9 +1,5 @@
-import React from 'react'
-
 const Privacy = () => {
-  return (
-    <div className="dark:text-white">Privacy in processing...</div>
-  )
+  return <div className="dark:text-white">Privacy in processing...</div>
 }
 
 export default Privacy

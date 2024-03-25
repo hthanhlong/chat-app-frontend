@@ -1,9 +1,10 @@
 .chat-section {
   scrollbar-width: thin;
-  scrollbar-color: #bdbcbc #f1f1f1;
+  scrollbar-color: #1d1d1c black;
 }
 
 .chat-section::-webkit-scrollbar {
+  position: absolute;
   width: 12px;
 }
 
