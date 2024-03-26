@@ -20,7 +20,7 @@ const ChatSection = () => {
   const { selectedId: partnerId } = useSelectedUserChat()
   const { socketEvent } = useSocketStates()
   const properties = usePropertiesElement("main-layout")
-  const newH = properties && properties.height - TOTAL
+  const newH = properties && properties.height - TOTAL + 12
   const queryClient = useQueryClient()
 
   const { data, isLoading } = useQuery({
@@ -35,12 +35,12 @@ const ChatSection = () => {
   })
 
   useEffect(() => {
-    const element = document.querySelector(".chat-section")
+    const element = document.querySelector(".scroll-nail")
     element?.scrollTo({
       top: element.scrollHeight,
       behavior: "smooth",
     })
-  }, [data])
+  })
 
   useEffect(() => {
     if (socketEvent?.type === "HAS_NEW_MESSAGE") {
@@ -52,7 +52,7 @@ const ChatSection = () => {
     <div
       className={`${
         mode === "light" ? "chat-section" : "dark-chat-section"
-      } flex flex-col overflow-auto pl-2 pt-2`}
+      } scroll-nail flex flex-col overflow-auto p-2`}
       style={{
         height: newH ? newH : "",
       }}

@@ -32,7 +32,7 @@ const InputChat = () => {
 
   return (
     <form
-      className="h-20 flex items-center px-2"
+      className="h-20 flex items-center px-2 bg-slate-300 dark:bg-gray-700 dark:bg-opacity-35"
       // @ts-expect-error - //
       onSubmit={handleSubmit(onsubmit)}
     >

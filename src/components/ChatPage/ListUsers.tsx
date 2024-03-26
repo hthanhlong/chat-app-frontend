@@ -61,7 +61,7 @@ const ListUsers = () => {
   }, [id, listFriends, socketEvent])
 
   return (
-    <div className="overflow-auto" style={{ height: currentHeight || "" }}>
+    <div className="overflow-auto" style={{ height: currentHeight - 24 || "" }}>
       {!isLoading ? (
         listFriends?.map(
           (user: { _id: string; nickname: string; caption: string }) => (

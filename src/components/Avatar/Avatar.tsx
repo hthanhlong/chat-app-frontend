@@ -26,20 +26,15 @@ const Avatar = ({
           avatarUrl || "https://avatars.githubusercontent.com/u/54071671?v=4"
         }
       />
-      {caption ? (
-        <div>
-          <div className={`ml-3 text-${textSize} dark:text-gray-300`}>
-            {name}
-          </div>
-          <div className="ml-3 text-xs text-gray-500 dark:text-gray-300">
+
+      <div className="ml-3">
+        <div className={`text-${textSize} dark:text-gray-300`}>{name}</div>
+        {caption && (
+          <div className="text-xs text-gray-500 dark:text-gray-300">
             {caption}
           </div>
-        </div>
-      ) : (
-        <span className={`ml-3 text-${textSize} dark:text-gray-300`}>
-          {name}
-        </span>
-      )}
+        )}
+      </div>
     </div>
   )
 }
