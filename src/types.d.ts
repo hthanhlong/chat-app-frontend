@@ -49,3 +49,11 @@ interface TypeMessage {
   message: string
   createAt?: string
 }
+
+interface User {
+  username: string
+  profilePicUrl?: string
+  email: string
+  nickname?: string
+  caption?: string
+}

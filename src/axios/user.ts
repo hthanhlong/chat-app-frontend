@@ -17,3 +17,15 @@ export const getUserById = async (id: string) => {
     throw new Error("Failed to get user")
   }
 }
+
+export const updateUserById = async (
+  id: string,
+  data: Record<string, unknown>
+) => {
+  try {
+    const response = await UserService.updateUserById(id, data)
+    return response
+  } catch (error) {
+    throw new Error("Failed to update user")
+  }
+}

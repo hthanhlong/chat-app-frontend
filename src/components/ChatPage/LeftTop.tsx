@@ -4,7 +4,7 @@ import Avatar from "../Avatar/Avatar"
 import { Button, Tooltip } from "flowbite-react"
 import CustomModal from "../Modal/CustomModal"
 import { useState } from "react"
-import AddFriends from "../AddFriends/AddFriends" 
+import AddFriends from "../AddFriends/AddFriends"
 import { useQuery } from "@tanstack/react-query"
 import { getUserById } from "../../axios/user"
 import { useAuth } from "../../hooks/useAuth"
@@ -30,7 +30,11 @@ const LeftTop = () => {
     <>
       <div className="flex items-center justify-between border-b-[1px] p-2 dark:border-gray-600">
         {data?.data ? (
-          <Avatar name={data?.data.nickname} caption={data.data.caption} />
+          <Avatar
+            name={data?.data.nickname}
+            caption={data.data.caption}
+            isEditable={true}
+          />
         ) : (
           <Skeleton />
         )}

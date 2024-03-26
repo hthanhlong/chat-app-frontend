@@ -10,6 +10,14 @@ class UserService {
   getUserById(id: string, options?: AxiosRequestConfig) {
     return http.get(`${END_POINT.users}/${id}?type=one`, { ...options })
   }
+
+  updateUserById(
+    id: string,
+    data: Record<keyof User, unknown>,
+    options?: AxiosRequestConfig
+  ) {
+    return http.put(`${END_POINT.users}/${id}`, data, { ...options })
+  }
 }
 
 export default new UserService()
