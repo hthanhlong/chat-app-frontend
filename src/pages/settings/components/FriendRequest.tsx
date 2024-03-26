@@ -32,7 +32,7 @@ const FriendRequest = () => {
               <div className="flex">
                 <Button
                   color="blue"
-                  size="sm"
+                  size="xs"
                   className="mr-1"
                   onClick={() => {
                     mutate({
@@ -46,7 +46,7 @@ const FriendRequest = () => {
                 </Button>
                 <Button
                   color="red"
-                  size="sm"
+                  size="xs"
                   onClick={() => {
                     mutate({
                       senderId: user._id,

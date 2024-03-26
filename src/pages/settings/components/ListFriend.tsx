@@ -31,7 +31,7 @@ const ListFriend = () => {
             <div className="flex">
               <Button
                 color="blue"
-                size="sm"
+                size="xs"
                 className="mr-1"
                 onClick={() => {
                   mutate({

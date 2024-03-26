@@ -31,7 +31,7 @@ const RightTop = () => {
   })
 
   return (
-    <div className="border-b-[1px] flex items-center justify-between dark:border-gray-600">
+    <div className="right-top border-b-[1px] flex items-center justify-between dark:border-gray-600">
       {!isLoading ? (
         <div className="p-2">
           <Avatar name={data?.data.nickname} caption={data?.data.caption} />

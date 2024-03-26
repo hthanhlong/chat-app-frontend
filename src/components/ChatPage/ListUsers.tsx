@@ -7,10 +7,6 @@ import { useEffect, useState } from "react"
 import { useSelectedUserChat } from "../../hooks/useSelectedUserChat"
 import { useSocketStates } from "../../hooks/useSocketStates"
 
-const OFFSET_BORDER = 6
-const TOP_AND_SEARCH_BAR = 186
-const TOTAL = OFFSET_BORDER + TOP_AND_SEARCH_BAR
-
 const ListUsers = () => {
   const { id } = useAuth()
   const { selectedId, listFriends, setSelectedId, setListFriends } =
@@ -18,8 +14,9 @@ const ListUsers = () => {
   const { ws, socketEvent } = useSocketStates()
   const [listOnLineUsers, setListOnLineUsers] = useState<string[]>([])
   const properties = usePropertiesElement("main-layout")
-  const newH = properties && properties.height - TOTAL
+  const properties2 = usePropertiesElement("chat-left-top")
   const [rightClick, setRightClick] = useState("")
+  const currentHeight = (properties?.height ?? 0) - (properties2?.height ?? 0)
 
   const { data, isLoading } = useQuery({
     queryKey: ["myFriends"],
@@ -64,7 +61,7 @@ const ListUsers = () => {
   }, [id, listFriends, socketEvent])
 
   return (
-    <div className="overflow-auto" style={{ height: newH || "" }}>
+    <div className="overflow-auto" style={{ height: currentHeight || "" }}>
       {!isLoading ? (
         listFriends?.map(
           (user: { _id: string; nickname: string; caption: string }) => (
