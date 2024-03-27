@@ -60,7 +60,6 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (data) redirectFn(data)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
 
   useEffect(() => {
@@ -68,7 +67,6 @@ const LoginForm = () => {
     return () => {
       setGlobalLoading(false)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accessToken])
 
   return (

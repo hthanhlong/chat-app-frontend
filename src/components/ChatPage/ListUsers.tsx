@@ -31,7 +31,6 @@ const ListUsers = () => {
       setSelectedId(data?.data?.[0]._id)
       setListFriends(data?.data)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, ws])
 
   useEffect(() => {

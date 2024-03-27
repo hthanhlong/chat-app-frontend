@@ -37,7 +37,6 @@ const SearchBar = (
     } else {
       onSubmit(valueDebounce)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [valueDebounce])
 
   return (
