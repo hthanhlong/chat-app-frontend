@@ -22,6 +22,7 @@ const Settings = () => {
     return () => {
       setGlobalLoading(false)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -79,9 +80,11 @@ const Settings = () => {
         onAccept={async () => {
           setOpenModal(false)
           setGlobalLoading(true)
-          ws?.sendDataToServer({
-            type: 'CLOSE_CONNECTION',
-          })
+          if (ws?.readyState === WebSocket.OPEN) {
+            ws?.sendDataToServer({
+              type: 'CLOSE_CONNECTION',
+            })
+          }
           // @ts-expect-error - //
           setWs(null)
           await sleep(3000)

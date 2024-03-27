@@ -81,7 +81,9 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const handleBeforeUnload = () => {
-      ws?.sendDataToServer({ type: 'CLOSE_CONNECTION' })
+      if (ws?.readyState === WebSocket.OPEN) {
+        ws?.sendDataToServer({ type: 'CLOSE_CONNECTION' })
+      }
     }
     window.addEventListener('beforeunload', handleBeforeUnload)
     return () => {

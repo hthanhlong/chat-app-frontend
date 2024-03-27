@@ -15,14 +15,16 @@ const InputChat = () => {
 
   const onsubmit = (data: { message: string }) => {
     const { message } = data
-    ws?.sendDataToServer({
-      type: 'SEND_MESSAGE',
-      payload: {
-        senderId: id,
-        receiverId: partnerId,
-        message: message,
-      },
-    })
+    if (ws?.readyState === WebSocket.OPEN) {
+      ws?.sendDataToServer({
+        type: 'SEND_MESSAGE',
+        payload: {
+          senderId: id,
+          receiverId: partnerId,
+          message: message,
+        },
+      })
+    }
     reset((formValues) => ({
       ...formValues,
       message: '',

@@ -25,7 +25,9 @@ const ListUsers = () => {
 
   useEffect(() => {
     if (data && data.data?.length > 0) {
-      ws?.sendDataToServer({ type: 'GET_ONLINE_USERS' })
+      if (ws?.readyState === WebSocket.OPEN) {
+        ws?.sendDataToServer({ type: 'GET_ONLINE_USERS' })
+      }
       setSelectedId(data?.data?.[0]._id)
       setListFriends(data?.data)
     }
@@ -35,7 +37,9 @@ const ListUsers = () => {
   useEffect(() => {
     const TIME_CALL_GET_ONLINE_USERS = 1000 * 60 * 5 // 5 minutes
     const id = setInterval(() => {
-      ws?.sendDataToServer({ type: 'GET_ONLINE_USERS' })
+      if (ws?.readyState === WebSocket.OPEN) {
+        ws?.sendDataToServer({ type: 'GET_ONLINE_USERS' })
+      }
     }, TIME_CALL_GET_ONLINE_USERS)
     return () => clearInterval(id)
   }, [ws])
