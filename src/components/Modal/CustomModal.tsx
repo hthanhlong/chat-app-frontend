@@ -1,5 +1,5 @@
-import { Button, Modal } from "flowbite-react"
-import { ReactNode } from "react"
+import { Button, Modal } from 'flowbite-react'
+import { ReactNode } from 'react'
 
 function CustomModal({
   openModal,
@@ -21,37 +21,37 @@ function CustomModal({
   body?: string | ReactNode
   actionArea?: boolean
   size?:
-    | "xs"
-    | "sm"
-    | "md"
-    | "lg"
-    | "xl"
-    | "2xl"
-    | "3xl"
-    | "4xl"
-    | "5xl"
-    | "6xl"
-    | "7xl"
-    | "8xl"
+    | 'xs'
+    | 'sm'
+    | 'md'
+    | 'lg'
+    | 'xl'
+    | '2xl'
+    | '3xl'
+    | '4xl'
+    | '5xl'
+    | '6xl'
+    | '7xl'
+    | '8xl'
 }) {
   return (
     <>
-      <Modal show={openModal} onClose={onClose} size={size || "sm"}>
+      <Modal show={openModal} onClose={onClose} size={size || 'sm'}>
         <Modal.Header>{header}</Modal.Header>
         <Modal.Body>
           {(
             <h3 className="text-lg font-normal text-gray-500 dark:text-gray-400">
               {body}
             </h3>
-          ) || "Body"}
+          ) || 'Body'}
         </Modal.Body>
         {actionArea && (
           <Modal.Footer>
             <Button color="failure" onClick={onAccept}>
-              {textAccept || "Accept"}
+              {textAccept || 'Accept'}
             </Button>
             <Button color="gray" onClick={onClose}>
-              {textClose || "Close"}
+              {textClose || 'Close'}
             </Button>
           </Modal.Footer>
         )}

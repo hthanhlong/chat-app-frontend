@@ -1,25 +1,25 @@
-import { ClassAttributes, FormHTMLAttributes, useEffect } from "react"
-import { useForm } from "react-hook-form"
-import { JSX } from "react/jsx-runtime"
-import useDebounce from "../../hooks/useDebounce"
-import { useAuth } from "../../hooks/useAuth"
-import { getMyFriends, searchFriends } from "../../axios/friend"
-import { useSelectedUserChat } from "../../hooks/useSelectedUserChat"
-import { useQuery } from "@tanstack/react-query"
+import { ClassAttributes, FormHTMLAttributes, useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { JSX } from 'react/jsx-runtime'
+import useDebounce from '../../hooks/useDebounce'
+import { useAuth } from '../../hooks/useAuth'
+import { getMyFriends, searchFriends } from '../../axios/friend'
+import { useSelectedUserChat } from '../../hooks/useSelectedUserChat'
+import { useQuery } from '@tanstack/react-query'
 
 const SearchBar = (
   props: JSX.IntrinsicAttributes &
     ClassAttributes<HTMLFormElement> &
-    FormHTMLAttributes<HTMLFormElement>
+    FormHTMLAttributes<HTMLFormElement>,
 ) => {
   const { id } = useAuth()
   const { register, handleSubmit, watch } = useForm()
   const { setListFriends } = useSelectedUserChat()
-  const watchShowAge = watch("search-friend")
+  const watchShowAge = watch('search-friend')
   const { valueDebounce } = useDebounce(watchShowAge)
 
   const { data } = useQuery({
-    queryKey: ["myFriends"],
+    queryKey: ['myFriends'],
     queryFn: () => getMyFriends(id),
   })
 
@@ -43,9 +43,9 @@ const SearchBar = (
   return (
     <form {...props} onSubmit={handleSubmit(onSubmit as never)}>
       <div className="relative">
-        <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+        <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">
           <svg
-            className="w-4 h-4 text-gray-700 dark:text-gray-400"
+            className="h-4 w-4 text-gray-700 dark:text-gray-400"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -61,10 +61,10 @@ const SearchBar = (
           </svg>
         </div>
         <input
-          {...register("search-friend", { required: true, maxLength: 64 })}
+          {...register('search-friend', { required: true, maxLength: 64 })}
           type="search"
           id="default-search"
-          className="block w-full p-2.5 ps-10 text-sm text-black bg-gray-100 dark:text-white dark:bg-slate-800 rounded-full focus:ring-0 border-0"
+          className="block w-full rounded-full border-0 bg-gray-100 p-2.5 ps-10 text-sm text-black focus:ring-0 dark:bg-slate-800 dark:text-white"
           placeholder="Searching..."
           autoComplete="off"
         />

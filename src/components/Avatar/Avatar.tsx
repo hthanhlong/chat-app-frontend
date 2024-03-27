@@ -1,18 +1,18 @@
-import { AvatarDefault } from "../../assets"
-import { useEffect, useState } from "react"
-import { useForm } from "react-hook-form"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { updateUserById } from "../../axios/user"
-import { useAuth } from "../../hooks/useAuth"
-import { Tooltip } from "flowbite-react"
+import { AvatarDefault } from '../../assets'
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { updateUserById } from '../../axios/user'
+import { useAuth } from '../../hooks/useAuth'
+import { Tooltip } from 'flowbite-react'
 
 const Avatar = ({
   avatarUrl,
   name,
   caption,
   className,
-  size = "xl",
-  textSize = "lg",
+  size = 'xl',
+  textSize = 'lg',
   isOnline = false,
   isEditable = false,
 }: {
@@ -20,8 +20,8 @@ const Avatar = ({
   avatarUrl?: string
   caption?: string
   className?: string
-  size?: "xs" | "sm" | "md" | "lg" | "xl"
-  textSize?: "xs" | "sm" | "md" | "lg" | "xl"
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+  textSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   isOnline?: boolean
   isEditable?: boolean
 }) => {
@@ -34,7 +34,7 @@ const Avatar = ({
       return updateUserById(id, data)
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["user", id] })
+      queryClient.invalidateQueries({ queryKey: ['user', id] })
     },
   })
 
@@ -46,20 +46,20 @@ const Avatar = ({
 
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
-      if (!(event.target as HTMLElement).closest(".input-caption")) {
+      if (!(event.target as HTMLElement).closest('.input-caption')) {
         setIsEdit(false)
       }
     }
-    document.addEventListener("click", handleClick)
+    document.addEventListener('click', handleClick)
     return () => {
-      document.removeEventListener("click", handleClick)
+      document.removeEventListener('click', handleClick)
     }
   }, [])
 
   return (
     <form
-      className={`flex items-center w-full h-full ${
-        className ? className : ""
+      className={`flex h-full w-full items-center ${
+        className ? className : ''
       }`}
       onSubmit={handleSubmit(onSubmit)}
     >
@@ -67,17 +67,17 @@ const Avatar = ({
         isOnline={isOnline}
         size={size}
         avatarUrl={
-          avatarUrl || "https://avatars.githubusercontent.com/u/54071671?v=4"
+          avatarUrl || 'https://avatars.githubusercontent.com/u/54071671?v=4'
         }
       />
-      <div className="ml-3 flex-1 h-full">
+      <div className="ml-3 h-full flex-1">
         <div
-          className={`text-${textSize} dark:text-gray-300 h-full flex items-center`}
+          className={`text-${textSize} flex h-full items-center dark:text-gray-300`}
         >
           <span>{name}</span>
         </div>
         {caption && isEditable ? (
-          <div className="flex text-xs text-gray-500 dark:text-gray-300 items-center">
+          <div className="flex items-center text-xs text-gray-500 dark:text-gray-300">
             {!isEdit ? (
               <>
                 <Tooltip content={caption}>
@@ -85,7 +85,7 @@ const Avatar = ({
                     onDoubleClick={
                       isEditable ? () => setIsEdit(!isEdit) : undefined
                     }
-                    className="inline-block w-[140px] h-full truncate ..."
+                    className="... inline-block h-full w-[140px] truncate"
                   >
                     {caption}
                   </div>
@@ -94,17 +94,17 @@ const Avatar = ({
             ) : (
               <>
                 <input
-                  {...register("caption")}
+                  {...register('caption')}
                   type="text"
-                  className="input-caption bg-gray-100 dark:bg-black text-gray-700 dark:text-gray-300 border-b-[1px] ps-1 focus:ring-0 border-0 focus:dark:outline-none text-xs h-[16px] w-[140px]"
+                  className="input-caption h-[16px] w-[140px] border-0 border-b-[1px] bg-gray-100 ps-1 text-xs text-gray-700 focus:ring-0 dark:bg-black dark:text-gray-300 focus:dark:outline-none"
                   autoComplete="off"
                 />
               </>
             )}
           </div>
         ) : (
-          <div className="flex text-xs text-gray-500 dark:text-gray-300 items-center">
-            <span className="truncate ...">{caption}</span>
+          <div className="flex items-center text-xs text-gray-500 dark:text-gray-300">
+            <span className="... truncate">{caption}</span>
           </div>
         )}
       </div>

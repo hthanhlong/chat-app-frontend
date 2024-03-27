@@ -1,32 +1,32 @@
-import { Button } from "flowbite-react"
-import { Avatar, Skeleton } from "../../../components"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { getFriendRequests, updateFriendStatus } from "../../../axios/friend"
-import { useAuth } from "../../../hooks/useAuth"
+import { Button } from 'flowbite-react'
+import { Avatar, Skeleton } from '../../../components'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { getFriendRequests, updateFriendStatus } from '../../../axios/friend'
+import { useAuth } from '../../../hooks/useAuth'
 
 const FriendRequest = () => {
   const { id } = useAuth()
   const queryClient = useQueryClient()
 
   const { data: ListFriendRequest, isLoading } = useQuery({
-    queryKey: ["friendRequests"],
+    queryKey: ['friendRequests'],
     queryFn: () => getFriendRequests(id),
   })
 
   const { mutate } = useMutation({
     mutationFn: (request: FriendRequest) => updateFriendStatus(request),
     onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["friendRequests"] }),
+      queryClient.invalidateQueries({ queryKey: ['friendRequests'] }),
   })
 
   return (
-    <div className="flex flex-wrap h-fit max-h-[746px] overflow-auto w-full">
+    <div className="flex h-fit max-h-[746px] w-full flex-wrap overflow-auto">
       {!isLoading ? (
         ListFriendRequest?.data?.map(
           (user: { _id: string; nickname: string }) => (
             <div
               key={user._id}
-              className="border-[1px] w-[calc(50%-8px)] h-20 m-1 rounded-md py-1 px-2 flex items-center justify-between hover:bg-gray-100 hover:dark:bg-gray-800"
+              className="m-1 flex h-20 w-[calc(50%-8px)] items-center justify-between rounded-md border-[1px] px-2 py-1 hover:bg-gray-100 hover:dark:bg-gray-800"
             >
               <Avatar name={user.nickname} textSize="md" />
               <div className="flex">
@@ -38,7 +38,7 @@ const FriendRequest = () => {
                     mutate({
                       senderId: user._id,
                       receiverId: id,
-                      status: "FRIEND",
+                      status: 'FRIEND',
                     })
                   }}
                 >
@@ -51,7 +51,7 @@ const FriendRequest = () => {
                     mutate({
                       senderId: user._id,
                       receiverId: id,
-                      status: "REJECT",
+                      status: 'REJECT',
                     })
                   }}
                 >
@@ -59,7 +59,7 @@ const FriendRequest = () => {
                 </Button>
               </div>
             </div>
-          )
+          ),
         )
       ) : (
         <Skeleton />

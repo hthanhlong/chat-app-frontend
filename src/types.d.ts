@@ -35,7 +35,7 @@ interface SuccessResponse<T> {
 interface FriendRequest {
   senderId: string
   receiverId: string
-  status: "PENDING" | "FRIEND" | "UNFRIEND" | "REJECT"
+  status: 'PENDING' | 'FRIEND' | 'UNFRIEND' | 'REJECT'
 }
 
 interface CustomWebSocket extends WebSocket {

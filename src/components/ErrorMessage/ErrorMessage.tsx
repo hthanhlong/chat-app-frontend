@@ -5,8 +5,8 @@ const ErrorMessage = ({
 }) => {
   return (
     <>
-      <p className="text-red-500 text-xs italic h-1">
-        {errorMessage ? errorMessage : ""}
+      <p className="h-1 text-xs italic text-red-500">
+        {errorMessage ? errorMessage : ''}
       </p>
     </>
   )

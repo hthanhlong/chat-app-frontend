@@ -1,22 +1,22 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPlus } from "@fortawesome/free-solid-svg-icons"
-import Avatar from "../Avatar/Avatar"
-import { Button, Tooltip } from "flowbite-react"
-import CustomModal from "../Modal/CustomModal"
-import { useState } from "react"
-import AddFriends from "../AddFriends/AddFriends"
-import { useQuery } from "@tanstack/react-query"
-import { getUserById } from "../../axios/user"
-import { useAuth } from "../../hooks/useAuth"
-import Skeleton from "../Skeleton/Skeleton"
-import Notification from "./Notification"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import Avatar from '../Avatar/Avatar'
+import { Button, Tooltip } from 'flowbite-react'
+import CustomModal from '../Modal/CustomModal'
+import { useState } from 'react'
+import AddFriends from '../AddFriends/AddFriends'
+import { useQuery } from '@tanstack/react-query'
+import { getUserById } from '../../axios/user'
+import { useAuth } from '../../hooks/useAuth'
+import Skeleton from '../Skeleton/Skeleton'
+import Notification from './Notification'
 
 const LeftTop = () => {
   const [openModal, setOpenModal] = useState(false)
   const { id } = useAuth()
 
   const { data } = useQuery({
-    queryKey: ["user", id],
+    queryKey: ['user', id],
     queryFn: () => {
       if (id) {
         return getUserById(id)
@@ -44,7 +44,7 @@ const LeftTop = () => {
               type="button"
               size="xs"
               onClick={() => setOpenModal(true)}
-              className="text-center mr-2 hover:bg-gray-100"
+              className="mr-2 text-center hover:bg-gray-100"
               color="gray"
             >
               <FontAwesomeIcon icon={faPlus} fontSize={20} />

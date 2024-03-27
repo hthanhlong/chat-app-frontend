@@ -1,11 +1,11 @@
-import UserItem from "./UserItem"
-import usePropertiesElement from "../../hooks/usePropertiesElement"
-import { useQuery } from "@tanstack/react-query"
-import { getMyFriends } from "../../axios/friend"
-import { useAuth } from "../../hooks/useAuth"
-import { useEffect, useState } from "react"
-import { useSelectedUserChat } from "../../hooks/useSelectedUserChat"
-import { useSocketStates } from "../../hooks/useSocketStates"
+import UserItem from './UserItem'
+import usePropertiesElement from '../../hooks/usePropertiesElement'
+import { useQuery } from '@tanstack/react-query'
+import { getMyFriends } from '../../axios/friend'
+import { useAuth } from '../../hooks/useAuth'
+import { useEffect, useState } from 'react'
+import { useSelectedUserChat } from '../../hooks/useSelectedUserChat'
+import { useSocketStates } from '../../hooks/useSocketStates'
 
 const ListUsers = () => {
   const { id } = useAuth()
@@ -13,19 +13,19 @@ const ListUsers = () => {
     useSelectedUserChat()
   const { ws, socketEvent } = useSocketStates()
   const [listOnLineUsers, setListOnLineUsers] = useState<string[]>([])
-  const properties = usePropertiesElement("main-layout")
-  const properties2 = usePropertiesElement("chat-left-top")
-  const [rightClick, setRightClick] = useState("")
+  const properties = usePropertiesElement('main-layout')
+  const properties2 = usePropertiesElement('chat-left-top')
+  const [rightClick, setRightClick] = useState('')
   const currentHeight = (properties?.height ?? 0) - (properties2?.height ?? 0)
 
   const { data, isLoading } = useQuery({
-    queryKey: ["myFriends"],
+    queryKey: ['myFriends'],
     queryFn: () => getMyFriends(id),
   })
 
   useEffect(() => {
     if (data && data.data?.length > 0) {
-      ws?.sendDataToServer({ type: "GET_ONLINE_USERS" })
+      ws?.sendDataToServer({ type: 'GET_ONLINE_USERS' })
       setSelectedId(data?.data?.[0]._id)
       setListFriends(data?.data)
     }
@@ -35,25 +35,25 @@ const ListUsers = () => {
   useEffect(() => {
     const TIME_CALL_GET_ONLINE_USERS = 1000 * 60 * 5 // 5 minutes
     const id = setInterval(() => {
-      ws?.sendDataToServer({ type: "GET_ONLINE_USERS" })
+      ws?.sendDataToServer({ type: 'GET_ONLINE_USERS' })
     }, TIME_CALL_GET_ONLINE_USERS)
     return () => clearInterval(id)
   }, [ws])
 
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
-      if (!(event.target as HTMLElement).closest(".menu-user-item")) {
-        setRightClick("")
+      if (!(event.target as HTMLElement).closest('.menu-user-item')) {
+        setRightClick('')
       }
     }
-    document.addEventListener("click", handleClick)
+    document.addEventListener('click', handleClick)
     return () => {
-      document.removeEventListener("click", handleClick)
+      document.removeEventListener('click', handleClick)
     }
   }, [])
 
   useEffect(() => {
-    if (socketEvent?.type === "ONLINE_USERS") {
+    if (socketEvent?.type === 'ONLINE_USERS') {
       const onlineUsers = socketEvent.payload as string[]
       const filterOnlineUsers = onlineUsers.filter((user) => user !== id)
       setListOnLineUsers(filterOnlineUsers)
@@ -61,7 +61,7 @@ const ListUsers = () => {
   }, [id, listFriends, socketEvent])
 
   return (
-    <div className="overflow-auto" style={{ height: currentHeight - 24 || "" }}>
+    <div className="overflow-auto" style={{ height: currentHeight - 24 || '' }}>
       {!isLoading ? (
         listFriends?.map(
           (user: { _id: string; nickname: string; caption: string }) => (
@@ -78,21 +78,21 @@ const ListUsers = () => {
                 }}
               />
               <div
-                className={`menu-user-item absolute bg-white shadow-lg top-[60px] left-2 mb-3 z-10 rounded ${
-                  user._id === rightClick ? "block" : "hidden"
+                className={`menu-user-item absolute left-2 top-[60px] z-10 mb-3 rounded bg-white shadow-lg ${
+                  user._id === rightClick ? 'block' : 'hidden'
                 } `}
               >
                 <ul>
-                  <li className="py-2 px-1 border-b-[1px] hover:bg-slate-200 cursor-pointer text-sm">
+                  <li className="cursor-pointer border-b-[1px] px-1 py-2 text-sm hover:bg-slate-200">
                     Clear conservation
                   </li>
-                  <li className="py-2 px-1 border-b-[1px] hover:bg-slate-200 cursor-pointer text-sm">
+                  <li className="cursor-pointer border-b-[1px] px-1 py-2 text-sm hover:bg-slate-200">
                     Unfriend
                   </li>
                 </ul>
               </div>
             </div>
-          )
+          ),
         )
       ) : (
         <></>

@@ -1,1 +1,1 @@
-export const PADDING_CONTAINER = "p-4"
+export const PADDING_CONTAINER = 'p-4'

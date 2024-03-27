@@ -1,10 +1,10 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons"
-import { useForm } from "react-hook-form"
-import { useAuth } from "../../hooks/useAuth"
-import { useSelectedUserChat } from "../../hooks/useSelectedUserChat"
-import { useSocketStates } from "../../hooks/useSocketStates"
-import { useQueryClient } from "@tanstack/react-query"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+import { useForm } from 'react-hook-form'
+import { useAuth } from '../../hooks/useAuth'
+import { useSelectedUserChat } from '../../hooks/useSelectedUserChat'
+import { useSocketStates } from '../../hooks/useSocketStates'
+import { useQueryClient } from '@tanstack/react-query'
 
 const InputChat = () => {
   const queryClient = useQueryClient()
@@ -16,7 +16,7 @@ const InputChat = () => {
   const onsubmit = (data: { message: string }) => {
     const { message } = data
     ws?.sendDataToServer({
-      type: "SEND_MESSAGE",
+      type: 'SEND_MESSAGE',
       payload: {
         senderId: id,
         receiverId: partnerId,
@@ -25,28 +25,28 @@ const InputChat = () => {
     })
     reset((formValues) => ({
       ...formValues,
-      message: "",
+      message: '',
     }))
-    queryClient.invalidateQueries({ queryKey: ["get-message", partnerId] })
+    queryClient.invalidateQueries({ queryKey: ['get-message', partnerId] })
   }
 
   return (
     <form
-      className="h-20 flex items-center px-2 bg-slate-300 dark:bg-gray-700 dark:bg-opacity-35"
+      className="flex h-20 items-center bg-slate-300 px-2 dark:bg-gray-700 dark:bg-opacity-35"
       // @ts-expect-error - //
       onSubmit={handleSubmit(onsubmit)}
     >
-      <div className="relative w-full border-2 dark:border-gray-500 rounded-full">
+      <div className="relative w-full rounded-full border-2 dark:border-gray-500">
         <input
           type="text"
-          {...register("message", { required: true })}
-          className="rounded-full block p-3.5 w-full z-20 text-sm text-gray-900 bg-gray-50 outline-none border-0 focus:ring-0 dark:text-white dark:bg-slate-800"
+          {...register('message', { required: true })}
+          className="z-20 block w-full rounded-full border-0 bg-gray-50 p-3.5 text-sm text-gray-900 outline-none focus:ring-0 dark:bg-slate-800 dark:text-white"
           placeholder="Type a message..."
           autoComplete="off"
         />
         <button
           type="submit"
-          className="absolute top-[4px] end-1.5 h-10 w-10 rounded-full text-sm font-large text-white bg-sky-300"
+          className="font-large absolute end-1.5 top-[4px] h-10 w-10 rounded-full bg-sky-300 text-sm text-white"
         >
           <FontAwesomeIcon icon={faPaperPlane} />
         </button>

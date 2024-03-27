@@ -1,5 +1,5 @@
-import AuthService from "../services/AuthService"
-import { AUTH_VARIABLE } from "../constant"
+import AuthService from '../services/AuthService'
+import { AUTH_VARIABLE } from '../constant'
 
 export const refreshToken = async () => {
   try {
@@ -11,7 +11,7 @@ export const refreshToken = async () => {
     }>
     if (result?.isSuccess) return result?.data
   } catch (error) {
-    throw new Error("Failed to refresh token")
+    throw new Error('Failed to refresh token')
   }
 }
 

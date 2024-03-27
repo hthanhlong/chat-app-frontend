@@ -1,6 +1,6 @@
-import { AxiosRequestConfig } from "axios"
-import { http } from "../axios"
-import END_POINT from "./endpoint"
+import { AxiosRequestConfig } from 'axios'
+import { http } from '../axios'
+import END_POINT from './endpoint'
 
 class FriendService {
   sendFriendRequest(data: FriendRequest, options?: AxiosRequestConfig) {
@@ -21,7 +21,7 @@ class FriendService {
 
   searchFriends(
     data: { id: string; keyword: string },
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return http.get(`${END_POINT.searchFriend}/${data.id}/?q=${data.keyword}`, {
       ...options,

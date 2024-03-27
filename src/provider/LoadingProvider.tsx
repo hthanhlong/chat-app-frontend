@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useMemo, useState } from "react"
+import { ReactNode, createContext, useMemo, useState } from 'react'
 
 type LoadingContextType = {
   isLoading: boolean
@@ -18,7 +18,7 @@ const LoadingProvider = ({ children }: { children: ReactNode }) => {
       isLoading,
       setGlobalLoading,
     }),
-    [isLoading]
+    [isLoading],
   )
 
   return (

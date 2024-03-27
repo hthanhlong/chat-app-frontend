@@ -1,5 +1,5 @@
-import { ReactNode, createContext, useEffect, useState } from "react"
-import { AUTH_VARIABLE } from "../constant"
+import { ReactNode, createContext, useEffect, useState } from 'react'
+import { AUTH_VARIABLE } from '../constant'
 
 type AuthContextType = {
   id: string
@@ -11,24 +11,24 @@ type AuthContextType = {
 }
 
 const helperIsLogged = (data: string | null) => {
-  if (data === "true") {
+  if (data === 'true') {
     return true
   }
   return false
 }
 
 export const AuthContext = createContext<AuthContextType>({
-  id: "",
-  username: "",
-  accessToken: "",
-  refreshToken: "",
+  id: '',
+  username: '',
+  accessToken: '',
+  refreshToken: '',
   isLogged: false,
   setAuth: () => {},
 })
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [authObject, setAuthObject_] = useState({
-    id: localStorage.getItem(AUTH_VARIABLE.ID) || "",
+    id: localStorage.getItem(AUTH_VARIABLE.ID) || '',
     username: localStorage.getItem(AUTH_VARIABLE.USERNAME),
     accessToken: localStorage.getItem(AUTH_VARIABLE.ACCESS_TOKEN),
     refreshToken: localStorage.getItem(AUTH_VARIABLE.REFRESH_TOKEN),
@@ -45,24 +45,24 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         setAuthObject_((prev) => ({ ...prev, accessToken: event.newValue }))
       }
     }
-    window.addEventListener("storage", handleLocalStorageChange)
+    window.addEventListener('storage', handleLocalStorageChange)
     return () => {
-      window.removeEventListener("storage", handleLocalStorageChange)
+      window.removeEventListener('storage', handleLocalStorageChange)
     }
   }, [])
 
   useEffect(() => {
     if (authObject.accessToken) {
       localStorage.setItem(AUTH_VARIABLE.ID, authObject.id)
-      localStorage.setItem(AUTH_VARIABLE.USERNAME, authObject.username ?? "")
+      localStorage.setItem(AUTH_VARIABLE.USERNAME, authObject.username ?? '')
       localStorage.setItem(AUTH_VARIABLE.ACCESS_TOKEN, authObject.accessToken)
       localStorage.setItem(
         AUTH_VARIABLE.IS_LOGGED,
-        authObject.isLogged.toString()
+        authObject.isLogged.toString(),
       )
       localStorage.setItem(
         AUTH_VARIABLE.REFRESH_TOKEN,
-        authObject.refreshToken ?? ""
+        authObject.refreshToken ?? '',
       )
     } else {
       localStorage.clear()
@@ -72,10 +72,10 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   return (
     <AuthContext.Provider
       value={{
-        id: authObject.id || "",
-        username: authObject.username || "",
-        accessToken: authObject.accessToken || "",
-        refreshToken: authObject.refreshToken || "",
+        id: authObject.id || '',
+        username: authObject.username || '',
+        accessToken: authObject.accessToken || '',
+        refreshToken: authObject.refreshToken || '',
         isLogged: authObject.isLogged || false,
         setAuth,
       }}

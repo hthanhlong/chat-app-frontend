@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useMemo, useState } from "react"
+import { ReactNode, createContext, useMemo, useState } from 'react'
 
 type SelectedUserChatContextType = {
   selectedId: string
@@ -9,24 +9,24 @@ type SelectedUserChatContextType = {
 
 export const SelectedUserChatContext =
   createContext<SelectedUserChatContextType>({
-    selectedId: "",
+    selectedId: '',
     listFriends: [],
     setSelectedId: () => {},
     setListFriends: () => [],
   })
 
 const SelectedUserChatProvider = ({ children }: { children: ReactNode }) => {
-  const [selectedId, setSelectedId] = useState("")
+  const [selectedId, setSelectedId] = useState('')
   const [listFriends, setListFriends] = useState([])
 
   const contextValue = useMemo(
     () => ({
-      selectedId: selectedId || "",
+      selectedId: selectedId || '',
       listFriends: listFriends || [],
       setSelectedId,
       setListFriends,
     }),
-    [selectedId, listFriends]
+    [selectedId, listFriends],
   )
 
   return (

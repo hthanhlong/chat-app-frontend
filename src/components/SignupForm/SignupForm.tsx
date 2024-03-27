@@ -1,16 +1,16 @@
-import { useEffect } from "react"
-import { useNavigate } from "react-router-dom"
-import { useForm, SubmitHandler } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup"
-import { toast } from "react-toastify"
-import Input from "../Input/Input"
-import ButtonSignup from "./components/ButtonSingup"
-import { signupSchema } from "./validation"
-import { useMutation } from "@tanstack/react-query"
-import { sleep } from "../../utils"
-import { useLoading } from "../../hooks/useLoading"
-import { AuthSignUp } from "../../axios/auth"
-import { useAuth } from "../../hooks/useAuth"
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useForm, SubmitHandler } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { toast } from 'react-toastify'
+import Input from '../Input/Input'
+import ButtonSignup from './components/ButtonSingup'
+import { signupSchema } from './validation'
+import { useMutation } from '@tanstack/react-query'
+import { sleep } from '../../utils'
+import { useLoading } from '../../hooks/useLoading'
+import { AuthSignUp } from '../../axios/auth'
+import { useAuth } from '../../hooks/useAuth'
 
 const SignUpForm = () => {
   const navigate = useNavigate()
@@ -42,16 +42,16 @@ const SignUpForm = () => {
   })
 
   const redirectFn = async (
-    data: SuccessResponse<null>
+    data: SuccessResponse<null>,
   ): Promise<void | undefined> => {
     if (data && data.isSuccess) {
       setGlobalLoading(true)
       await sleep(2000)
       toast.success(
-        "Account created successfully, redirecting to login page..."
+        'Account created successfully, redirecting to login page...',
       )
       await sleep(2000)
-      navigate("/login")
+      navigate('/login')
     }
   }
 
@@ -64,7 +64,7 @@ const SignUpForm = () => {
   }, [data])
 
   useEffect(() => {
-    if (accessToken) navigate("/")
+    if (accessToken) navigate('/')
     return () => {
       setGlobalLoading(false)
     }
@@ -73,7 +73,7 @@ const SignUpForm = () => {
 
   return (
     <form
-      className={`${isLoading ? "pointer-events-none" : ""}`}
+      className={`${isLoading ? 'pointer-events-none' : ''}`}
       onSubmit={handleSubmit(onSubmit)}
     >
       <Input

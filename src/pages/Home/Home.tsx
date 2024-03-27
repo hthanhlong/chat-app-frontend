@@ -1,5 +1,5 @@
-import { ChatLeft, ChatRight } from "../../components"
-import RootLayout from "../../Layouts/RootLayout"
+import { ChatLeft, ChatRight } from '../../components'
+import RootLayout from '../../Layouts/RootLayout'
 
 const Home = () => {
   return (

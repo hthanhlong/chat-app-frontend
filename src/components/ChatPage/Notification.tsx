@@ -1,17 +1,17 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faBell } from "@fortawesome/free-solid-svg-icons"
-import { Dropdown } from "flowbite-react"
-import Avatar from "../Avatar/Avatar"
-import { useAuth } from "../../hooks/useAuth"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBell } from '@fortawesome/free-solid-svg-icons'
+import { Dropdown } from 'flowbite-react'
+import Avatar from '../Avatar/Avatar'
+import { useAuth } from '../../hooks/useAuth'
 import {
   getAllNotifications,
   updateNotification,
-} from "../../axios/notification"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import Skeleton from "../Skeleton/Skeleton"
-import { useSocketStates } from "../../hooks/useSocketStates"
-import Ping from "../Ping/Ping"
-import { useEffect } from "react"
+} from '../../axios/notification'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import Skeleton from '../Skeleton/Skeleton'
+import { useSocketStates } from '../../hooks/useSocketStates'
+import Ping from '../Ping/Ping'
+import { useEffect } from 'react'
 
 const Notification = () => {
   const { id } = useAuth()
@@ -19,22 +19,22 @@ const Notification = () => {
   const { socketEvent, setSocketEvent } = useSocketStates()
 
   const { data: listNotis, isSuccess } = useQuery({
-    queryKey: ["notifications", id],
+    queryKey: ['notifications', id],
     queryFn: () => getAllNotifications(id),
   })
 
   const { mutate } = useMutation({
-    mutationFn: (data: { id: string; status: "READ" | "UNREAD" }) => {
+    mutationFn: (data: { id: string; status: 'READ' | 'UNREAD' }) => {
       return updateNotification(data)
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["notifications", id] })
+      queryClient.invalidateQueries({ queryKey: ['notifications', id] })
     },
   })
 
   useEffect(() => {
-    if (socketEvent?.type === "HAS_NEW_NOTIFICATION") {
-      queryClient.invalidateQueries({ queryKey: ["notifications", id] })
+    if (socketEvent?.type === 'HAS_NEW_NOTIFICATION') {
+      queryClient.invalidateQueries({ queryKey: ['notifications', id] })
     }
   }, [socketEvent, id, queryClient])
 
@@ -42,7 +42,7 @@ const Notification = () => {
     <div
       className="relative"
       onClick={() => {
-        queryClient.invalidateQueries({ queryKey: ["notifications", id] })
+        queryClient.invalidateQueries({ queryKey: ['notifications', id] })
         setSocketEvent(null)
       }}
     >
@@ -71,14 +71,14 @@ const Notification = () => {
               <Dropdown.Item
                 key={notification._id}
                 className={`mb-1 ${
-                  notification.status === "UNREAD"
-                    ? "dark:bg-gray-600 dark:text-sky-500 text-red-500"
-                    : ""
+                  notification.status === 'UNREAD'
+                    ? 'text-red-500 dark:bg-gray-600 dark:text-sky-500'
+                    : ''
                 } `}
                 onClick={() =>
                   mutate({
                     id: notification._id,
-                    status: "READ",
+                    status: 'READ',
                   })
                 }
               >
@@ -88,13 +88,13 @@ const Notification = () => {
                   <div>{notification.updateAt}</div>
                 </div>
               </Dropdown.Item>
-            )
+            ),
           )
         ) : (
           <Skeleton />
         )}
       </Dropdown>
-      {socketEvent?.type === "HAS_NEW_NOTIFICATION" && <Ping />}
+      {socketEvent?.type === 'HAS_NEW_NOTIFICATION' && <Ping />}
     </div>
   )
 }

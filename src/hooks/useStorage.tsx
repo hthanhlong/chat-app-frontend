@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from 'react'
 
 const useStorage = (key: string) => {
   const [value, setValue] = useState<string | null>(localStorage.getItem(key))
@@ -8,7 +8,7 @@ const useStorage = (key: string) => {
     localStorage.setItem(key, newValue)
   }
   const remove = () => {
-    setValue("")
+    setValue('')
     localStorage.removeItem(key)
   }
   return { value, set, remove }

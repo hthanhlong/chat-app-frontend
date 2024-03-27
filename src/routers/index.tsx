@@ -1,31 +1,31 @@
-import { ErrorPage, Home, Login, SignUp } from "../pages"
-import { createBrowserRouter } from "react-router-dom"
-import { ProtectedRoute } from "./ProtectedRoute"
-import Settings from "../pages/settings/Settings"
+import { ErrorPage, Home, Login, SignUp } from '../pages'
+import { createBrowserRouter } from 'react-router-dom'
+import { ProtectedRoute } from './ProtectedRoute'
+import Settings from '../pages/settings/Settings'
 
 const routesForPublic = [
   {
-    path: "/login",
+    path: '/login',
     element: <Login />,
   },
   {
-    path: "/signup",
+    path: '/signup',
     element: <SignUp />,
   },
 ]
 
 const routesForAuthenticatedOnly = [
   {
-    path: "/",
+    path: '/',
     element: <ProtectedRoute />,
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "/",
+        path: '/',
         element: <Home />,
       },
       {
-        path: "/settings",
+        path: '/settings',
         element: <Settings />,
       },
     ],

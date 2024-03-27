@@ -1,6 +1,6 @@
-import { ReactNode, createContext, useEffect, useState } from "react"
-import { AUTH_VARIABLE } from "../constant"
-import { useAuth } from "../hooks/useAuth"
+import { ReactNode, createContext, useEffect, useState } from 'react'
+import { AUTH_VARIABLE } from '../constant'
+import { useAuth } from '../hooks/useAuth'
 
 type SocketEvent<T> = {
   type: string
@@ -25,15 +25,15 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
   const { id } = useAuth()
   const [ws, setWs] = useState<CustomWebSocket | null>(null)
   const [socketEvent, setSocketEvent] = useState<SocketEvent<unknown> | null>(
-    null
+    null,
   )
 
   const init = async () => {
-    const ws = new WebSocket("ws://localhost:8081") as CustomWebSocket
+    const ws = new WebSocket('ws://localhost:8081') as CustomWebSocket
 
     ws.onopen = () => _handleOpen(ws)
     ws.onmessage = _handleOnMessage
-    ws.onerror = (event) => console.log("error", event)
+    ws.onerror = (event) => console.log('error', event)
     ws.sendDataToServer = (data) => _sendDataToServer(data, ws)
     setWs(ws)
   }
@@ -41,11 +41,11 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
   const _handleOpen = (ws: CustomWebSocket) => {
     ws.send(
       JSON.stringify({
-        accessToken: localStorage.getItem(AUTH_VARIABLE.ACCESS_TOKEN) || "",
+        accessToken: localStorage.getItem(AUTH_VARIABLE.ACCESS_TOKEN) || '',
         data: {
-          type: "INIT",
+          type: 'INIT',
         },
-      })
+      }),
     )
   }
 
@@ -54,9 +54,9 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
       type: string
       payload?: unknown | null
     },
-    ws: CustomWebSocket
+    ws: CustomWebSocket,
   ) => {
-    const accessToken = localStorage.getItem(AUTH_VARIABLE.ACCESS_TOKEN) || ""
+    const accessToken = localStorage.getItem(AUTH_VARIABLE.ACCESS_TOKEN) || ''
     const templateData = {
       accessToken,
       data: {
@@ -81,11 +81,11 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const handleBeforeUnload = () => {
-      ws?.sendDataToServer({ type: "CLOSE_CONNECTION" })
+      ws?.sendDataToServer({ type: 'CLOSE_CONNECTION' })
     }
-    window.addEventListener("beforeunload", handleBeforeUnload)
+    window.addEventListener('beforeunload', handleBeforeUnload)
     return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload)
+      window.removeEventListener('beforeunload', handleBeforeUnload)
     }
   }, [ws])
 

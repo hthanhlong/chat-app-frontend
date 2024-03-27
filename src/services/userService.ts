@@ -1,6 +1,6 @@
-import { AxiosRequestConfig } from "axios"
-import { http } from "../axios"
-import END_POINT from "./endpoint"
+import { AxiosRequestConfig } from 'axios'
+import { http } from '../axios'
+import END_POINT from './endpoint'
 
 class UserService {
   getAllUsers(id: string, options?: AxiosRequestConfig) {
@@ -14,7 +14,7 @@ class UserService {
   updateUserById(
     id: string,
     data: Record<keyof User, unknown>,
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
   ) {
     return http.put(`${END_POINT.users}/${id}`, data, { ...options })
   }

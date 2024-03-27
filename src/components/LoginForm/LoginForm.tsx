@@ -1,20 +1,20 @@
-import { useForm, SubmitHandler } from "react-hook-form"
-import PasswordInput from "./components/PasswordInput"
-import { yupResolver } from "@hookform/resolvers/yup"
-import { loginSchema } from "./validation"
-import Input from "../Input/Input"
-import LoginDivider from "./components/LoginDivider"
-import SignUpNow from "./components/SignUpNow"
-import ButtonLogin from "./components/ButtonLogin"
-import ButtonLoginX from "./components/ButtonLoginX"
-import ButtonLoginGoogle from "./components/ButtonLoginGoogle"
-import { useMutation } from "@tanstack/react-query"
-import { AuthLogin } from "../../axios/auth"
-import { sleep } from "../../utils"
-import { useEffect } from "react"
-import { useLoading } from "../../hooks/useLoading"
-import { useAuth } from "../../hooks/useAuth"
-import { useNavigate } from "react-router-dom"
+import { useForm, SubmitHandler } from 'react-hook-form'
+import PasswordInput from './components/PasswordInput'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { loginSchema } from './validation'
+import Input from '../Input/Input'
+import LoginDivider from './components/LoginDivider'
+import SignUpNow from './components/SignUpNow'
+import ButtonLogin from './components/ButtonLogin'
+import ButtonLoginX from './components/ButtonLoginX'
+import ButtonLoginGoogle from './components/ButtonLoginGoogle'
+import { useMutation } from '@tanstack/react-query'
+import { AuthLogin } from '../../axios/auth'
+import { sleep } from '../../utils'
+import { useEffect } from 'react'
+import { useLoading } from '../../hooks/useLoading'
+import { useAuth } from '../../hooks/useAuth'
+import { useNavigate } from 'react-router-dom'
 
 const LoginForm = () => {
   const { accessToken, setAuth } = useAuth()
@@ -49,7 +49,7 @@ const LoginForm = () => {
   const redirectFn = async (
     data: SuccessResponse<{
       accessToken: string
-    }>
+    }>,
   ): Promise<void | undefined> => {
     if (data && data.isSuccess) {
       setGlobalLoading(true)
@@ -64,7 +64,7 @@ const LoginForm = () => {
   }, [data])
 
   useEffect(() => {
-    if (accessToken) navigate("/")
+    if (accessToken) navigate('/')
     return () => {
       setGlobalLoading(false)
     }

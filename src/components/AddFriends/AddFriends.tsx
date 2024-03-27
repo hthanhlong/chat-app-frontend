@@ -1,25 +1,25 @@
-import { Button } from "flowbite-react"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import Avatar from "../Avatar/Avatar"
-import Skeleton from "../Skeleton/Skeleton"
-import { useAuth } from "../../hooks/useAuth"
-import { sendFriendRequest } from "../../axios/friend"
-import { getAllUsers } from "../../axios/user"
-import "./AddFriend.css"
+import { Button } from 'flowbite-react'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import Avatar from '../Avatar/Avatar'
+import Skeleton from '../Skeleton/Skeleton'
+import { useAuth } from '../../hooks/useAuth'
+import { sendFriendRequest } from '../../axios/friend'
+import { getAllUsers } from '../../axios/user'
+import './AddFriend.css'
 
 const AddFriends = () => {
   const { id: senderId } = useAuth()
   const queryClient = useQueryClient()
 
   const { data: ListUser, isLoading: isLoadingGetListUser } = useQuery({
-    queryKey: ["listUser", senderId],
+    queryKey: ['listUser', senderId],
     queryFn: () => getAllUsers(senderId),
   })
 
   const { mutateAsync } = useMutation({
     mutationFn: (data: FriendRequest) => sendFriendRequest(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["listUser"] })
+      queryClient.invalidateQueries({ queryKey: ['listUser'] })
     },
   })
 
@@ -28,7 +28,7 @@ const AddFriends = () => {
       <input
         type="search"
         placeholder="Search friends"
-        className="block w-full text-sm py-3 ps-5 text-black bg-gray-100 dark:text-white dark:bg-slate-800 rounded-full focus:ring-0 border-0 mb-3"
+        className="mb-3 block w-full rounded-full border-0 bg-gray-100 py-3 ps-5 text-sm text-black focus:ring-0 dark:bg-slate-800 dark:text-white"
         autoComplete="off"
       />
       <ul className="add-friend-list h-[400px] overflow-auto">
@@ -44,7 +44,7 @@ const AddFriends = () => {
                   mutateAsync({
                     senderId: senderId,
                     receiverId: user._id,
-                    status: "PENDING",
+                    status: 'PENDING',
                   })
                 }}
               >

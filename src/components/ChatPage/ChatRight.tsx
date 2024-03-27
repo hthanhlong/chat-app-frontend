@@ -1,9 +1,9 @@
-import RightContent from "./RightContent"
-import RightTop from "./RightTop"
+import RightContent from './RightContent'
+import RightTop from './RightTop'
 
 const ChatRight = () => {
   return (
-    <div className="chat-right flex flex-col flex-1">
+    <div className="chat-right flex flex-1 flex-col">
       <RightTop />
       <RightContent />
     </div>

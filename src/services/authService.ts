@@ -1,6 +1,6 @@
-import { AxiosRequestConfig } from "axios"
-import { http } from "../axios"
-import END_POINT from "./endpoint"
+import { AxiosRequestConfig } from 'axios'
+import { http } from '../axios'
+import END_POINT from './endpoint'
 
 class AuthService {
   signup<T>(data: T, options?: AxiosRequestConfig): Promise<void> {

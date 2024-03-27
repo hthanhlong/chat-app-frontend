@@ -1,6 +1,6 @@
-import { useState } from "react"
-import ListFriend from "./ListFriend"
-import FriendRequest from "./FriendRequest"
+import { useState } from 'react'
+import ListFriend from './ListFriend'
+import FriendRequest from './FriendRequest'
 
 const TABS = {
   list: <ListFriend />,
@@ -8,43 +8,43 @@ const TABS = {
 }
 
 const Friends = () => {
-  const [selectedTab, setSelectedTab] = useState("list")
+  const [selectedTab, setSelectedTab] = useState('list')
 
   return (
     <div className="w-full">
-      <div className="friend-header flex justify-between items-center px-2 my-2">
+      <div className="friend-header my-2 flex items-center justify-between px-2">
         <div>
           <span
-            className={`inline-block w-32 text-center border-b-2 mr-2 py-1 cursor-pointer dark:text-white ${
-              selectedTab === "list"
-                ? "border-blue-500 text-blue-500 dark:text-blue-500"
-                : ""
+            className={`mr-2 inline-block w-32 cursor-pointer border-b-2 py-1 text-center dark:text-white ${
+              selectedTab === 'list'
+                ? 'border-blue-500 text-blue-500 dark:text-blue-500'
+                : ''
             }`}
-            onClick={() => setSelectedTab("list")}
+            onClick={() => setSelectedTab('list')}
           >
             List friends
           </span>
           <span
-            className={`inline-block w-32 text-center border-b-2 mr-2 py-1 cursor-pointer dark:text-white ${
-              selectedTab === "request"
-                ? "border-blue-500 text-blue-500 dark:text-blue-500"
-                : ""
+            className={`mr-2 inline-block w-32 cursor-pointer border-b-2 py-1 text-center dark:text-white ${
+              selectedTab === 'request'
+                ? 'border-blue-500 text-blue-500 dark:text-blue-500'
+                : ''
             }`}
-            onClick={() => setSelectedTab("request")}
+            onClick={() => setSelectedTab('request')}
           >
             Friend requests
           </span>
         </div>
       </div>
-      <div className="friend-content border-t-[12px] w-full dark:border-slate-600">
-        <div className="flex my-2">
+      <div className="friend-content w-full border-t-[12px] dark:border-slate-600">
+        <div className="my-2 flex">
           <input
             type="search"
             placeholder="Search..."
-            className="rounded-full ml-auto w-1/3 block text-sm py-3 ps-5 text-black bg-gray-100 dark:text-white dark:bg-slate-800 focus:ring-0 border-0"
+            className="ml-auto block w-1/3 rounded-full border-0 bg-gray-100 py-3 ps-5 text-sm text-black focus:ring-0 dark:bg-slate-800 dark:text-white"
           />
         </div>
-        <div className="flex flex-wrap h-[980px] overflow-auto">
+        <div className="flex h-[980px] flex-wrap overflow-auto">
           {TABS[selectedTab as keyof typeof TABS]}
         </div>
       </div>
