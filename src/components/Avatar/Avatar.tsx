@@ -71,7 +71,9 @@ const Avatar = ({
         }
       />
       <div className="ml-3 flex-1 h-full">
-        <div className={`text-${textSize} dark:text-gray-300 h-full`}>
+        <div
+          className={`text-${textSize} dark:text-gray-300 h-full flex items-center`}
+        >
           <span>{name}</span>
         </div>
         {caption && isEditable ? (

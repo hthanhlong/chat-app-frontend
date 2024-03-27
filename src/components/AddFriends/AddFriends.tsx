@@ -39,7 +39,7 @@ const AddFriends = () => {
               <Button
                 color="blue"
                 size="xs"
-                className="h-[32px]"
+                className="h-[32px] max-w-[130px]"
                 onClick={() => {
                   mutateAsync({
                     senderId: senderId,
