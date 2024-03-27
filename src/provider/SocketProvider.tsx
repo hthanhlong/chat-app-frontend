@@ -28,76 +28,57 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
     null,
   )
 
-  const init = async () => {
-    const ws = new WebSocket('ws://localhost:8081') as CustomWebSocket
-
-    ws.onopen = () => _handleOpen(ws)
-    ws.onmessage = _handleOnMessage
-    ws.onerror = (event) => console.log('error', event)
-    ws.sendDataToServer = (data) => _sendDataToServer(data, ws)
-    setWs(ws)
-  }
-
-  const _handleOpen = (ws: CustomWebSocket) => {
-    ws.send(
-      JSON.stringify({
-        accessToken: localStorage.getItem(AUTH_VARIABLE.ACCESS_TOKEN) || '',
-        data: {
-          type: 'INIT',
-        },
-      }),
-    )
-  }
-
-  const _sendDataToServer = (
-    data: {
-      type: string
-      payload?: unknown | null
-    },
-    ws: CustomWebSocket,
-  ) => {
-    const accessToken = localStorage.getItem(AUTH_VARIABLE.ACCESS_TOKEN) || ''
-    const templateData = {
-      accessToken,
-      data: {
-        type: data.type,
-        payload: data.payload || null,
-      },
-    }
-    ws.send(JSON.stringify(templateData))
-  }
-
-  const _handleOnMessage = (event: MessageEvent) => {
-    const data = JSON.parse(event.data)
-    if (data) {
-      setSocketEvent(data as SocketEvent<unknown>)
-    }
-  }
-
   useEffect(() => {
-    init()
+    const initWebSocket = async () => {
+      const webSocket = new WebSocket('ws://localhost:8081') as CustomWebSocket
+
+      webSocket.onopen = () => {
+        webSocket.send(
+          JSON.stringify({
+            accessToken: localStorage.getItem(AUTH_VARIABLE.ACCESS_TOKEN) || '',
+            data: { type: 'INIT' },
+          }),
+        )
+      }
+      webSocket.onmessage = (event: MessageEvent) => {
+        const data = JSON.parse(event.data)
+        if (data) {
+          setSocketEvent(data as SocketEvent<unknown>)
+        }
+      }
+      webSocket.onerror = (event) => console.error('WebSocket error', event)
+      webSocket.sendDataToServer = (data) => {
+        const accessToken =
+          localStorage.getItem(AUTH_VARIABLE.ACCESS_TOKEN) || ''
+        webSocket.send(
+          JSON.stringify({
+            accessToken,
+            data: {
+              type: data.type,
+              payload: data.payload || null,
+            },
+          }),
+        )
+      }
+      setWs(webSocket)
+    }
+
+    initWebSocket()
   }, [id])
 
   useEffect(() => {
     const handleBeforeUnload = () => {
       if (ws?.readyState === WebSocket.OPEN) {
-        ws?.sendDataToServer({ type: 'CLOSE_CONNECTION' })
+        ws.sendDataToServer({ type: 'CLOSE_CONNECTION' })
       }
     }
     window.addEventListener('beforeunload', handleBeforeUnload)
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload)
-    }
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload)
   }, [ws])
 
   return (
     <SocketStatesContext.Provider
-      value={{
-        ws,
-        setWs,
-        socketEvent,
-        setSocketEvent,
-      }}
+      value={{ ws, setWs, socketEvent, setSocketEvent }}
     >
       {children}
     </SocketStatesContext.Provider>
