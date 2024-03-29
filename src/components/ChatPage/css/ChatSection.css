@@ -1,43 +1,36 @@
-.chat-section {
-  scrollbar-width: thin;
-  scrollbar-color: #e5e5e5 rgb(247, 247, 247);
-}
-
 .chat-section::-webkit-scrollbar {
-  position: absolute;
-  width: 12px;
+  width: 6px;
+  height: 6px;
 }
 
 .chat-section::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #ffffff;
 }
 
 .chat-section::-webkit-scrollbar-thumb {
-  background: #888;
+  background-color: #d4d4d4;
+  border-radius: 20px;
 }
 
 .chat-section::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #e6e6e6;
 }
 
-.dark-chat-section {
-  scrollbar-width: thin;
-  scrollbar-color: #1d1d1c black;
-}
-
+/* // */
 .dark-chat-section::-webkit-scrollbar {
-  position: absolute;
-  width: 12px;
+  width: 6px;
+  height: 6px;
 }
 
 .dark-chat-section::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: black;
 }
 
 .dark-chat-section::-webkit-scrollbar-thumb {
-  background: #888;
+  background-color: #2a2a2a;
+  border-radius: 20px;
 }
 
 .dark-chat-section::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #373737;
 }
