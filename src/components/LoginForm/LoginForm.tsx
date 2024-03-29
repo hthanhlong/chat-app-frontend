@@ -10,7 +10,7 @@ import ButtonLoginX from './components/ButtonLoginX'
 import ButtonLoginGoogle from './components/ButtonLoginGoogle'
 import { useMutation } from '@tanstack/react-query'
 import { AuthLogin } from '../../axios/auth'
-import { sleep } from '../../utils'
+import { capitalizeFirstLetter, sleep } from '../../utils'
 import { useEffect } from 'react'
 import { useLoading } from '../../hooks/useLoading'
 import { useAuth } from '../../hooks/useAuth'
@@ -86,9 +86,14 @@ const LoginForm = () => {
         register={register}
         errorMessage={errors.password?.message}
       />
-      <div className="text-center">
-        {/* @ts-expect-error - //*/}
-        <p className="text-red-500">{error?.response?.data.message}</p>
+      <div className="text-center text-xs">
+        <p className="h-[16px] text-red-500">
+          {/* @ts-expect-error - //*/}
+          {error?.response?.data.message
+            ? //  @ts-expect-error - //
+              capitalizeFirstLetter(error?.response?.data.message)
+            : ''}
+        </p>
       </div>
       <ButtonLogin isLoading={isLoading} />
       <LoginDivider />

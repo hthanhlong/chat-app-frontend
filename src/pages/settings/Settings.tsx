@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react'
 import usePropertiesElement from '../../hooks/usePropertiesElement'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import {
+  faArrowRightFromBracket,
+  faMoon,
+  faSun,
+} from '@fortawesome/free-solid-svg-icons'
 import RootLayout from '../../Layouts/RootLayout'
 import { Link } from 'react-router-dom'
 import { CustomLink, CustomModal } from '../../components'
@@ -9,9 +13,11 @@ import { useLoading } from '../../hooks/useLoading'
 import { sleep } from '../../utils'
 import { LIST_COMPONENTS, LIST_SETTINGS } from './utils'
 import { useSocketStates } from '../../hooks/useSocketStates'
+import { useThemeMode } from 'flowbite-react'
 
 const Settings = () => {
   const [openModal, setOpenModal] = useState(false)
+  const { mode, setMode } = useThemeMode()
   const [selected, setSelected] = useState(0)
   const properties = usePropertiesElement('main-layout')
   const { setGlobalLoading } = useLoading()
@@ -29,13 +35,24 @@ const Settings = () => {
       <div className="setting w-full">
         <div className="setting-top flex h-[88px] w-full items-center justify-between border-b-2 p-4">
           <h1 className="text-2xl dark:text-white">Settings</h1>
-          <Link to="/">
-            <FontAwesomeIcon
-              icon={faArrowRightFromBracket}
-              className="text-gray-500 hover:text-gray-700"
-              fontSize={24}
-            />
-          </Link>
+          <div>
+            <button
+              onClick={() => setMode(mode === 'light' ? 'dark' : 'light')}
+              className="mr-6 text-gray-500 hover:text-gray-700"
+            >
+              <FontAwesomeIcon
+                icon={mode === 'light' ? faMoon : faSun}
+                fontSize={24}
+              />
+            </button>
+            <Link to="/">
+              <FontAwesomeIcon
+                icon={faArrowRightFromBracket}
+                className="text-gray-500 hover:text-gray-700"
+                fontSize={24}
+              />
+            </Link>
+          </div>
         </div>
         <div className="setting-body flex">
           <div

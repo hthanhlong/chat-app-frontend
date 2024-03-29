@@ -9,6 +9,13 @@ class MessageService {
   ): Promise<void> {
     return http.get(`${END_POINT.getMessages}/${partnerId}`, { ...options })
   }
+
+  getLastMessages(
+    partnerId: string,
+    options?: AxiosRequestConfig,
+  ): Promise<void> {
+    return http.get(`${END_POINT.getLastMessages}/${partnerId}`, { ...options })
+  }
 }
 
 export default new MessageService()

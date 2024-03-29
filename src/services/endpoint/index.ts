@@ -10,6 +10,7 @@ const END_POINT = {
   searchFriend: '/search-friend',
   notifications: '/notifications',
   getMessages: '/get-messages',
+  getLastMessages: '/get-last-message',
 }
 
 export default END_POINT

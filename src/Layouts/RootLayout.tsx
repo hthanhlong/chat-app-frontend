@@ -1,5 +1,5 @@
 import { ReactNode, useEffect } from 'react'
-import { Flowbite, useThemeMode, DarkThemeToggle } from 'flowbite-react'
+import { Flowbite, useThemeMode } from 'flowbite-react'
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   const theme = useThemeMode()
@@ -24,7 +24,6 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
           {children}
         </div>
       </div>
-      <DarkThemeToggle className="absolute right-5 top-5 z-30 border-2" />
     </Flowbite>
   )
 }
