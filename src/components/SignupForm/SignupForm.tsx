@@ -73,6 +73,7 @@ const SignUpForm = () => {
     <form
       className={`${isLoading ? 'pointer-events-none' : ''}`}
       onSubmit={handleSubmit(onSubmit)}
+      autoComplete="off"
     >
       <Input
         label="nickname"

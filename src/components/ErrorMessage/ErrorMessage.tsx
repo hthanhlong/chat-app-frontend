@@ -1,3 +1,5 @@
+import { capitalizeFirstLetter } from '../../utils'
+
 const ErrorMessage = ({
   errorMessage,
 }: {
@@ -5,8 +7,8 @@ const ErrorMessage = ({
 }) => {
   return (
     <>
-      <p className="h-1 text-xs italic text-red-500">
-        {errorMessage ? errorMessage : ''}
+      <p className="h-1 text-xs text-red-500">
+        {errorMessage ? capitalizeFirstLetter(errorMessage) : ''}
       </p>
     </>
   )

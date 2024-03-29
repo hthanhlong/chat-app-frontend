@@ -7,12 +7,12 @@ const Signup = () => {
   return (
     <div className="login-back-ground flex items-center justify-center ">
       <div className="login-wrapper block w-[1200px] rounded border-[18px] border-purple-500 border-opacity-25 lg:flex">
-        <div className="login-column-left-content m-auto h-full flex-1 px-28">
-          <div className="content">
-            <Title text="Create Account" />
+        <div className="grid flex-1 place-content-center">
+          <div className="w-[366px]">
+            <Title text="Create your Account" />
             <SignUpForm />
             <Link
-              className="mt-4 inline-block w-full text-center text-sky-500 underline hover:text-sky-600"
+              className="mt-4 inline-block w-full text-center text-xs text-sky-500 underline hover:text-sky-600"
               to="/login"
             >
               You already have account?

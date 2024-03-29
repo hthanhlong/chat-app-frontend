@@ -28,7 +28,7 @@ const Settings = () => {
     <RootLayout>
       <div className="setting w-full">
         <div className="setting-top flex h-[88px] w-full items-center justify-between border-b-2 p-4">
-          <h1 className="text-xl dark:text-white">Settings</h1>
+          <h1 className="text-2xl dark:text-white">Settings</h1>
           <Link to="/">
             <FontAwesomeIcon
               icon={faArrowRightFromBracket}

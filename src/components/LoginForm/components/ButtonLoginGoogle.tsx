@@ -6,7 +6,7 @@ const ButtonLoginGoogle = () => {
     <Button
       text="Log in with Google"
       icon={<GoogleIcon />}
-      className="inline-flex w-full items-center justify-center rounded bg-sky-600 px-4 py-2 font-bold text-white hover:bg-sky-700"
+      className="inline-flex w-full items-center justify-center rounded bg-sky-600 px-4 py-2 text-xs font-bold text-white hover:bg-sky-700"
     />
   )
 }

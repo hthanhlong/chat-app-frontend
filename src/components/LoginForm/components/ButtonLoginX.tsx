@@ -6,7 +6,7 @@ const ButtonLoginX = () => {
     <Button
       text="Log in with X"
       icon={<XIcon />}
-      className="mb-4 inline-flex w-full items-center justify-center rounded bg-blue-400 px-4 py-2 font-bold text-white hover:bg-blue-500"
+      className="inline-flex w-full items-center justify-center rounded bg-blue-600 px-4 py-2 text-xs font-bold text-white hover:bg-blue-700"
     />
   )
 }

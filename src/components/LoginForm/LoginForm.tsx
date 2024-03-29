@@ -70,7 +70,11 @@ const LoginForm = () => {
   }, [accessToken])
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      autoComplete="off"
+      className="w-[366px]"
+    >
       <Input
         label="username"
         name="username"
@@ -87,10 +91,12 @@ const LoginForm = () => {
         <p className="text-red-500">{error?.response?.data.message}</p>
       </div>
       <ButtonLogin isLoading={isLoading} />
-      <SignUpNow />
       <LoginDivider />
-      <ButtonLoginX />
-      <ButtonLoginGoogle />
+      <div className="flex gap-1">
+        <ButtonLoginX />
+        <ButtonLoginGoogle />
+      </div>
+      <SignUpNow />
     </form>
   )
 }

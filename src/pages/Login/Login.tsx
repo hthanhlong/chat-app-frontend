@@ -11,7 +11,7 @@ const Login = () => {
         <div className="login-column-left w-[620px]">
           <LoginBackground />
         </div>
-        <div className="login-column-left-content flex-1 p-28">
+        <div className="login-column-left-content grid flex-1 place-content-center">
           <div className="content">
             <Title text="Log in" />
             <LoginForm />
