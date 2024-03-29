@@ -47,7 +47,7 @@ interface TypeMessage {
   senderId: string
   receiverId: string
   message: string
-  createAt?: string
+  createdAt?: string
 }
 
 interface User {

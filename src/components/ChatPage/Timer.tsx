@@ -1,6 +1,6 @@
 import moment from 'moment'
 
-const Timer = ({ timer }: { timer: string }) => {
+const Timer = ({ timer }: { timer: string | undefined }) => {
   // if timer > 1 days - > 1 day ago
   const currentTime = moment()
   const messageTime = moment(timer)
