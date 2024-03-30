@@ -29,11 +29,8 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "eslint --fix",
-      "prettier --write",
-      "git add"
-    ],
-    "*.{ts,tsx}": "eslint --cache --fix",
-    "*.--write": "prettier --write"
+      "prettier --write"
+    ]
   },
   "devDependencies": {
     "@types/react": "^18.2.56",
