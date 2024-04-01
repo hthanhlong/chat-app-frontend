@@ -2,6 +2,9 @@ import { ReactNode, createContext, useEffect, useState } from 'react'
 import { AUTH_VARIABLE } from '../constant'
 import { useAuth } from '../hooks/useAuth'
 
+let retries = 0
+const maxRetries = 10
+
 type SocketEvent<T> = {
   type: string
   payload: T
@@ -33,6 +36,7 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
       const webSocket = new WebSocket('ws://localhost:8081') as CustomWebSocket
 
       webSocket.onopen = () => {
+        retries = 0
         webSocket.send(
           JSON.stringify({
             accessToken: localStorage.getItem(AUTH_VARIABLE.ACCESS_TOKEN) || '',
@@ -40,13 +44,16 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
           }),
         )
       }
+
       webSocket.onmessage = (event: MessageEvent) => {
         const data = JSON.parse(event.data)
         if (data) {
           setSocketEvent(data as SocketEvent<unknown>)
         }
       }
+
       webSocket.onerror = (event) => console.error('WebSocket error', event)
+
       webSocket.sendDataToServer = (data) => {
         const accessToken =
           localStorage.getItem(AUTH_VARIABLE.ACCESS_TOKEN) || ''
@@ -59,6 +66,13 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
             },
           }),
         )
+      }
+
+      webSocket.onclose = () => {
+        if (retries < maxRetries) {
+          setTimeout(initWebSocket, 3000)
+          retries++
+        }
       }
       setWs(webSocket)
     }
