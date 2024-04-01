@@ -1,13 +1,16 @@
 import { ChatLeft, ChatRight } from '../../components'
 import RootLayout from '../../Layouts/RootLayout'
+import MessageProvider from '../../provider/MessageProvider'
 
 const Home = () => {
   return (
     <RootLayout>
-      <div className="flex">
-        <ChatLeft />
-        <ChatRight />
-      </div>
+      <MessageProvider>
+        <div className="flex">
+          <ChatLeft />
+          <ChatRight />
+        </div>
+      </MessageProvider>
     </RootLayout>
   )
 }

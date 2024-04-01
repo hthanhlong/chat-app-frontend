@@ -1,35 +1,39 @@
+import { v4 as uuidv4 } from 'uuid'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 import { useForm } from 'react-hook-form'
 import { useAuth } from '../../hooks/useAuth'
 import { useSelectedUserChat } from '../../hooks/useSelectedUserChat'
 import { useSocketStates } from '../../hooks/useSocketStates'
-import { useQueryClient } from '@tanstack/react-query'
+import { useMessage } from '../../hooks/useMessage'
 
 const InputChat = () => {
-  const queryClient = useQueryClient()
   const { id } = useAuth()
   const { selectedId: partnerId } = useSelectedUserChat()
   const { ws } = useSocketStates()
   const { register, handleSubmit, reset } = useForm()
+  const { messages, setMessages } = useMessage()
 
   const onsubmit = (data: { message: string }) => {
     const { message } = data
     if (ws?.readyState === WebSocket.OPEN) {
+      const newMessage = {
+        _id: uuidv4(),
+        senderId: id,
+        receiverId: partnerId,
+        message: message,
+        createdAt: new Date().toISOString(),
+      }
       ws?.sendDataToServer({
         type: 'SEND_MESSAGE',
-        payload: {
-          senderId: id,
-          receiverId: partnerId,
-          message: message,
-        },
+        payload: newMessage,
       })
+      setMessages([...messages, newMessage])
     }
     reset((formValues) => ({
       ...formValues,
       message: '',
     }))
-    queryClient.invalidateQueries({ queryKey: ['get-message', partnerId] })
   }
 
   return (

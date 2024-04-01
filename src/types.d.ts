@@ -44,6 +44,7 @@ interface CustomWebSocket extends WebSocket {
 }
 
 interface TypeMessage {
+  _id?: string
   senderId: string
   receiverId: string
   message: string

@@ -9,6 +9,7 @@ import Message from '../Message/Message'
 import Skeleton from '../Skeleton/Skeleton'
 import { useSocketStates } from '../../hooks/useSocketStates'
 import { useThemeMode } from 'flowbite-react'
+import { useMessage } from '../../hooks/useMessage'
 
 const OFFSET_BORDER = 6
 const TOP_AND_SEARCH_BAR = 182
@@ -22,6 +23,7 @@ const ChatSection = () => {
   const properties = usePropertiesElement('main-layout')
   const newH = properties && properties.height - TOTAL + 12
   const queryClient = useQueryClient()
+  const { messages, setMessages } = useMessage()
 
   const { data, isLoading } = useQuery({
     queryKey: ['get-message', partnerId],
@@ -43,8 +45,18 @@ const ChatSection = () => {
   })
 
   useEffect(() => {
+    // @ts-expect-error -//
+    if (data?.data.length > 0) {
+      // @ts-expect-error -//
+      setMessages(data.data)
+    }
+  }, [data])
+
+  useEffect(() => {
     if (socketEvent?.type === 'HAS_NEW_MESSAGE') {
-      queryClient.invalidateQueries({ queryKey: ['get-message', partnerId] })
+      const newMessage = socketEvent.payload
+      // @ts-expect-error -//
+      setMessages((prev: TypeMessage[]) => [...prev, newMessage])
     }
   }, [socketEvent, partnerId, queryClient])
 
@@ -58,16 +70,13 @@ const ChatSection = () => {
       }}
     >
       {!isLoading ? (
-        //@ts-expect-error -//
-        data?.data.map(
-          (message: { _id: string; senderId: string; message: string }) => (
-            <Message
-              key={message._id}
-              isSender={message.senderId === id}
-              message={message.message}
-            />
-          ),
-        )
+        messages.map((message: TypeMessage) => (
+          <Message
+            key={message._id ? message._id : ''}
+            isSender={message.senderId === id}
+            message={message.message}
+          />
+        ))
       ) : (
         <Skeleton />
       )}
