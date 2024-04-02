@@ -26,6 +26,7 @@ const UserItem = ({
   const { socketEvent } = useSocketStates()
   const [latestMessage, setLatestMessage] = useState<TypeMessage>()
   const { messages } = useMessage()
+  const [highLight, setHighLight] = useState<boolean>(false)
 
   const { data } = useQuery({
     queryKey: ['get-last-message', userId],
@@ -48,6 +49,7 @@ const UserItem = ({
       const newMessage = socketEvent.payload as TypeMessage
       if (newMessage.senderId === userId) {
         setLatestMessage(newMessage)
+        setHighLight(true)
       }
     }
   }, [socketEvent])
@@ -70,13 +72,23 @@ const UserItem = ({
       onContextMenu={onContextMenu}
     >
       <Avatar name={name} caption={caption} isOnline={isOnline} />
-      <div className="w-[140px] text-right">
+      <div
+        onClick={() => {
+          setHighLight(false)
+        }}
+        className="w-[140px] text-right"
+      >
         {latestMessage && (
           <div>
             <div className="text-xs dark:text-gray-300">
               <Timer timer={latestMessage?.createdAt} />
             </div>
-            <div className="... truncate text-xs dark:text-gray-300">
+            <div
+              className={`${
+                highLight ? 'font-semibold dark:!text-sky-500' : ''
+              } truncate text-xs dark:text-gray-300`}
+            >
+              {latestMessage.receiverId === userId ? 'You: ' : `${name}: `}
               {latestMessage?.message}
             </div>
           </div>

@@ -12,7 +12,7 @@ const Signup = () => {
             <Title text="Create your Account" />
             <SignUpForm />
             <Link
-              className="mt-4 inline-block w-full text-center text-xs text-sky-500 underline hover:text-sky-600"
+              className="text-md mt-4 inline-block w-full text-center text-sky-500 underline hover:text-sky-600"
               to="/login"
             >
               You already have account?
