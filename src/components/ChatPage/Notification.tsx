@@ -85,9 +85,9 @@ const Notification = () => {
           listNotis?.data.map((notification: CustomNotification) => (
             <Dropdown.Item
               key={notification._id}
-              className={`mb-1 ${
+              className={`text-bold text-md relative mb-1 font-medium ${
                 notification.status === 'UNREAD'
-                  ? 'text-red-500 dark:bg-gray-600 dark:text-sky-500'
+                  ? ' bg-slate-100 text-black dark:!bg-gray-700 dark:!text-white'
                   : ''
               } `}
               onClick={() => handleClick(notification)}
@@ -98,6 +98,11 @@ const Notification = () => {
                 <div className="text-xs">
                   {formatDate(notification.createdAt as string)}
                 </div>
+              </div>
+              <div className="absolute left-1 top-9">
+                {notification.status === 'UNREAD' && (
+                  <div className="h-1 w-1 rounded-full bg-blue-500"></div>
+                )}
               </div>
             </Dropdown.Item>
           ))
