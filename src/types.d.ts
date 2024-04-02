@@ -58,3 +58,14 @@ interface User {
   nickname?: string
   caption?: string
 }
+
+interface CustomNotification {
+  _id: string | null
+  senderId: string
+  receiverId: string
+  type: 'FRIEND' | 'MESSAGE' | 'POST'
+  content: string
+  status: 'READ' | 'UNREAD'
+  updatedAt?: string
+  createdAt?: string
+}

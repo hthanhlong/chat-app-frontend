@@ -1,8 +1,11 @@
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell } from '@fortawesome/free-solid-svg-icons'
 import { Dropdown } from 'flowbite-react'
 import Avatar from '../Avatar/Avatar'
 import { useAuth } from '../../hooks/useAuth'
+import { formatDate } from '../../helper'
 import {
   getAllNotifications,
   updateNotification,
@@ -11,19 +14,19 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import Skeleton from '../Skeleton/Skeleton'
 import { useSocketStates } from '../../hooks/useSocketStates'
 import Ping from '../Ping/Ping'
-import { useEffect } from 'react'
 
 const Notification = () => {
   const { id } = useAuth()
   const queryClient = useQueryClient()
   const { socketEvent, setSocketEvent } = useSocketStates()
+  const navigate = useNavigate()
 
   const { data: listNotis, isSuccess } = useQuery({
     queryKey: ['notifications', id],
     queryFn: () => getAllNotifications(id),
   })
 
-  const { mutate } = useMutation({
+  const { mutateAsync } = useMutation({
     mutationFn: (data: { id: string; status: 'READ' | 'UNREAD' }) => {
       return updateNotification(data)
     },
@@ -31,6 +34,24 @@ const Notification = () => {
       queryClient.invalidateQueries({ queryKey: ['notifications', id] })
     },
   })
+
+  const handleClick = async (notification: CustomNotification) => {
+    await mutateAsync({
+      id: notification._id!,
+      status: 'READ',
+    })
+    if (
+      notification.type === 'FRIEND' &&
+      notification.content.includes('sent')
+    ) {
+      navigate('/settings', {
+        state: {
+          friendTap: 0,
+          selectTab: 'request',
+        },
+      })
+    }
+  }
 
   useEffect(() => {
     if (socketEvent?.type === 'HAS_NEW_NOTIFICATION') {
@@ -61,35 +82,25 @@ const Notification = () => {
         </Dropdown.Header>
         {isSuccess ? (
           // @ts-expect-error - //
-          listNotis?.data.map(
-            (notification: {
-              _id: string
-              content: string
-              status: string
-              updateAt: string
-            }) => (
-              <Dropdown.Item
-                key={notification._id}
-                className={`mb-1 ${
-                  notification.status === 'UNREAD'
-                    ? 'text-red-500 dark:bg-gray-600 dark:text-sky-500'
-                    : ''
-                } `}
-                onClick={() =>
-                  mutate({
-                    id: notification._id,
-                    status: 'READ',
-                  })
-                }
-              >
-                <Avatar />
-                <div className="text-left">
-                  <div>{notification.content}</div>
-                  <div>{notification.updateAt}</div>
+          listNotis?.data.map((notification: CustomNotification) => (
+            <Dropdown.Item
+              key={notification._id}
+              className={`mb-1 ${
+                notification.status === 'UNREAD'
+                  ? 'text-red-500 dark:bg-gray-600 dark:text-sky-500'
+                  : ''
+              } `}
+              onClick={() => handleClick(notification)}
+            >
+              <Avatar />
+              <div className="text-left">
+                <div>{notification.content}</div>
+                <div className="text-xs">
+                  {formatDate(notification.createdAt as string)}
                 </div>
-              </Dropdown.Item>
-            ),
-          )
+              </div>
+            </Dropdown.Item>
+          ))
         ) : (
           <Skeleton />
         )}

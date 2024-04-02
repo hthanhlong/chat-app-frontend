@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import ListFriend from './ListFriend'
 import FriendRequest from './FriendRequest'
+import { useLocation } from 'react-router-dom'
 
 const TABS = {
   list: <ListFriend />,
@@ -8,7 +9,8 @@ const TABS = {
 }
 
 const Friends = () => {
-  const [selectedTab, setSelectedTab] = useState('list')
+  const { state } = useLocation()
+  const [selectedTab, setSelectedTab] = useState(state?.selectTab || 'list')
 
   return (
     <div className="w-full">

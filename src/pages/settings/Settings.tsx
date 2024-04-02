@@ -7,7 +7,7 @@ import {
   faSun,
 } from '@fortawesome/free-solid-svg-icons'
 import RootLayout from '../../Layouts/RootLayout'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { CustomLink, CustomModal } from '../../components'
 import { useLoading } from '../../hooks/useLoading'
 import { sleep } from '../../utils'
@@ -16,9 +16,10 @@ import { useSocketStates } from '../../hooks/useSocketStates'
 import { useThemeMode } from 'flowbite-react'
 
 const Settings = () => {
+  const { state } = useLocation()
   const [openModal, setOpenModal] = useState(false)
   const { mode, setMode } = useThemeMode()
-  const [selected, setSelected] = useState(0)
+  const [selected, setSelected] = useState(state?.friendTap || 0)
   const properties = usePropertiesElement('main-layout')
   const { setGlobalLoading } = useLoading()
   const { ws, setWs } = useSocketStates()
