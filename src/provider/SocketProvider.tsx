@@ -4,6 +4,7 @@ import { useAuth } from '../hooks/useAuth'
 
 let retries = 0
 const maxRetries = 10
+const HOST_SOCKET = import.meta.env.VITE_HOST_SOCKET || 'ws://localhost:8081'
 
 type SocketEvent<T> = {
   type: string
@@ -33,7 +34,7 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const initWebSocket = async () => {
-      const webSocket = new WebSocket('ws://localhost:8081') as CustomWebSocket
+      const webSocket = new WebSocket(HOST_SOCKET) as CustomWebSocket
 
       webSocket.onopen = () => {
         retries = 0

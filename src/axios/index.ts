@@ -3,9 +3,10 @@ import { refreshToken } from './auth'
 import { AUTH_VARIABLE } from '../constant'
 
 let isCalling = false
+const HOST = import.meta.env.VITE_HOST || 'http://localhost:8080'
 
 export const http = axios.create({
-  baseURL: 'http://localhost:8080/api/v1/',
+  baseURL: `${HOST}/api/v1/`,
 })
 
 http.interceptors.request.use(
