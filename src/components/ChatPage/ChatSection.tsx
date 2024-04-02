@@ -45,20 +45,23 @@ const ChatSection = () => {
   })
 
   useEffect(() => {
+    setMessages([])
     // @ts-expect-error -//
     if (data?.data.length > 0) {
       // @ts-expect-error -//
-      setMessages(data.data)
+      setMessages(data?.data)
     }
   }, [data])
 
   useEffect(() => {
     if (socketEvent?.type === 'HAS_NEW_MESSAGE') {
-      const newMessage = socketEvent.payload
-      // @ts-expect-error -//
-      setMessages((prev: TypeMessage[]) => [...prev, newMessage])
+      const newMessage = socketEvent.payload as TypeMessage
+      if (newMessage.senderId === partnerId) {
+        // @ts-expect-error -//
+        setMessages((prev: TypeMessage[]) => [...prev, newMessage])
+      }
     }
-  }, [socketEvent, partnerId, queryClient])
+  }, [socketEvent, queryClient])
 
   return (
     <div

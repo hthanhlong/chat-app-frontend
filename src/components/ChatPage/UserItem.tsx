@@ -1,8 +1,10 @@
-import { MouseEventHandler } from 'react'
+import { MouseEventHandler, useEffect, useState } from 'react'
 import Avatar from '../Avatar/Avatar'
 import Timer from './Timer'
 import { useQuery } from '@tanstack/react-query'
 import { getLastMessages } from '../../axios/message'
+import { useSocketStates } from '../../hooks/useSocketStates'
+import { useMessage } from '../../hooks/useMessage'
 
 const UserItem = ({
   name,
@@ -21,6 +23,10 @@ const UserItem = ({
   onClick?: MouseEventHandler
   onContextMenu?: MouseEventHandler
 }) => {
+  const { socketEvent } = useSocketStates()
+  const [latestMessage, setLatestMessage] = useState<TypeMessage>()
+  const { messages } = useMessage()
+
   const { data } = useQuery({
     queryKey: ['get-last-message', userId],
     // @ts-expect-error -//
@@ -31,6 +37,27 @@ const UserItem = ({
       return Promise.resolve({ data: {} })
     },
   })
+
+  useEffect(() => {
+    // @ts-expect-error -//
+    setLatestMessage(data?.data)
+  }, [data])
+
+  useEffect(() => {
+    if (socketEvent?.type === 'HAS_NEW_MESSAGE') {
+      const newMessage = socketEvent.payload as TypeMessage
+      if (newMessage.senderId === userId) {
+        setLatestMessage(newMessage)
+      }
+    }
+  }, [socketEvent])
+
+  useEffect(() => {
+    const lastMessage = messages[messages.length - 1]
+    if (lastMessage?.receiverId === userId) {
+      setLatestMessage(lastMessage)
+    }
+  }, [messages])
 
   return (
     <div
@@ -44,16 +71,13 @@ const UserItem = ({
     >
       <Avatar name={name} caption={caption} isOnline={isOnline} />
       <div className="w-[140px] text-right">
-        {/* @ts-expect-error -// */}
-        {data?.data && (
+        {latestMessage && (
           <div>
             <div className="text-xs dark:text-gray-300">
-              {/* @ts-expect-error -// */}
-              <Timer timer={data?.data?.createdAt} />
+              <Timer timer={latestMessage?.createdAt} />
             </div>
             <div className="... truncate text-xs dark:text-gray-300">
-              {/* @ts-expect-error -// */}
-              {data?.data?.message}
+              {latestMessage?.message}
             </div>
           </div>
         )}
