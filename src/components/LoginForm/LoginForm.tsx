@@ -1,4 +1,6 @@
 import { useForm, SubmitHandler } from 'react-hook-form'
+import { GoogleLogin } from '@react-oauth/google'
+import { useNavigate } from 'react-router-dom'
 import PasswordInput from './components/PasswordInput'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { loginSchema } from './validation'
@@ -6,15 +8,13 @@ import Input from '../Input/Input'
 import LoginDivider from './components/LoginDivider'
 import SignUpNow from './components/SignUpNow'
 import ButtonLogin from './components/ButtonLogin'
-import ButtonLoginX from './components/ButtonLoginX'
-import ButtonLoginGoogle from './components/ButtonLoginGoogle'
+// import ButtonLoginGoogle from './components/ButtonLoginGoogle'
 import { useMutation } from '@tanstack/react-query'
 import { AuthLogin } from '../../axios/auth'
 import { capitalizeFirstLetter, sleep } from '../../utils'
 import { useEffect } from 'react'
 import { useLoading } from '../../hooks/useLoading'
 import { useAuth } from '../../hooks/useAuth'
-import { useNavigate } from 'react-router-dom'
 
 const LoginForm = () => {
   const { accessToken, setAuth } = useAuth()
@@ -58,6 +58,13 @@ const LoginForm = () => {
     }
   }
 
+  const handleResponseMessage = (response: unknown) => {
+    console.log(response)
+  }
+  const handleErrorMessage = (error: unknown) => {
+    console.log(error)
+  }
+
   useEffect(() => {
     if (data) redirectFn(data)
   }, [data])
@@ -98,8 +105,13 @@ const LoginForm = () => {
       <ButtonLogin isLoading={isLoading} />
       <LoginDivider />
       <div className="flex gap-1">
-        <ButtonLoginX />
-        <ButtonLoginGoogle />
+        <GoogleLogin
+          width={366}
+          text="signin_with"
+          theme="filled_blue"
+          onSuccess={handleResponseMessage}
+          onError={() => handleErrorMessage}
+        />
       </div>
       <SignUpNow />
     </form>

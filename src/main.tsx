@@ -7,21 +7,24 @@ import App from './App'
 import LoadingProvider from './provider/LoadingProvider'
 import SocketProvider from './provider/SocketProvider'
 import SelectedUserChatProvider from './provider/SelectedUserChatProvider'
+import { GoogleOAuthProvider } from '@react-oauth/google'
 
 const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <AuthProvider>
-      <QueryClientProvider client={queryClient}>
-        <SelectedUserChatProvider>
-          <SocketProvider>
-            <LoadingProvider>
-              <App />
-            </LoadingProvider>
-          </SocketProvider>
-        </SelectedUserChatProvider>
-      </QueryClientProvider>
-    </AuthProvider>
-  </React.StrictMode>,
+  <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+    <React.StrictMode>
+      <AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <SelectedUserChatProvider>
+            <SocketProvider>
+              <LoadingProvider>
+                <App />
+              </LoadingProvider>
+            </SocketProvider>
+          </SelectedUserChatProvider>
+        </QueryClientProvider>
+      </AuthProvider>
+    </React.StrictMode>
+  </GoogleOAuthProvider>,
 )
