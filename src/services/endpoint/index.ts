@@ -11,6 +11,7 @@ const END_POINT = {
   notifications: '/notifications',
   getMessages: '/get-messages',
   getLastMessages: '/get-last-message',
+  authGoogle: '/auth/google',
 }
 
 export default END_POINT

@@ -24,3 +24,7 @@ export const AuthSignUp = (data: unknown) => {
 export const AuthLogin = async (data: LoginInput) => {
   return AuthService.login(data)
 }
+
+export const AuthLoginByGoogle = async (data: unknown) => {
+  return AuthService.loginByGoogle(data)
+}

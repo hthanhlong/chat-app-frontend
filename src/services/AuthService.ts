@@ -14,6 +14,10 @@ class AuthService {
   callRefreshToken<T>(data: T, options?: AxiosRequestConfig): Promise<void> {
     return http.post(END_POINT.refreshToken, data, { ...options })
   }
+
+  loginByGoogle<T>(data: T, options?: AxiosRequestConfig): Promise<void> {
+    return http.post(END_POINT.authGoogle, data, { ...options })
+  }
 }
 
 export default new AuthService()

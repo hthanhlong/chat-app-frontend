@@ -10,7 +10,7 @@ import SignUpNow from './components/SignUpNow'
 import ButtonLogin from './components/ButtonLogin'
 // import ButtonLoginGoogle from './components/ButtonLoginGoogle'
 import { useMutation } from '@tanstack/react-query'
-import { AuthLogin } from '../../axios/auth'
+import { AuthLogin, AuthLoginByGoogle } from '../../axios/auth'
 import { capitalizeFirstLetter, sleep } from '../../utils'
 import { useEffect } from 'react'
 import { useLoading } from '../../hooks/useLoading'
@@ -58,11 +58,18 @@ const LoginForm = () => {
     }
   }
 
-  const handleResponseMessage = (response: unknown) => {
-    console.log(response)
+  const handleResponseMessage = async (response: unknown) => {
+    // @ts-expect-error - //
+    const result: SuccessResponse = await AuthLoginByGoogle(response)
+    if (result.isSuccess) {
+      await redirectFn(result)
+    } else {
+      console.error('Failed to login with Google', result)
+    }
   }
+
   const handleErrorMessage = (error: unknown) => {
-    console.log(error)
+    console.error('Login error:', error)
   }
 
   useEffect(() => {
