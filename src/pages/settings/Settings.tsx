@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { googleLogout } from '@react-oauth/google'
 import usePropertiesElement from '../../hooks/usePropertiesElement'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -105,6 +106,7 @@ const Settings = () => {
           // @ts-expect-error - //
           setWs(null)
           await sleep(3000)
+          googleLogout()
           window.localStorage.clear()
           window.location.reload()
         }}
