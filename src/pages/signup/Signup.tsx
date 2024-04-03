@@ -8,7 +8,7 @@ const Signup = () => {
     <div className="login-back-ground flex items-center justify-center ">
       <div className="login-wrapper block w-[1200px] rounded border-[18px] border-purple-500 border-opacity-25 lg:flex">
         <div className="grid flex-1 place-content-center">
-          <div className="w-[366px]">
+          <div className="w-[366px] py-10 xl:p-0">
             <Title text="Create your Account" />
             <SignUpForm />
             <Link
@@ -19,7 +19,7 @@ const Signup = () => {
             </Link>
           </div>
         </div>
-        <div className="login-column-left w-full lg:w-[620px]">
+        <div className="login-column-left hidden w-full lg:w-[620px] xl:block">
           <SignUpBackground />
         </div>
       </div>
