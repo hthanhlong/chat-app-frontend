@@ -35,12 +35,20 @@ const ListUsers = () => {
 
   useEffect(() => {
     const TIME_CALL_GET_ONLINE_USERS = 1000 * 60 * 5 // 5 minutes
+    const idSto = setTimeout(() => {
+      if (ws?.readyState === WebSocket.OPEN) {
+        ws?.sendDataToServer({ type: 'GET_ONLINE_USERS' })
+      }
+    }, 3000)
     const id = setInterval(() => {
       if (ws?.readyState === WebSocket.OPEN) {
         ws?.sendDataToServer({ type: 'GET_ONLINE_USERS' })
       }
     }, TIME_CALL_GET_ONLINE_USERS)
-    return () => clearInterval(id)
+    return () => {
+      clearInterval(id)
+      clearTimeout(idSto)
+    }
   }, [ws])
 
   useEffect(() => {
