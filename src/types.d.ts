@@ -52,6 +52,7 @@ interface TypeMessage {
 }
 
 interface User {
+  _id?: string
   username: string
   profilePicUrl?: string
   email: string

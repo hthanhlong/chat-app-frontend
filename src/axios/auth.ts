@@ -1,9 +1,9 @@
 import AuthService from '../services/AuthService'
-import { AUTH_VARIABLE } from '../constant'
+import { LOCAL_STORAGE_KEY } from '../constant'
 
 export const refreshToken = async () => {
   try {
-    const refToken = localStorage.getItem(AUTH_VARIABLE.REFRESH_TOKEN)
+    const refToken = localStorage.getItem(LOCAL_STORAGE_KEY.REFRESH_TOKEN)
     const result = (await AuthService.callRefreshToken({
       refreshToken: refToken,
     })) as unknown as SuccessResponse<{

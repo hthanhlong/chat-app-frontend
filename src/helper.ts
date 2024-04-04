@@ -1,4 +1,5 @@
 import moment from 'moment'
+import { LOCAL_STORAGE_KEY } from './constant'
 
 export const formatDate = (timer: string) => {
   if (!timer) return
@@ -19,3 +20,18 @@ export const formatDate = (timer: string) => {
   }
   return displayTime
 }
+
+export const clearLocalStorageExceptKeys = (keys: string[]) => {
+  Object.keys(LOCAL_STORAGE_KEY).forEach((key) => {
+    if (!keys.includes(key)) {
+      window.localStorage.removeItem(key)
+    }
+  })
+}
+
+export const clearLocalStorage = () =>
+  clearLocalStorageExceptKeys([
+    LOCAL_STORAGE_KEY.FLOWBITE_THEME_MODE,
+    LOCAL_STORAGE_KEY.SELECTED_ID,
+    LOCAL_STORAGE_KEY.IS_NOTIFICATION,
+  ])

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { refreshToken } from './auth'
-import { AUTH_VARIABLE } from '../constant'
+import { LOCAL_STORAGE_KEY } from '../constant'
+import { clearLocalStorage } from '../helper'
 
 let isCalling = false
 const HOST = import.meta.env.VITE_HOST || 'http://localhost:8080'
@@ -11,7 +12,7 @@ export const http = axios.create({
 
 http.interceptors.request.use(
   function (config) {
-    const token = localStorage.getItem(AUTH_VARIABLE.ACCESS_TOKEN)
+    const token = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN)
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
@@ -37,7 +38,7 @@ http.interceptors.response.use(
         if (!newToken) return Promise.reject(error)
         const { accessToken } = newToken
         originalRequest.headers['Authorization'] = 'Bearer ' + accessToken
-        localStorage.setItem(AUTH_VARIABLE.ACCESS_TOKEN, accessToken)
+        localStorage.setItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN, accessToken)
         setTimeout(() => (isCalling = false), 3000)
         return http(originalRequest)
       } catch (refreshError) {
@@ -48,7 +49,7 @@ http.interceptors.response.use(
 
     if (error.response?.data.errorCode === 'RefreshTokenExpiredError') {
       try {
-        localStorage.clear()
+        clearLocalStorage()
         window.location.reload()
       } catch (refreshError) {
         console.error(refreshError)

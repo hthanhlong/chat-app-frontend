@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useEffect, useState } from 'react'
-import { AUTH_VARIABLE } from '../constant'
+import { LOCAL_STORAGE_KEY } from '../constant'
 import { useAuth } from '../hooks/useAuth'
 
 let retries = 0
@@ -15,14 +15,12 @@ type SocketStatesContextType = {
   ws: CustomWebSocket | null
   setWs: (ws: CustomWebSocket) => void
   socketEvent: SocketEvent<unknown> | null
-  setSocketEvent: (data: SocketEvent<unknown> | null) => void
 }
 
 export const SocketStatesContext = createContext<SocketStatesContextType>({
   ws: null,
   setWs: () => {},
   socketEvent: null,
-  setSocketEvent: () => {},
 })
 
 const SocketProvider = ({ children }: { children: ReactNode }) => {
@@ -40,7 +38,8 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
         retries = 0
         webSocket.send(
           JSON.stringify({
-            accessToken: localStorage.getItem(AUTH_VARIABLE.ACCESS_TOKEN) || '',
+            accessToken:
+              localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN) || '',
             data: { type: 'INIT' },
           }),
         )
@@ -48,16 +47,14 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
 
       webSocket.onmessage = (event: MessageEvent) => {
         const data = JSON.parse(event.data)
-        if (data) {
-          setSocketEvent(data as SocketEvent<unknown>)
-        }
+        if (data) setSocketEvent(data as SocketEvent<unknown>)
       }
 
       webSocket.onerror = (event) => console.error('WebSocket error', event)
 
       webSocket.sendDataToServer = (data) => {
         const accessToken =
-          localStorage.getItem(AUTH_VARIABLE.ACCESS_TOKEN) || ''
+          localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN) || ''
         webSocket.send(
           JSON.stringify({
             accessToken,
@@ -92,9 +89,7 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
   }, [ws])
 
   return (
-    <SocketStatesContext.Provider
-      value={{ ws, setWs, socketEvent, setSocketEvent }}
-    >
+    <SocketStatesContext.Provider value={{ ws, setWs, socketEvent }}>
       {children}
     </SocketStatesContext.Provider>
   )

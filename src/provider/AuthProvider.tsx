@@ -1,5 +1,6 @@
 import { ReactNode, createContext, useEffect, useState } from 'react'
-import { AUTH_VARIABLE } from '../constant'
+import { LOCAL_STORAGE_KEY } from '../constant'
+import { clearLocalStorage } from '../helper'
 
 type AuthContextType = {
   id: string
@@ -28,11 +29,11 @@ export const AuthContext = createContext<AuthContextType>({
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [authObject, setAuthObject_] = useState({
-    id: localStorage.getItem(AUTH_VARIABLE.ID) || '',
-    username: localStorage.getItem(AUTH_VARIABLE.USERNAME),
-    accessToken: localStorage.getItem(AUTH_VARIABLE.ACCESS_TOKEN),
-    refreshToken: localStorage.getItem(AUTH_VARIABLE.REFRESH_TOKEN),
-    isLogged: helperIsLogged(localStorage.getItem(AUTH_VARIABLE.IS_LOGGED)),
+    id: localStorage.getItem(LOCAL_STORAGE_KEY.ID),
+    username: localStorage.getItem(LOCAL_STORAGE_KEY.USERNAME),
+    accessToken: localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN),
+    refreshToken: localStorage.getItem(LOCAL_STORAGE_KEY.REFRESH_TOKEN),
+    isLogged: helperIsLogged(localStorage.getItem(LOCAL_STORAGE_KEY.IS_LOGGED)),
   })
 
   const setAuth = (data: Record<string, unknown>) => {
@@ -41,7 +42,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const handleLocalStorageChange = (event: StorageEvent) => {
-      if (event.key === AUTH_VARIABLE.ACCESS_TOKEN) {
+      if (event.key === LOCAL_STORAGE_KEY.ACCESS_TOKEN) {
         setAuthObject_((prev) => ({ ...prev, accessToken: event.newValue }))
       }
     }
@@ -53,19 +54,25 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (authObject.accessToken) {
-      localStorage.setItem(AUTH_VARIABLE.ID, authObject.id)
-      localStorage.setItem(AUTH_VARIABLE.USERNAME, authObject.username ?? '')
-      localStorage.setItem(AUTH_VARIABLE.ACCESS_TOKEN, authObject.accessToken)
+      localStorage.setItem(LOCAL_STORAGE_KEY.ID, authObject.id ?? '')
       localStorage.setItem(
-        AUTH_VARIABLE.IS_LOGGED,
+        LOCAL_STORAGE_KEY.USERNAME,
+        authObject.username ?? '',
+      )
+      localStorage.setItem(
+        LOCAL_STORAGE_KEY.ACCESS_TOKEN,
+        authObject.accessToken,
+      )
+      localStorage.setItem(
+        LOCAL_STORAGE_KEY.IS_LOGGED,
         authObject.isLogged.toString(),
       )
       localStorage.setItem(
-        AUTH_VARIABLE.REFRESH_TOKEN,
+        LOCAL_STORAGE_KEY.REFRESH_TOKEN,
         authObject.refreshToken ?? '',
       )
     } else {
-      localStorage.clear()
+      clearLocalStorage()
     }
   }, [authObject])
 

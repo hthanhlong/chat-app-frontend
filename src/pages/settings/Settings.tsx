@@ -15,6 +15,7 @@ import { sleep } from '../../utils'
 import { LIST_COMPONENTS, LIST_SETTINGS } from './utils'
 import { useSocketStates } from '../../hooks/useSocketStates'
 import { useThemeMode } from 'flowbite-react'
+import { clearLocalStorage } from '../../helper'
 
 const Settings = () => {
   const { state } = useLocation()
@@ -107,7 +108,7 @@ const Settings = () => {
           setWs(null)
           await sleep(3000)
           googleLogout()
-          window.localStorage.clear()
+          clearLocalStorage()
           window.location.reload()
         }}
       />

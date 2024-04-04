@@ -28,7 +28,11 @@ const ListUsers = () => {
       if (ws?.readyState === WebSocket.OPEN) {
         ws?.sendDataToServer({ type: 'GET_ONLINE_USERS' })
       }
-      setSelectedId(data?.data?.[0]._id)
+      if (!selectedId || data?.data.includes(selectedId)) {
+        setSelectedId(data?.data?.[0]._id)
+      } else {
+        setSelectedId(selectedId)
+      }
       setListFriends(data?.data)
     }
   }, [data, ws])
