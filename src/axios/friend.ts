@@ -44,3 +44,15 @@ export const searchFriends = async (data: { id: string; keyword: string }) => {
     throw new Error('Failed to search friends')
   }
 }
+
+export const unfriend = async (data: {
+  senderId: string
+  receiverId: string
+}) => {
+  try {
+    const response = await FriendService.unfriend(data)
+    return response
+  } catch (error) {
+    throw new Error('Failed to unfriend')
+  }
+}

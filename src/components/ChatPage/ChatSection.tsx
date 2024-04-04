@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useAuth } from '../../hooks/useAuth'
 import usePropertiesElement from '../../hooks/usePropertiesElement'
 import './css/ChatSection.css'
@@ -22,7 +22,6 @@ const ChatSection = () => {
   const { socketEvent } = useSocketStates()
   const properties = usePropertiesElement('main-layout')
   const newH = properties && properties.height - TOTAL + 12
-  const queryClient = useQueryClient()
   const { messages, setMessages } = useMessage()
 
   const { data, isLoading } = useQuery({
@@ -61,7 +60,7 @@ const ChatSection = () => {
         setMessages((prev: TypeMessage[]) => [...prev, newMessage])
       }
     }
-  }, [socketEvent, queryClient])
+  }, [socketEvent])
 
   return (
     <div

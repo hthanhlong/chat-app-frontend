@@ -27,6 +27,12 @@ class FriendService {
       ...options,
     })
   }
+  unfriend(
+    data: { senderId: string; receiverId: string },
+    options?: AxiosRequestConfig,
+  ) {
+    return http.post(`${END_POINT.unfriend}`, data, { ...options })
+  }
 }
 
 export default new FriendService()

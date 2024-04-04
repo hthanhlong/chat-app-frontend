@@ -17,6 +17,8 @@ import ChatRight from './ChatPage/ChatRight'
 import CustomModal from './Modal/CustomModal'
 import CustomLink from './CustomLink/CustomLink'
 import Skeleton from './Skeleton/Skeleton'
+import Unfriend from './Unfriend/Unfriend'
+import ClearMessage from './ClearMessage/ClearMessage'
 
 export {
   Divider,
@@ -38,4 +40,6 @@ export {
   CustomModal,
   CustomLink,
   Skeleton,
+  Unfriend,
+  ClearMessage,
 }

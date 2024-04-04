@@ -12,6 +12,8 @@ const END_POINT = {
   getMessages: '/get-messages',
   getLastMessages: '/get-last-message',
   authGoogle: '/auth/google',
+  unfriend: '/unfriend',
+  deleteAllMessage: '/delete-all-message',
 }
 
 export default END_POINT

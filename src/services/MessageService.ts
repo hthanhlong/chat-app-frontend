@@ -16,6 +16,13 @@ class MessageService {
   ): Promise<void> {
     return http.get(`${END_POINT.getLastMessages}/${partnerId}`, { ...options })
   }
+
+  deleteAllMessage(
+    data: { senderId: string; receiverId: string },
+    options?: AxiosRequestConfig,
+  ): Promise<void> {
+    return http.post(`${END_POINT.deleteAllMessage}`, data, { ...options })
+  }
 }
 
 export default new MessageService()
