@@ -97,6 +97,7 @@ const Settings = () => {
         actionArea={true}
         onClose={() => setOpenModal(false)}
         onAccept={async () => {
+          clearLocalStorage()
           setOpenModal(false)
           setGlobalLoading(true)
           if (ws?.readyState === WebSocket.OPEN) {
@@ -108,7 +109,7 @@ const Settings = () => {
           setWs(null)
           await sleep(3000)
           googleLogout()
-          clearLocalStorage()
+
           window.location.reload()
         }}
       />

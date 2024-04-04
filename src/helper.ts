@@ -22,7 +22,7 @@ export const formatDate = (timer: string) => {
 }
 
 export const clearLocalStorageExceptKeys = (keys: string[]) => {
-  Object.keys(LOCAL_STORAGE_KEY).forEach((key) => {
+  Object.values(LOCAL_STORAGE_KEY).forEach((key) => {
     if (!keys.includes(key)) {
       window.localStorage.removeItem(key)
     }
