@@ -4,11 +4,9 @@ import { unfriend } from '../../axios/friend'
 const Unfriend = ({
   senderId,
   receiverId,
-  callback,
 }: {
   senderId: string
   receiverId: string
-  callback: () => void
 }) => {
   const queryClient = useQueryClient()
 
@@ -17,8 +15,7 @@ const Unfriend = ({
       return unfriend({ senderId, receiverId })
     },
     onSuccess: () => {
-      callback()
-      queryClient.invalidateQueries({ queryKey: ['myFriends'] })
+      queryClient.invalidateQueries({ queryKey: ['myFriends', senderId] })
     },
   })
 

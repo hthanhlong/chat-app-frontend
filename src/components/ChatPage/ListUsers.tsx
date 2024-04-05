@@ -22,7 +22,7 @@ const ListUsers = () => {
   const currentHeight = (properties?.height ?? 0) - (properties2?.height ?? 0)
 
   const { data, isLoading } = useQuery({
-    queryKey: ['myFriends'],
+    queryKey: ['myFriends', id],
     queryFn: () => getMyFriends(id),
   })
 
@@ -110,11 +110,7 @@ const ListUsers = () => {
                     <ClearMessage />
                   </li>
                   <li className="cursor-pointer border-b-[1px] px-1 py-2 text-xs last-of-type:border-none hover:bg-slate-200 dark:border-slate-600 dark:hover:bg-slate-600">
-                    <Unfriend
-                      senderId={id}
-                      receiverId={user._id}
-                      callback={() => setRightClick('')}
-                    />
+                    <Unfriend senderId={id} receiverId={user._id} />
                   </li>
                 </ul>
               </div>

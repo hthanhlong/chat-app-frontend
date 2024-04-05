@@ -19,7 +19,7 @@ const SearchBar = (
   const { valueDebounce } = useDebounce(watchShowAge)
 
   const { data } = useQuery({
-    queryKey: ['myFriends'],
+    queryKey: ['myFriends', id],
     queryFn: () => getMyFriends(id),
   })
 
