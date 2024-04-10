@@ -16,6 +16,7 @@ import { LIST_COMPONENTS, LIST_SETTINGS } from './utils'
 import { useSocketStates } from '../../hooks/useSocketStates'
 import { useThemeMode } from 'flowbite-react'
 import { clearLocalStorage } from '../../helper'
+import { motion } from 'framer-motion'
 
 const Settings = () => {
   const { state } = useLocation()
@@ -35,8 +36,13 @@ const Settings = () => {
 
   return (
     <RootLayout>
-      <div className="setting w-full">
-        <div className="setting-top flex h-[88px] w-full items-center justify-between border-b-2 p-4">
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="setting w-full"
+      >
+        <div className="setting-top flex h-[72px] w-full items-center justify-between border-b-[1px] p-4 dark:border-gray-600">
           <h1 className="text-2xl dark:text-white">Settings</h1>
           <div>
             <button
@@ -59,7 +65,7 @@ const Settings = () => {
         </div>
         <div className="setting-body flex">
           <div
-            className="setting-left w-[300px] border-r-2"
+            className="setting-left flex w-[339px] flex-col border-r-[1px] dark:border-gray-600 dark:bg-black"
             style={{
               height: newH || '',
             }}
@@ -84,11 +90,12 @@ const Settings = () => {
               </li>
             </ul>
           </div>
-          <div className="setting-right grid h-20 w-full place-items-center px-2">
+
+          <div className="setting-right grid h-20 w-full flex-1 place-items-center px-2">
             {LIST_COMPONENTS[selected].component}
           </div>
         </div>
-      </div>
+      </motion.div>
       <CustomModal
         openModal={openModal}
         body="Are you sure you want to logout?"
