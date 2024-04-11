@@ -15,6 +15,7 @@ import { capitalizeFirstLetter, sleep } from '../../utils'
 import { useEffect } from 'react'
 import { useLoading } from '../../hooks/useLoading'
 import { useAuth } from '../../hooks/useAuth'
+import Title from '../Title/Title'
 
 const LoginForm = () => {
   const { accessToken, setAuth } = useAuth()
@@ -85,10 +86,11 @@ const LoginForm = () => {
 
   return (
     <form
+      className="flex-1 lg:px-24 lg:py-20"
       onSubmit={handleSubmit(onSubmit)}
       autoComplete="off"
-      className="w-[366px]"
     >
+      <Title text="Log in" />
       <Input
         label="username"
         name="username"
@@ -111,15 +113,15 @@ const LoginForm = () => {
       </div>
       <ButtonLogin isLoading={isLoading} />
       <LoginDivider />
-      <div className="flex gap-1">
+      <div className="flex items-center justify-center">
         <GoogleLogin
-          width={366}
           text="signin_with"
           theme="filled_blue"
           onSuccess={handleResponseMessage}
           onError={() => handleErrorMessage}
         />
       </div>
+
       <SignUpNow />
     </form>
   )

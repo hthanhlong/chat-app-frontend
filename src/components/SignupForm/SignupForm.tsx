@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { toast } from 'react-toastify'
@@ -11,6 +11,7 @@ import { sleep } from '../../utils'
 import { useLoading } from '../../hooks/useLoading'
 import { AuthSignUp } from '../../axios/auth'
 import { useAuth } from '../../hooks/useAuth'
+import Title from '../Title/Title'
 
 const SignUpForm = () => {
   const navigate = useNavigate()
@@ -71,10 +72,11 @@ const SignUpForm = () => {
 
   return (
     <form
-      className={`${isLoading ? 'pointer-events-none' : ''}`}
+      className={`flex-1 lg:px-24 lg:py-20 ${isLoading ? 'pointer-events-none' : ''}`}
       onSubmit={handleSubmit(onSubmit)}
       autoComplete="off"
     >
+      <Title text="Create your Account" />
       <Input
         label="nickname"
         name="nickname"
@@ -113,6 +115,9 @@ const SignUpForm = () => {
         <p className="text-red-500">{error?.response?.data.message}</p>
       </div>
       <ButtonSignup isLoading={isLoading} />
+      <div className="mt-4 text-center text-sky-500 underline">
+        <Link to="/login">You already have account?</Link>
+      </div>
     </form>
   )
 }

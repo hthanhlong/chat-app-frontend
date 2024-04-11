@@ -9,7 +9,7 @@ const PasswordInput = ({ errorMessage, register }: InputProps) => {
     <div className="mb-4 flex flex-col">
       <div className="relative flex rounded border">
         <input
-          className="block h-[40px] w-full py-3 ps-3 text-sm placeholder:text-neutral-400 focus:outline-none"
+          className="block h-[40px] w-full rounded-md py-3 ps-3 text-sm placeholder:text-neutral-400 focus:outline-none"
           {...register('password', { required: true, maxLength: 64 })}
           type={!showPassword ? 'password' : 'text'}
           placeholder="Enter your password"

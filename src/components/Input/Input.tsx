@@ -12,7 +12,7 @@ const Input = ({
     <div className="mb-4 flex flex-col">
       <input
         type={type}
-        className="block h-[40px] w-full border py-3 ps-3 text-sm placeholder:text-neutral-400 focus:outline-none"
+        className="block h-[40px] w-full rounded-md border py-3 ps-3 text-sm placeholder:text-neutral-400 focus:outline-none"
         {...register(name, { required: true, maxLength: 64 })}
         placeholder={placeholder ? placeholder : `Enter your ${label}`}
         autoComplete="off"
