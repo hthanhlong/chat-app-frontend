@@ -16,7 +16,7 @@ const PasswordInput = ({ errorMessage, register }: InputProps) => {
           autoComplete="off"
         />
         <div
-          className="absolute -right-1 bottom-2 cursor-pointer"
+          className="absolute right-[4%] top-[50%] -translate-y-1/2 cursor-pointer"
           onClick={() => setShowPassword((prev) => !prev)}
         >
           {showPassword ? <HiddenPasswordIcon /> : <OpenPasswordIcon />}

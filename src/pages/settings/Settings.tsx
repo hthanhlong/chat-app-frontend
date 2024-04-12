@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { googleLogout } from '@react-oauth/google'
-import usePropertiesElement from '../../hooks/usePropertiesElement'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faArrowRightFromBracket,
@@ -23,10 +22,8 @@ const Settings = () => {
   const [openModal, setOpenModal] = useState(false)
   const { mode, setMode } = useThemeMode()
   const [selected, setSelected] = useState(state?.friendTap || 0)
-  const properties = usePropertiesElement('main-layout')
   const { setGlobalLoading } = useLoading()
   const { ws, setWs } = useSocketStates()
-  const newH = properties && properties.height - 88
 
   useEffect(() => {
     return () => {
@@ -40,58 +37,54 @@ const Settings = () => {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="setting w-full"
+        className="lg:mt-10 lg:h-[650px] lg:max-w-[1200px]"
       >
-        <div className="setting-top flex h-[72px] w-full items-center justify-between border-b-[1px] p-4 dark:border-gray-600">
-          <h1 className="text-2xl dark:text-white">Settings</h1>
-          <div>
-            <button
-              onClick={() => setMode(mode === 'light' ? 'dark' : 'light')}
-              className="mr-6 text-gray-500 hover:text-gray-700"
-            >
-              <FontAwesomeIcon
-                icon={mode === 'light' ? faMoon : faSun}
-                fontSize={24}
-              />
-            </button>
-            <Link to="/">
-              <FontAwesomeIcon
-                icon={faArrowRightFromBracket}
-                className="text-gray-500 hover:text-gray-700"
-                fontSize={24}
-              />
-            </Link>
+        <div className="flex h-full max-lg:flex-col lg:flex-row lg:shadow-lg">
+          <div className="border-r-[1px] border-gray-600 shadow-gray-500 dark:bg-black max-lg:fixed max-lg:z-10 max-lg:h-screen max-lg:w-10/12 max-lg:shadow-lg">
+            <div className="flex min-h-[80px] items-center justify-between border-b-[1px] border-gray-600 p-4">
+              <h1 className="text-md dark:text-white lg:text-xl">Settings</h1>
+              <div>
+                <button
+                  onClick={() => setMode(mode === 'light' ? 'dark' : 'light')}
+                  className="mr-6 text-gray-500 hover:text-gray-700"
+                >
+                  <FontAwesomeIcon
+                    icon={mode === 'light' ? faMoon : faSun}
+                    fontSize={24}
+                  />
+                </button>
+                <Link to="/">
+                  <FontAwesomeIcon
+                    icon={faArrowRightFromBracket}
+                    className="text-gray-500 hover:text-gray-700"
+                    fontSize={24}
+                  />
+                </Link>
+              </div>
+            </div>
+            <div className="setting-left flex w-[339px] flex-col border-r-[1px] dark:border-gray-600 dark:bg-black">
+              <ul className="mt-2 min-h-[562px] overflow-auto">
+                {LIST_SETTINGS.map((item, index) => (
+                  <CustomLink
+                    key={index}
+                    text={item.title}
+                    id={item.id}
+                    onClick={() => setSelected(item.id)}
+                    selected={selected}
+                  />
+                ))}
+                <li
+                  onClick={() => {
+                    setOpenModal(true)
+                  }}
+                  className="mx-4 cursor-pointer rounded px-2 py-3 hover:bg-gray-100 hover:text-blue-700 dark:text-white hover:dark:bg-gray-800"
+                >
+                  Sign out
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
-        <div className="setting-body flex">
-          <div
-            className="setting-left flex w-[339px] flex-col border-r-[1px] dark:border-gray-600 dark:bg-black"
-            style={{
-              height: newH || '',
-            }}
-          >
-            <ul className="mt-2">
-              {LIST_SETTINGS.map((item, index) => (
-                <CustomLink
-                  key={index}
-                  text={item.title}
-                  id={item.id}
-                  onClick={() => setSelected(item.id)}
-                  selected={selected}
-                />
-              ))}
-              <li
-                onClick={() => {
-                  setOpenModal(true)
-                }}
-                className="mx-4 cursor-pointer rounded px-2 py-3 hover:bg-gray-100 hover:text-blue-700 dark:text-white hover:dark:bg-gray-800"
-              >
-                Sign out
-              </li>
-            </ul>
-          </div>
-
-          <div className="setting-right grid h-20 w-full flex-1 place-items-center px-2">
+          <div className="flex-1 dark:bg-black max-lg:flex max-lg:h-screen lg:min-w-[888px]">
             {LIST_COMPONENTS[selected].component}
           </div>
         </div>

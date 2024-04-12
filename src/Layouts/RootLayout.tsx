@@ -19,7 +19,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
 
   return (
     <Flowbite>
-      <div className="bg-red-200 max-lg:h-screen max-lg:w-screen">
+      <div className="h-screen w-screen bg-gray-800 lg:flex lg:items-center lg:justify-center lg:p-2">
         {children}
       </div>
     </Flowbite>

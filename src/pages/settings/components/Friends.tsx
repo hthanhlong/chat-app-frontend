@@ -13,44 +13,43 @@ const Friends = () => {
   const [selectedTab, setSelectedTab] = useState(state?.selectTab || 'list')
 
   return (
-    <div className="w-full">
-      <div className="friend-header my-2 flex items-center justify-between px-2">
+    <>
+      <div className="flex min-h-[80px] items-center justify-between border-b-[1px] border-gray-600 px-2">
         <div>
           <span
-            className={`mr-2 inline-block w-32 cursor-pointer border-b-2 py-1 text-center dark:text-white ${
+            className={`inline-block w-32 cursor-pointer text-center leading-[79px] ${
               selectedTab === 'list'
-                ? 'border-blue-500 text-blue-500 dark:text-blue-500'
-                : ''
+                ? 'text-blue-500 dark:text-blue-500'
+                : 'text-gray-400 dark:text-gray-400'
             }`}
             onClick={() => setSelectedTab('list')}
           >
             List friends
           </span>
           <span
-            className={`mr-2 inline-block w-32 cursor-pointer border-b-2 py-1 text-center dark:text-white ${
+            className={`inline-block w-32 cursor-pointer text-center leading-[79px] ${
               selectedTab === 'request'
-                ? 'border-blue-500 text-blue-500 dark:text-blue-500'
-                : ''
+                ? 'text-blue-500 dark:text-blue-500'
+                : 'text-gray-400 dark:text-gray-400'
             }`}
             onClick={() => setSelectedTab('request')}
           >
             Friend requests
           </span>
         </div>
+        <input
+          type="search"
+          placeholder="Search..."
+          className="max-h-[40px] w-1/3 rounded-full border-0 bg-gray-100 py-3 ps-5 text-sm text-black focus:ring-0 dark:bg-slate-800 dark:text-white"
+        />
       </div>
-      <div className="friend-content w-full border-t-[12px] dark:border-slate-600">
-        <div className="my-2 flex">
-          <input
-            type="search"
-            placeholder="Search..."
-            className="ml-auto block w-1/3 rounded-full border-0 bg-gray-100 py-3 ps-5 text-sm text-black focus:ring-0 dark:bg-slate-800 dark:text-white"
-          />
-        </div>
-        <div className="flex h-[980px] flex-wrap overflow-auto">
+
+      <div className="friend-content w-full dark:border-slate-600">
+        <div className="mt-2 flex min-h-[570px] flex-wrap overflow-auto">
           {TABS[selectedTab as keyof typeof TABS]}
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

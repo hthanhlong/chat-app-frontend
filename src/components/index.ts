@@ -19,6 +19,7 @@ import CustomLink from './CustomLink/CustomLink'
 import Skeleton from './Skeleton/Skeleton'
 import Unfriend from './Unfriend/Unfriend'
 import ClearMessage from './ClearMessage/ClearMessage'
+import ChatLeftMobile from './ChatLeftMobile/ChatLeftMobile'
 
 export {
   Divider,
@@ -42,4 +43,5 @@ export {
   Skeleton,
   Unfriend,
   ClearMessage,
+  ChatLeftMobile,
 }
