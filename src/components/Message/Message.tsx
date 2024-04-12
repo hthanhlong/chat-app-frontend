@@ -5,13 +5,11 @@ const Message = ({
   isSender?: boolean
   message: string
 }) => {
-  const classSender = isSender ? 'ml-auto' : ''
-
   return (
-    <div
-      className={`my-1 w-fit max-w-[460px] break-words rounded-md bg-slate-200 p-2 pb-2 dark:bg-slate-800 dark:text-white ${classSender}`}
-    >
-      {message}
+    <div className={`mb-2 flex justify-start ${isSender ? 'justify-end' : ''}`}>
+      <span className="break-words rounded-md px-2 py-1 dark:bg-slate-800 dark:text-white max-lg:max-w-[460px] max-sm:max-w-[200px]">
+        {message}
+      </span>
     </div>
   )
 }

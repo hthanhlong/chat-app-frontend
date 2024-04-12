@@ -35,7 +35,7 @@ const AddFriends = () => {
         {!isLoadingGetListUser ? (
           ListUser?.data?.map((user: { _id: string; nickname: string }) => (
             <li key={user._id} className="flex justify-between p-1">
-              <Avatar name={user.nickname} size="md" textSize="sm" />
+              <Avatar name={user.nickname} size="md" />
               <Button
                 color="blue"
                 size="xs"

@@ -28,7 +28,7 @@ const FriendRequest = () => {
               key={user._id}
               className="m-1 flex h-20 w-[calc(50%-8px)] items-center justify-between rounded-md border-[1px] px-2 py-1 hover:bg-gray-100 hover:dark:bg-gray-800"
             >
-              <Avatar name={user.nickname} textSize="md" />
+              <Avatar name={user.nickname} />
               <div className="flex">
                 <Button
                   color="blue"

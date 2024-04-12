@@ -1,16 +1,16 @@
 interface CustomSvgType {
   src: unknown
-  alt: string
+  alt?: string
 }
 
-const CustomSvg = ({ src, alt }: CustomSvgType) => {
+const CustomSvg = ({ src, alt, ...props }: CustomSvgType) => {
   return (
     <img
-      className="mr-4 rounded bg-white"
+      {...props}
       src={src ? src.toString() : ''}
       height={22}
       width={22}
-      alt={alt}
+      alt={alt || 'none'}
     />
   )
 }

@@ -12,7 +12,6 @@ const Avatar = ({
   caption,
   className,
   size = 'xl',
-  textSize = 'lg',
   isOnline = false,
   isEditable = false,
 }: {
@@ -21,7 +20,6 @@ const Avatar = ({
   caption?: string
   className?: string
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-  textSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   isOnline?: boolean
   isEditable?: boolean
 }) => {
@@ -69,10 +67,8 @@ const Avatar = ({
         }
       />
       <div className="ml-3 h-full flex-1">
-        <div
-          className={`text-${textSize} flex h-full items-center dark:text-gray-300`}
-        >
-          <span>{name}</span>
+        <div className="max-lg:text-md flex h-full items-center dark:text-gray-300">
+          <span>{name || ''}</span>
         </div>
         {caption && isEditable ? (
           <div className="flex items-center text-xs text-gray-500 dark:text-gray-300">

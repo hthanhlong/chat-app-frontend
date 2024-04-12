@@ -11,17 +11,13 @@ import { useSocketStates } from '../../hooks/useSocketStates'
 import { useThemeMode } from 'flowbite-react'
 import { useMessage } from '../../hooks/useMessage'
 
-const OFFSET_BORDER = 6
-const TOP_AND_SEARCH_BAR = 182
-const TOTAL = OFFSET_BORDER + TOP_AND_SEARCH_BAR
-
 const ChatSection = () => {
   const { mode } = useThemeMode()
   const { id } = useAuth()
   const { selectedId: partnerId } = useSelectedUserChat()
   const { socketEvent } = useSocketStates()
-  const properties = usePropertiesElement('main-layout')
-  const newH = properties && properties.height - TOTAL + 12
+  const properties = usePropertiesElement('right-content')
+  const newH = properties && properties.height - 80 // 80 is height of input chat
   const { messages, setMessages } = useMessage()
 
   const { data, isLoading } = useQuery({
@@ -34,6 +30,8 @@ const ChatSection = () => {
       return Promise.resolve({ data: [] })
     },
   })
+
+  console.log('new', newH)
 
   useEffect(() => {
     const element = document.querySelector('.scroll-nail')
@@ -64,12 +62,10 @@ const ChatSection = () => {
 
   return (
     <div
-      className={`${
+      className={`overflow-auto ${
         mode === 'light' ? 'chat-section' : 'dark-chat-section'
-      } scroll-nail flex flex-col overflow-auto p-2`}
-      style={{
-        height: newH ? newH : '',
-      }}
+      } scroll-nail flex flex-col justify-end p-2`}
+      style={{ height: newH ? newH : 'auto' }}
     >
       {!isLoading ? (
         messages.map((message: TypeMessage) => (

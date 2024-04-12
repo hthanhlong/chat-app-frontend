@@ -5,12 +5,14 @@ import HiddenEye from './hidden-eye.svg'
 import LoginImage from './images/login.png'
 import SignUpImage from './images/signup.png'
 import AvatarSvg from './avatarDefault.svg'
+import Menu from './menu.svg'
 import { CustomSvg } from '../components'
 
-const GoogleIcon = () => <CustomSvg src={googleSvg} alt="google" />
-const XIcon = () => <CustomSvg src={x} alt="x" />
-const OpenPasswordIcon = () => <CustomSvg src={OpenEye} alt="none" />
-const HiddenPasswordIcon = () => <CustomSvg src={HiddenEye} alt="none" />
+const GoogleIcon = () => <CustomSvg src={googleSvg} />
+const XIcon = () => <CustomSvg src={x} />
+const OpenPasswordIcon = () => <CustomSvg src={OpenEye} />
+const HiddenPasswordIcon = () => <CustomSvg src={HiddenEye} />
+const MenuIcon = ({ ...props }) => <CustomSvg src={Menu} {...props} />
 
 const AvatarDefault = ({
   avatarUrl,
@@ -31,7 +33,7 @@ const AvatarDefault = ({
 
   return (
     <div
-      className={`relative flex items-center justify-center ${sizeMap[size]} rounded-full border-2`}
+      className={`relative flex items-center justify-center ${sizeMap[size]} rounded-full border-2 max-lg:h-[40px] max-lg:w-[40px]`}
     >
       <img
         className="rounded-full"
@@ -61,4 +63,5 @@ export {
   LoginBackground,
   SignUpBackground,
   AvatarDefault,
+  MenuIcon,
 }
