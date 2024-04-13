@@ -6,6 +6,7 @@ import LoginImage from './images/login.png'
 import SignUpImage from './images/signup.png'
 import AvatarSvg from './avatarDefault.svg'
 import Menu from './menu.svg'
+import Close from './close.svg'
 import { CustomSvg } from '../components'
 
 const GoogleIcon = () => <CustomSvg src={googleSvg} />
@@ -13,6 +14,7 @@ const XIcon = () => <CustomSvg src={x} />
 const OpenPasswordIcon = () => <CustomSvg src={OpenEye} />
 const HiddenPasswordIcon = () => <CustomSvg src={HiddenEye} />
 const MenuIcon = ({ ...props }) => <CustomSvg src={Menu} {...props} />
+const CloseIcon = ({ ...props }) => <CustomSvg src={Close} {...props} />
 
 const AvatarDefault = ({
   avatarUrl,
@@ -64,4 +66,5 @@ export {
   SignUpBackground,
   AvatarDefault,
   MenuIcon,
+  CloseIcon,
 }

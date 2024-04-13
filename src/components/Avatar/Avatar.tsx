@@ -11,7 +11,7 @@ const Avatar = ({
   name,
   caption,
   className,
-  size = 'xl',
+  size = 'md',
   isOnline = false,
   isEditable = false,
 }: {
@@ -56,7 +56,7 @@ const Avatar = ({
 
   return (
     <form
-      className={`flex h-full items-center ${className ? className : ''}`}
+      className={`flex h-full w-full items-center ${className ? className : ''}`}
       onSubmit={handleSubmit(onSubmit)}
     >
       <AvatarDefault

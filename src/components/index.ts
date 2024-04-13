@@ -19,7 +19,9 @@ import CustomLink from './CustomLink/CustomLink'
 import Skeleton from './Skeleton/Skeleton'
 import Unfriend from './Unfriend/Unfriend'
 import ClearMessage from './ClearMessage/ClearMessage'
-import ChatLeftMobile from './ChatLeftMobile/ChatLeftMobile'
+import CloseButton from './CloseButton/CloseButton'
+import LeftContentLayout from './LeftContentLayout/LeftContentLayout'
+import RightContentLayout from './RightContentLayout/RightContentLayout'
 
 export {
   Divider,
@@ -43,5 +45,7 @@ export {
   Skeleton,
   Unfriend,
   ClearMessage,
-  ChatLeftMobile,
+  CloseButton,
+  LeftContentLayout,
+  RightContentLayout,
 }

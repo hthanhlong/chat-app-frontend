@@ -13,8 +13,8 @@ const Friends = () => {
   const [selectedTab, setSelectedTab] = useState(state?.selectTab || 'list')
 
   return (
-    <>
-      <div className="flex min-h-[80px] items-center justify-between border-b-[1px] border-gray-600 px-2">
+    <div className="w-full max-lg:flex max-lg:flex-col">
+      <div className="flex min-h-[80px] items-center justify-between border-b-[1px] border-gray-600 px-2 max-lg:flex-col">
         <div>
           <span
             className={`inline-block w-32 cursor-pointer text-center leading-[79px] ${
@@ -40,16 +40,11 @@ const Friends = () => {
         <input
           type="search"
           placeholder="Search..."
-          className="max-h-[40px] w-1/3 rounded-full border-0 bg-gray-100 py-3 ps-5 text-sm text-black focus:ring-0 dark:bg-slate-800 dark:text-white"
+          className="h-[40px] w-1/3 rounded-full border-0 bg-gray-100 py-3 ps-5 text-sm text-black focus:ring-0 dark:bg-slate-800 dark:text-white max-lg:mb-2 max-lg:w-full"
         />
       </div>
-
-      <div className="friend-content w-full dark:border-slate-600">
-        <div className="mt-2 flex min-h-[570px] flex-wrap overflow-auto">
-          {TABS[selectedTab as keyof typeof TABS]}
-        </div>
-      </div>
-    </>
+      {TABS[selectedTab as keyof typeof TABS]}
+    </div>
   )
 }
 

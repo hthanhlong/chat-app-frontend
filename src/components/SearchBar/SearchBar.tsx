@@ -6,6 +6,7 @@ import { useAuth } from '../../hooks/useAuth'
 import { getMyFriends, searchFriends } from '../../axios/friend'
 import { useSelectedUserChat } from '../../hooks/useSelectedUserChat'
 import { useQuery } from '@tanstack/react-query'
+import { PADDING_CONTAINER } from '../ChatPage/utils'
 
 const SearchBar = (
   props: JSX.IntrinsicAttributes &
@@ -40,7 +41,11 @@ const SearchBar = (
   }, [valueDebounce])
 
   return (
-    <form {...props} onSubmit={handleSubmit(onSubmit as never)}>
+    <form
+      {...props}
+      onSubmit={handleSubmit(onSubmit as never)}
+      className={`${PADDING_CONTAINER} dark:border-gray-600`}
+    >
       <div className="relative">
         <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">
           <svg

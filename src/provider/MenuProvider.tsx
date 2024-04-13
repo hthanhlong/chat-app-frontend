@@ -1,28 +1,26 @@
-import { ReactNode, createContext, useMemo, useState } from 'react'
+import { useAnimate } from 'framer-motion'
+import { ReactNode, Ref, createContext } from 'react'
 
-type MenuContextType = {
-  isShowMenu: boolean
-  setIsShowMenu: (isShow: boolean) => void
-}
-
-export const MenuContext = createContext<MenuContextType>({
-  isShowMenu: false,
-  setIsShowMenu: () => {},
+export const MenuContext = createContext<{
+  scope: Ref<HTMLDivElement>
+  animate: unknown
+}>({
+  scope: null,
+  animate: () => {},
 })
 
 const MenuProvider = ({ children }: { children: ReactNode }) => {
-  const [isShowMenu, setIsShowMenu] = useState(false)
-
-  const contextValue = useMemo(
-    () => ({
-      isShowMenu,
-      setIsShowMenu,
-    }),
-    [isShowMenu],
-  )
+  const [scope, animate] = useAnimate()
 
   return (
-    <MenuContext.Provider value={contextValue}>{children}</MenuContext.Provider>
+    <MenuContext.Provider
+      value={{
+        scope,
+        animate,
+      }}
+    >
+      {children}
+    </MenuContext.Provider>
   )
 }
 
