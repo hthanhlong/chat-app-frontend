@@ -83,12 +83,13 @@ const Notification = () => {
           <div>Notifications</div>
           <button className="underline">Mark as all read</button>
         </Dropdown.Header>
+
         {isSuccess ? (
           // @ts-expect-error - //
           listNotis?.data.map((notification: CustomNotification) => (
             <Dropdown.Item
               key={notification._id}
-              className={`text-bold text-md relative mb-1 font-medium ${
+              className={`text-bold text-md relative mb-1 w-full items-center font-medium ${
                 notification.status === 'UNREAD'
                   ? ' bg-slate-100 text-black dark:!bg-gray-700 dark:!text-white'
                   : ''
@@ -96,7 +97,7 @@ const Notification = () => {
               onClick={() => handleClick(notification)}
             >
               <Avatar />
-              <div className="text-left">
+              <div className="w-full text-left">
                 <div>{notification.content}</div>
                 <div className="text-xs">
                   {formatDate(notification.createdAt as string)}

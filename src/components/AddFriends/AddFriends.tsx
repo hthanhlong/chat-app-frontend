@@ -24,7 +24,7 @@ const AddFriends = () => {
   })
 
   return (
-    <div className="overflow-hidden">
+    <div>
       <input
         type="search"
         placeholder="Search friends"
@@ -39,7 +39,7 @@ const AddFriends = () => {
               <Button
                 color="blue"
                 size="xs"
-                className="h-[32px] max-w-[140px]"
+                className="h-[32px] w-[140px]"
                 onClick={() => {
                   mutateAsync({
                     senderId: senderId,

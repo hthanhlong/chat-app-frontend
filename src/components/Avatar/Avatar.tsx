@@ -56,7 +56,7 @@ const Avatar = ({
 
   return (
     <form
-      className={`flex h-full w-full items-center ${className ? className : ''}`}
+      className={`flex h-full w-fit items-center ${className ? className : ''}`}
       onSubmit={handleSubmit(onSubmit)}
     >
       <AvatarDefault
