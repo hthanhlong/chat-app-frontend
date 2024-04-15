@@ -20,7 +20,7 @@ const ListFriend = () => {
   })
 
   return (
-    <div className="flex h-fit w-full flex-wrap overflow-auto max-lg:flex-col max-lg:p-2">
+    <div className="flex flex-wrap overflow-auto max-lg:h-screen max-lg:flex-col max-lg:p-2">
       {!isLoading ? (
         ListFriend?.data?.map((user: { _id: string; nickname: string }) => (
           <div

@@ -13,8 +13,8 @@ const Friends = () => {
   const [selectedTab, setSelectedTab] = useState(state?.selectTab || 'list')
 
   return (
-    <div className="w-full max-lg:flex max-lg:flex-col">
-      <div className="flex min-h-[80px] items-center justify-between border-b-[1px] border-gray-600 px-2 max-lg:flex-col">
+    <div className="h-full bg-white dark:bg-black max-lg:flex max-lg:flex-1 max-lg:flex-col">
+      <div className="flex items-center justify-between border-b-[1px] border-gray-600 px-2 max-lg:flex-col">
         <div>
           <span
             className={`inline-block w-32 cursor-pointer text-center leading-[79px] ${

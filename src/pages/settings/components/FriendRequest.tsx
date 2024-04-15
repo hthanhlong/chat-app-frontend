@@ -20,7 +20,7 @@ const FriendRequest = () => {
   })
 
   return (
-    <div className="flex h-fit max-h-[746px] w-full flex-wrap overflow-auto">
+    <div className="flex w-full flex-wrap overflow-auto max-lg:h-screen">
       {!isLoading ? (
         ListFriendRequest?.data?.map(
           (user: { _id: string; nickname: string }) => (
