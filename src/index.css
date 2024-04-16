@@ -3,17 +3,13 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --main-back-ground: #e4dcf5;
-  font-family: 'Roboto', sans-serif;
-}
+@layer base {
+  :root {
+    font-family: 'Roboto', sans-serif;
+  }
 
-#settings-dropdown {
-  transform: translate(-48px, 30px) !important;
-}
-
-.chat-root {
-  height: calc(100vh - 180px);
-  min-height: 600px;
-  max-width: 1200px;
+  .root-layout {
+    background-image: url('/background/background.jpg');
+    @apply bg-cover bg-center bg-no-repeat object-contain;
+  }
 }
