@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 
 const Login = () => {
   return (
-    <div className="flex h-screen items-center justify-center bg-[#E4DCF6]">
+    <div className="flex h-screen items-center justify-center">
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}

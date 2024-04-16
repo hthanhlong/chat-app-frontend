@@ -22,7 +22,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
     <MenuProvider>
       <Flowbite>
-        <div className="root-layout h-screen w-screen bg-gray-800 max-sm:overflow-hidden lg:flex lg:items-center lg:justify-center lg:p-2">
+        <div className="h-screen w-screen bg-gray-800 max-sm:overflow-hidden lg:flex lg:items-center lg:justify-center lg:p-2">
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}

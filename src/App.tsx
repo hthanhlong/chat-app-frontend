@@ -7,7 +7,7 @@ import { AnimatePresence } from 'framer-motion'
 
 const App = () => {
   return (
-    <div className="relative scroll-smooth">
+    <div className="root-layout relative scroll-smooth">
       <AnimatePresence>
         <RouterProvider router={router} />
       </AnimatePresence>
