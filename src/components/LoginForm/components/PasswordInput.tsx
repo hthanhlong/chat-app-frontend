@@ -12,7 +12,7 @@ const PasswordInput = ({ errorMessage, register }: InputProps) => {
           className="block h-[40px] w-full rounded-md py-3 ps-3 text-sm placeholder:text-neutral-400 focus:outline-none"
           {...register('password', { required: true, maxLength: 64 })}
           type={!showPassword ? 'password' : 'text'}
-          placeholder="Enter your password"
+          placeholder="Pass: Password123"
           autoComplete="off"
         />
         <div

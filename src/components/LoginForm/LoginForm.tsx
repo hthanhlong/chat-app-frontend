@@ -96,6 +96,7 @@ const LoginForm = () => {
         name="username"
         register={register}
         errorMessage={errors.username?.message}
+        placeholder="id: guest_1 or guest_2"
       />
       <PasswordInput
         name="password"
