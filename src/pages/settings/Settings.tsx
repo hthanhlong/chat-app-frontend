@@ -92,19 +92,18 @@ const Settings = () => {
         actionArea={true}
         onClose={() => setOpenModal(false)}
         onAccept={async () => {
-          clearLocalStorage()
-          setOpenModal(false)
-          setGlobalLoading(true)
           if (ws?.readyState === WebSocket.OPEN) {
             ws?.sendDataToServer({
               type: 'CLOSE_CONNECTION',
             })
           }
+          clearLocalStorage()
+          setOpenModal(false)
+          setGlobalLoading(true)
           // @ts-expect-error - //
           setWs(null)
           await sleep(3000)
           googleLogout()
-
           window.location.reload()
         }}
       />
