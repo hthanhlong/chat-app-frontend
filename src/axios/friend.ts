@@ -1,6 +1,7 @@
 import FriendService from '../services/FriendService'
+import { IFriendRequest } from '../types'
 
-export const sendFriendRequest = async (data: FriendRequest) => {
+export const sendFriendRequest = async (data: IFriendRequest) => {
   try {
     const response = await FriendService.sendFriendRequest(data)
     return response
@@ -27,7 +28,7 @@ export const getMyFriends = async (id: string) => {
   }
 }
 
-export const updateFriendStatus = async (data: FriendRequest) => {
+export const updateFriendStatus = async (data: IFriendRequest) => {
   try {
     const response = await FriendService.updateFriendStatus(data)
     return response

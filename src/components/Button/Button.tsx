@@ -1,11 +1,11 @@
 import { ButtonHTMLAttributes } from 'react'
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: JSX.Element
   text: string
 }
 
-const Button = ({ icon, text, ...props }: ButtonProps) => {
+const Button = ({ icon, text, ...props }: IButtonProps) => {
   return (
     <button {...props}>
       {icon && icon}

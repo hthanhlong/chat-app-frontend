@@ -1,9 +1,10 @@
 import { RouterProvider } from 'react-router-dom'
-import { router } from './routers'
-import { LoadingComponent } from './components'
+
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { AnimatePresence } from 'framer-motion'
+import { router } from '../routers'
+import { LoadingComponent } from '../components'
 
 const App = () => {
   return (

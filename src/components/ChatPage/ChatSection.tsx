@@ -10,6 +10,7 @@ import Skeleton from '../Skeleton/Skeleton'
 import { useSocketStates } from '../../hooks/useSocketStates'
 import { useThemeMode } from 'flowbite-react'
 import { useMessage } from '../../hooks/useMessage'
+import { IMessage } from '../../types'
 
 const ChatSection = () => {
   const { mode } = useThemeMode()
@@ -50,10 +51,10 @@ const ChatSection = () => {
 
   useEffect(() => {
     if (socketEvent?.type === 'HAS_NEW_MESSAGE') {
-      const newMessage = socketEvent.payload as TypeMessage
+      const newMessage = socketEvent.payload as IMessage
       if (newMessage.senderId === partnerId) {
         // @ts-expect-error -//
-        setMessages((prev: TypeMessage[]) => [...prev, newMessage])
+        setMessages((prev: IMessage[]) => [...prev, newMessage])
       }
     }
   }, [socketEvent])
@@ -66,7 +67,7 @@ const ChatSection = () => {
       style={{ height: newH ? newH : '' }}
     >
       {!isLoading ? (
-        messages.map((message: TypeMessage) => (
+        messages.map((message: IMessage) => (
           <Message
             key={message._id ? message._id : ''}
             isSender={message.senderId === id}

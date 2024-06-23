@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { toast } from 'react-toastify'
-import Input from '../Input/Input'
+import Input from './components/Input'
 import ButtonSignup from './components/ButtonSingup'
 import { signupSchema } from './validation'
 import { useMutation } from '@tanstack/react-query'
@@ -12,6 +12,7 @@ import { useLoading } from '../../hooks/useLoading'
 import { AuthSignUp } from '../../axios/auth'
 import { useAuth } from '../../hooks/useAuth'
 import Title from '../Title/Title'
+import { ISignUpInput, ISuccessResponse } from '../../types'
 
 const SignUpForm = () => {
   const navigate = useNavigate()
@@ -22,11 +23,11 @@ const SignUpForm = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SignupInput>({
+  } = useForm<ISignUpInput>({
     resolver: yupResolver(signupSchema),
   })
 
-  const onSubmit: SubmitHandler<SignupInput> = (data) => {
+  const onSubmit: SubmitHandler<ISignUpInput> = (data) => {
     signupFn(data)
   }
 
@@ -37,13 +38,13 @@ const SignUpForm = () => {
     error,
     data,
   } = useMutation({
-    mutationFn: (data: SignupInput) => {
+    mutationFn: (data: ISignUpInput) => {
       return AuthSignUp(data)
     },
   })
 
   const redirectFn = async (
-    data: SuccessResponse<null>,
+    data: ISuccessResponse<null>,
   ): Promise<void | undefined> => {
     if (data && data.isSuccess) {
       setGlobalLoading(true)

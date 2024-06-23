@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useEffect, useState } from 'react'
-import { LOCAL_STORAGE_KEY } from '../constant'
+import { LOCAL_STORAGE_KEY } from '../data'
 import { clearLocalStorage } from '../helper'
 
 type AuthContextType = {

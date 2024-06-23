@@ -2,13 +2,13 @@ import { useRouteError } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import NotFound from './NotFound'
 
-interface ErrorPage extends Error {
+interface IErrorPage extends Error {
   statusText: string
   message: string
 }
 
 export default function ErrorPage() {
-  const error = useRouteError() as ErrorPage
+  const error = useRouteError() as IErrorPage
 
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center bg-gray-700 text-white">

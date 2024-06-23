@@ -1,9 +1,11 @@
-interface LoginInput {
+import { FieldValues, UseFormRegister } from 'react-hook-form'
+
+export interface ILoginInput {
   username: string
   password: string
 }
 
-interface SignupInput {
+export interface ISignUpInput {
   nickname: string
   username: string
   email: string
@@ -11,39 +13,39 @@ interface SignupInput {
   confirmPassword: string
 }
 
-interface ERROR_MESSAGE {
+export interface I_ERROR_MESSAGE {
   required: string
   maxLength: string
 }
 
-interface InputProps {
+export interface IInputProps<T extends FieldValues> {
   label?: string
-  name: string
+  name: 'username' | 'password' | 'nickname' | 'email' | 'confirmPassword'
   errorMessage: string | undefined
-  register: UseFormRegister<LoginInput>
+  register: UseFormRegister<T>
   placeholder?: string
   type?: string
 }
 
-interface SuccessResponse<T> {
+export interface ISuccessResponse<T> {
   isSuccess: boolean
   errorCode: unknown
   message: string
   data: T
 }
 
-interface FriendRequest {
+export interface IFriendRequest {
   senderId: string
   receiverId: string
   status: 'PENDING' | 'FRIEND' | 'UNFRIEND' | 'REJECT'
 }
 
-interface CustomWebSocket extends WebSocket {
+export interface ICustomWebSocket extends WebSocket {
   sendDataToServer: (data: { type: string; payload?: unknown | null }) => void
   pong: (data: string) => void
 }
 
-interface TypeMessage {
+export interface IMessage {
   _id?: string
   senderId: string
   receiverId: string
@@ -51,7 +53,7 @@ interface TypeMessage {
   createdAt?: string
 }
 
-interface User {
+export interface IUser {
   _id?: string
   username: string
   profilePicUrl?: string
@@ -60,7 +62,7 @@ interface User {
   caption?: string
 }
 
-interface CustomNotification {
+export interface ICustomNotification {
   _id: string | null
   senderId: string
   receiverId: string

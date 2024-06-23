@@ -4,11 +4,9 @@ import { useNavigate } from 'react-router-dom'
 import PasswordInput from './components/PasswordInput'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { loginSchema } from './validation'
-import Input from '../Input/Input'
 import LoginDivider from './components/LoginDivider'
 import SignUpNow from './components/SignUpNow'
 import ButtonLogin from './components/ButtonLogin'
-// import ButtonLoginGoogle from './components/ButtonLoginGoogle'
 import { useMutation } from '@tanstack/react-query'
 import { AuthLogin, AuthLoginByGoogle } from '../../axios/auth'
 import { capitalizeFirstLetter, sleep } from '../../utils'
@@ -16,6 +14,8 @@ import { useEffect } from 'react'
 import { useLoading } from '../../hooks/useLoading'
 import { useAuth } from '../../hooks/useAuth'
 import Title from '../Title/Title'
+import Input from './components/Input'
+import { ILoginInput, ISuccessResponse } from '../../types'
 
 const LoginForm = () => {
   const { accessToken, setAuth } = useAuth()
@@ -27,11 +27,11 @@ const LoginForm = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginInput>({
+  } = useForm<ILoginInput>({
     resolver: yupResolver(loginSchema),
   })
 
-  const onSubmit: SubmitHandler<LoginInput> = (data) => {
+  const onSubmit: SubmitHandler<ILoginInput> = (data) => {
     loginFn(data)
   }
 
@@ -42,13 +42,13 @@ const LoginForm = () => {
     error,
     data,
   } = useMutation({
-    mutationFn: (data: LoginInput) => {
+    mutationFn: (data: ILoginInput) => {
       return AuthLogin(data)
     },
   })
 
   const redirectFn = async (
-    data: SuccessResponse<{
+    data: ISuccessResponse<{
       accessToken: string
     }>,
   ): Promise<void | undefined> => {
@@ -61,7 +61,7 @@ const LoginForm = () => {
 
   const handleResponseMessage = async (response: unknown) => {
     // @ts-expect-error - //
-    const result: SuccessResponse = await AuthLoginByGoogle(response)
+    const result: ISuccessResponse = await AuthLoginByGoogle(response)
     if (result.isSuccess) {
       await redirectFn(result)
     } else {
@@ -99,7 +99,6 @@ const LoginForm = () => {
         placeholder="id: guest_1 or guest_2"
       />
       <PasswordInput
-        name="password"
         register={register}
         errorMessage={errors.password?.message}
       />

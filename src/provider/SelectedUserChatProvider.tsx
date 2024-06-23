@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useEffect, useMemo, useState } from 'react'
-import { LOCAL_STORAGE_KEY } from '../constant'
+import { LOCAL_STORAGE_KEY } from '../data'
 
 type SelectedUserChatContextType = {
   selectedId: string

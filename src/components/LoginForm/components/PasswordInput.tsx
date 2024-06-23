@@ -1,8 +1,16 @@
 import { useState } from 'react'
 import { HiddenPasswordIcon, OpenPasswordIcon } from '../../../assets'
 import ErrorMessage from '../../ErrorMessage/ErrorMessage'
+import { UseFormRegister } from 'react-hook-form'
+import { ILoginInput } from '../../../types'
 
-const PasswordInput = ({ errorMessage, register }: InputProps) => {
+const PasswordInput = ({
+  errorMessage,
+  register,
+}: {
+  errorMessage: string | undefined
+  register: UseFormRegister<ILoginInput>
+}) => {
   const [showPassword, setShowPassword] = useState<boolean>(false)
 
   return (

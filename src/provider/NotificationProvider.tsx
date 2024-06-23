@@ -1,5 +1,5 @@
 import { createContext, useState, ReactNode, useEffect } from 'react'
-import { LOCAL_STORAGE_KEY } from '../constant'
+import { LOCAL_STORAGE_KEY } from '../data'
 
 export const NotificationContext = createContext<{
   isNotification: boolean

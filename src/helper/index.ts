@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { LOCAL_STORAGE_KEY } from './constant'
+import { LOCAL_STORAGE_KEY } from '../data'
 
 export const formatDate = (timer: string) => {
   if (!timer) return

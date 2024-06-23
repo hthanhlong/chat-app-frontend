@@ -15,6 +15,7 @@ import Skeleton from '../Skeleton/Skeleton'
 import { useSocketStates } from '../../hooks/useSocketStates'
 import Ping from '../Ping/Ping'
 import { useNotification } from '../../hooks/userNotification'
+import { ICustomNotification } from '../../types'
 
 const Notification = () => {
   const { id } = useAuth()
@@ -37,7 +38,7 @@ const Notification = () => {
     },
   })
 
-  const handleClick = async (notification: CustomNotification) => {
+  const handleClick = async (notification: ICustomNotification) => {
     await mutateAsync({
       id: notification._id!,
       status: 'READ',
@@ -86,7 +87,7 @@ const Notification = () => {
 
         {isSuccess ? (
           // @ts-expect-error - //
-          listNotis?.data.map((notification: CustomNotification) => (
+          listNotis?.data.map((notification: ICustomNotification) => (
             <Dropdown.Item
               key={notification._id}
               className={`text-bold text-md relative mb-1 w-full items-center font-medium ${

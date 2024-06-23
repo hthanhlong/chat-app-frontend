@@ -1,9 +1,9 @@
-interface CustomSvgType {
+interface ICustomSvgType {
   src: unknown
   alt?: string
 }
 
-const CustomSvg = ({ src, alt, ...props }: CustomSvgType) => {
+const CustomSvg = ({ src, alt, ...props }: ICustomSvgType) => {
   return (
     <img
       {...props}

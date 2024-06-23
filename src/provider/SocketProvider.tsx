@@ -1,6 +1,7 @@
 import { ReactNode, createContext, useEffect, useState } from 'react'
-import { LOCAL_STORAGE_KEY } from '../constant'
+import { LOCAL_STORAGE_KEY } from '../data'
 import { useAuth } from '../hooks/useAuth'
+import { ICustomWebSocket } from '../types'
 
 let retries = 0
 const maxRetries = 10
@@ -12,8 +13,8 @@ type SocketEvent<T> = {
 }
 
 type SocketStatesContextType = {
-  ws: CustomWebSocket | null
-  setWs: (ws: CustomWebSocket) => void
+  ws: ICustomWebSocket | null
+  setWs: (ws: ICustomWebSocket) => void
   socketEvent: SocketEvent<unknown> | null
 }
 
@@ -25,14 +26,14 @@ export const SocketStatesContext = createContext<SocketStatesContextType>({
 
 const SocketProvider = ({ children }: { children: ReactNode }) => {
   const { id } = useAuth()
-  const [ws, setWs] = useState<CustomWebSocket | null>(null)
+  const [ws, setWs] = useState<ICustomWebSocket | null>(null)
   const [socketEvent, setSocketEvent] = useState<SocketEvent<unknown> | null>(
     null,
   )
 
   useEffect(() => {
     const initWebSocket = async () => {
-      const webSocket = new WebSocket(HOST_SOCKET) as CustomWebSocket
+      const webSocket = new WebSocket(HOST_SOCKET) as ICustomWebSocket
 
       webSocket.onopen = () => {
         retries = 0

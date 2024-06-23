@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getLastMessages } from '../../axios/message'
 import { useSocketStates } from '../../hooks/useSocketStates'
 import { useMessage } from '../../hooks/useMessage'
+import { IMessage } from '../../types'
 
 const UserItem = ({
   name,
@@ -24,7 +25,7 @@ const UserItem = ({
   onContextMenu?: MouseEventHandler
 }) => {
   const { socketEvent } = useSocketStates()
-  const [latestMessage, setLatestMessage] = useState<TypeMessage>()
+  const [latestMessage, setLatestMessage] = useState<IMessage>()
   const { messages } = useMessage()
   const [highLight, setHighLight] = useState<boolean>(false)
 
@@ -46,7 +47,7 @@ const UserItem = ({
 
   useEffect(() => {
     if (socketEvent?.type === 'HAS_NEW_MESSAGE') {
-      const newMessage = socketEvent.payload as TypeMessage
+      const newMessage = socketEvent.payload as IMessage
       if (newMessage.senderId === userId) {
         setLatestMessage(newMessage)
         setHighLight(true)

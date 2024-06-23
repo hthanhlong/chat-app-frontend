@@ -1,9 +1,10 @@
 import { AxiosRequestConfig } from 'axios'
 import { http } from '../axios'
 import END_POINT from './endpoint'
+import { IFriendRequest } from '../types'
 
 class FriendService {
-  sendFriendRequest(data: FriendRequest, options?: AxiosRequestConfig) {
+  sendFriendRequest(data: IFriendRequest, options?: AxiosRequestConfig) {
     return http.post(`${END_POINT.friendRequest}`, data, { ...options })
   }
 
@@ -11,7 +12,7 @@ class FriendService {
     return http.get(`${END_POINT.getFriendRequests}/${id}`, { ...options })
   }
 
-  updateFriendStatus(data: FriendRequest, options?: AxiosRequestConfig) {
+  updateFriendStatus(data: IFriendRequest, options?: AxiosRequestConfig) {
     return http.post(`${END_POINT.updateFriendStatus}`, data, { ...options })
   }
 

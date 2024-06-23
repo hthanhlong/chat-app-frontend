@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { refreshToken } from './auth'
-import { LOCAL_STORAGE_KEY } from '../constant'
+import { LOCAL_STORAGE_KEY } from '../data'
 import { clearLocalStorage } from '../helper'
 
 let isCalling = false

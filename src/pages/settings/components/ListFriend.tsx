@@ -3,6 +3,7 @@ import { Avatar, Skeleton } from '../../../components'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useAuth } from '../../../hooks/useAuth'
 import { getMyFriends, updateFriendStatus } from '../../../axios/friend'
+import { IFriendRequest } from '../../../types'
 
 const ListFriend = () => {
   const { id } = useAuth()
@@ -14,7 +15,7 @@ const ListFriend = () => {
   })
 
   const { mutate } = useMutation({
-    mutationFn: (request: FriendRequest) => updateFriendStatus(request),
+    mutationFn: (request: IFriendRequest) => updateFriendStatus(request),
     onSuccess: () =>
       queryClient.invalidateQueries({ queryKey: ['my-friends'] }),
   })

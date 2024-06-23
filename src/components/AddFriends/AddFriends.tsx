@@ -6,6 +6,7 @@ import { useAuth } from '../../hooks/useAuth'
 import { sendFriendRequest } from '../../axios/friend'
 import { getAllUsers } from '../../axios/user'
 import './AddFriend.css'
+import { IFriendRequest } from '../../types'
 
 const AddFriends = () => {
   const { id: senderId } = useAuth()
@@ -17,7 +18,7 @@ const AddFriends = () => {
   })
 
   const { mutateAsync } = useMutation({
-    mutationFn: (data: FriendRequest) => sendFriendRequest(data),
+    mutationFn: (data: IFriendRequest) => sendFriendRequest(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['listUser'] })
     },
