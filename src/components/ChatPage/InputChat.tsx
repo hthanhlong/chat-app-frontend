@@ -16,6 +16,9 @@ const InputChat = () => {
 
   const onsubmit = (data: { message: string }) => {
     const { message } = data
+    if (message.trim() === '') {
+      return
+    }
     if (ws?.readyState === WebSocket.OPEN) {
       const newMessage = {
         _id: uuidv4(),
@@ -28,7 +31,7 @@ const InputChat = () => {
         type: 'SEND_MESSAGE',
         payload: newMessage,
       })
-      setMessages([...messages, newMessage])
+      setMessages([newMessage, ...messages])
     }
     reset((formValues) => ({
       ...formValues,
@@ -38,7 +41,7 @@ const InputChat = () => {
 
   return (
     <form
-      className="input-section flex h-20 items-center bg-slate-300 px-2 dark:bg-gray-700 dark:bg-opacity-35"
+      className="flex h-[80px] items-center bg-slate-300 p-2 px-2  dark:bg-gray-700"
       // @ts-expect-error - //
       onSubmit={handleSubmit(onsubmit)}
     >

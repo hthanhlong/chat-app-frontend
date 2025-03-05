@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
 import { useAuth } from '../../hooks/useAuth'
-import usePropertiesElement from '../../hooks/usePropertiesElement'
 import './css/ChatSection.css'
 import { getAllMessages } from '../../axios/message'
 import { useSelectedUserChat } from '../../hooks/useSelectedUserChat'
@@ -17,8 +16,6 @@ const ChatSection = () => {
   const { id } = useAuth()
   const { selectedId: partnerId } = useSelectedUserChat()
   const { socketEvent } = useSocketStates()
-  const properties = usePropertiesElement('main-layout')
-  const newH = properties && properties.height - 160 // 80 is height of input chat
   const { messages, setMessages } = useMessage()
 
   const { data, isLoading } = useQuery({
@@ -33,6 +30,10 @@ const ChatSection = () => {
   })
 
   useEffect(() => {
+    const chatRight = document.getElementById('chat-right')
+    if (!chatRight) return
+    const height = chatRight.clientHeight
+    console.log(height)
     const element = document.querySelector('.scroll-nail')
     element?.scrollTo({
       top: element.scrollHeight,
@@ -54,7 +55,7 @@ const ChatSection = () => {
       const newMessage = socketEvent.payload as IMessage
       if (newMessage.senderId === partnerId) {
         // @ts-expect-error -//
-        setMessages((prev: IMessage[]) => [...prev, newMessage])
+        setMessages((prev: IMessage[]) => [newMessage, ...prev])
       }
     }
   }, [socketEvent])
@@ -63,8 +64,7 @@ const ChatSection = () => {
 
   return (
     <div
-      className={`${styleScrollBar} scroll-nail flex flex-col overflow-y-auto p-2`}
-      style={{ height: newH ? newH : '' }}
+      className={`${styleScrollBar} scroll-nail h-[calc(100vh-160px)] overflow-y-auto p-2 lg:h-[calc(650px-160px)]`}
     >
       {!isLoading ? (
         messages.map((message: IMessage) => (

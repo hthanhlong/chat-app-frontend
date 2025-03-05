@@ -25,6 +25,7 @@ export interface IInputProps<T extends FieldValues> {
   register: UseFormRegister<T>
   placeholder?: string
   type?: string
+  defaultValue?: string
 }
 
 export interface ISuccessResponse<T> {

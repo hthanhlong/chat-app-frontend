@@ -3,13 +3,19 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    font-family: 'Roboto', sans-serif;
-  }
 
-  .root-layout {
-    background-image: url('/background/background.jpg');
-    @apply bg-cover bg-center bg-no-repeat object-contain;
-  }
+
+.bg-image {
+  position: relative;
+  background-image: url('/images/background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  object-fit: contain;
+  min-height: 100vh;
+}
+
+.Toastify {
+  display: absolute;
+  z-index: 10000;
 }

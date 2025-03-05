@@ -14,9 +14,9 @@ const RightContentLayout = ({ children }: { children: ReactNode }) => {
   }
 
   return (
-    <div className="flex-1 bg-white dark:bg-black max-lg:flex max-lg:min-h-screen max-lg:w-screen">
+    <div className="flex h-screen w-screen bg-white dark:bg-black">
       <Menu handleClickOpen={handleClickOpen} />
-      {children}
+      <div className="flex-1">{children}</div>
     </div>
   )
 }

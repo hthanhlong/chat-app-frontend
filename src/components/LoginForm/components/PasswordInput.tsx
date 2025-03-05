@@ -7,9 +7,11 @@ import { ILoginInput } from '../../../types'
 const PasswordInput = ({
   errorMessage,
   register,
+  defaultValue,
 }: {
   errorMessage: string | undefined
   register: UseFormRegister<ILoginInput>
+  defaultValue?: string
 }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false)
 
@@ -22,6 +24,7 @@ const PasswordInput = ({
           type={!showPassword ? 'password' : 'text'}
           placeholder="Pass: Password123"
           autoComplete="off"
+          defaultValue={defaultValue}
         />
         <div
           className="absolute right-[4%] top-[50%] -translate-y-1/2 cursor-pointer"

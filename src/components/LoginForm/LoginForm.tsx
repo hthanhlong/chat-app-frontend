@@ -94,12 +94,14 @@ const LoginForm = () => {
       <Input
         label="username"
         name="username"
+        defaultValue="guest_1"
         register={register}
         errorMessage={errors.username?.message}
         placeholder="id: guest_1 or guest_2"
       />
       <PasswordInput
         register={register}
+        defaultValue="Password123"
         errorMessage={errors.password?.message}
       />
       <div className="text-center text-xs">

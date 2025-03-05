@@ -1,22 +1,19 @@
 .loader {
   --border-color: rgb(184, 251, 184);
-  position: absolute;
   border: 4px solid var(--border-color);
   border-top-color: rgb(62, 66, 62);
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   animation: spin 1s linear infinite;
-  margin: 20px auto;
   z-index: 100;
-  top: 50%;
-  left: 50%;
 }
 
 @keyframes spin {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
