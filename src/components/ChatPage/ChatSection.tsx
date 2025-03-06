@@ -10,12 +10,12 @@ import { useSocketStates } from '../../hooks/useSocketStates'
 import { useThemeMode } from 'flowbite-react'
 import { useMessage } from '../../hooks/useMessage'
 import { IMessage } from '../../types'
-
+import { SOCKET_EVENTS } from '../../events'
 const ChatSection = () => {
   const { mode } = useThemeMode()
   const { id } = useAuth()
   const { selectedId: partnerId } = useSelectedUserChat()
-  const { socketEvent } = useSocketStates()
+  const { socketListener } = useSocketStates()
   const { messages, setMessages } = useMessage()
 
   const { data, isLoading } = useQuery({
@@ -30,10 +30,6 @@ const ChatSection = () => {
   })
 
   useEffect(() => {
-    const chatRight = document.getElementById('chat-right')
-    if (!chatRight) return
-    const height = chatRight.clientHeight
-    console.log(height)
     const element = document.querySelector('.scroll-nail')
     element?.scrollTo({
       top: element.scrollHeight,
@@ -51,20 +47,20 @@ const ChatSection = () => {
   }, [data])
 
   useEffect(() => {
-    if (socketEvent?.type === 'HAS_NEW_MESSAGE') {
-      const newMessage = socketEvent.payload as IMessage
+    if (socketListener?.type === SOCKET_EVENTS.HAS_NEW_MESSAGE) {
+      const newMessage = socketListener.payload as IMessage
       if (newMessage.senderId === partnerId) {
         // @ts-expect-error -//
-        setMessages((prev: IMessage[]) => [newMessage, ...prev])
+        setMessages((prev: IMessage[]) => [...prev, newMessage])
       }
     }
-  }, [socketEvent])
+  }, [socketListener])
 
   const styleScrollBar = mode === 'light' ? 'chat-section' : 'dark-chat-section'
 
   return (
     <div
-      className={`${styleScrollBar} scroll-nail h-[calc(100vh-160px)] overflow-y-auto p-2 lg:h-[calc(650px-160px)]`}
+      className={`${styleScrollBar} scroll-nail h-[calc(100vh-160px)] overflow-auto p-2 lg:h-[calc(650px-160px)]`}
     >
       {!isLoading ? (
         messages.map((message: IMessage) => (

@@ -8,12 +8,12 @@ import { useSelectedUserChat } from '../../hooks/useSelectedUserChat'
 import { useSocketStates } from '../../hooks/useSocketStates'
 import ClearMessage from '../ClearMessage/ClearMessage'
 import Unfriend from '../Unfriend/Unfriend'
-
+import { SOCKET_EVENTS } from '../../events'
 const ListUsers = () => {
   const { id } = useAuth()
   const { selectedId, listFriends, setSelectedId, setListFriends } =
     useSelectedUserChat()
-  const { ws, socketEvent } = useSocketStates()
+  const { ws, socketListener } = useSocketStates()
   const [listOnLineUsers, setListOnLineUsers] = useState<string[]>([])
   const properties = usePropertiesElement('main-layout')
   const properties2 = usePropertiesElement('chat-left-top')
@@ -28,9 +28,10 @@ const ListUsers = () => {
 
   useEffect(() => {
     if (data && data.data?.length > 0) {
-      if (ws?.readyState === WebSocket.OPEN) {
-        ws?.sendDataToServer({ type: 'GET_ONLINE_USERS' })
-      }
+      ws?.sendDataToServer({
+        type: SOCKET_EVENTS.GET_ONLINE_USERS,
+        payload: { userId: id },
+      })
       if (!selectedId || data?.data.includes(selectedId)) {
         setSelectedId(data?.data?.[0]._id)
       } else {
@@ -39,24 +40,6 @@ const ListUsers = () => {
       setListFriends(data?.data)
     }
   }, [data, ws])
-
-  useEffect(() => {
-    const TIME_CALL_GET_ONLINE_USERS = 1000 * 60 * 5 // 5 minutes
-    const idSto = setTimeout(() => {
-      if (ws?.readyState === WebSocket.OPEN) {
-        ws?.sendDataToServer({ type: 'GET_ONLINE_USERS' })
-      }
-    }, 3000)
-    const id = setInterval(() => {
-      if (ws?.readyState === WebSocket.OPEN) {
-        ws?.sendDataToServer({ type: 'GET_ONLINE_USERS' })
-      }
-    }, TIME_CALL_GET_ONLINE_USERS)
-    return () => {
-      clearInterval(id)
-      clearTimeout(idSto)
-    }
-  }, [ws])
 
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
@@ -71,16 +54,16 @@ const ListUsers = () => {
   }, [])
 
   useEffect(() => {
-    if (socketEvent?.type === 'ONLINE_USERS') {
-      const onlineUsers = socketEvent.payload as string[]
+    if (socketListener?.type === SOCKET_EVENTS.GET_ONLINE_USERS) {
+      const onlineUsers = socketListener.payload as string[]
       const filterOnlineUsers = onlineUsers.filter((user) => user !== id)
       setListOnLineUsers(filterOnlineUsers)
     }
 
-    if (socketEvent?.type === 'UPDATE_FRIEND_LIST') {
+    if (socketListener?.type === SOCKET_EVENTS.UPDATE_FRIEND_LIST) {
       queryClient.invalidateQueries({ queryKey: ['myFriends'] })
     }
-  }, [id, listFriends, socketEvent])
+  }, [id, listFriends, socketListener])
 
   return (
     <div className="overflow-auto" style={{ height: currentHeight || '' }}>

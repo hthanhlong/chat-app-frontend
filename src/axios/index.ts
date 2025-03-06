@@ -2,12 +2,12 @@ import axios from 'axios'
 import { refreshToken } from './auth'
 import { LOCAL_STORAGE_KEY } from '../data'
 import { clearLocalStorage } from '../helper'
+import { host } from '../config'
 
 let isCalling = false
-const HOST = import.meta.env.VITE_HOST || 'http://localhost:8080'
 
 export const http = axios.create({
-  baseURL: `${HOST}/api/v1/`,
+  baseURL: `${host}/api/v1/`,
 })
 
 http.interceptors.request.use(

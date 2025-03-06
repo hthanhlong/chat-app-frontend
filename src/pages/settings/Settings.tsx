@@ -20,6 +20,7 @@ import { LIST_COMPONENTS, LIST_SETTINGS } from './utils'
 import { useSocketStates } from '../../hooks/useSocketStates'
 import { useThemeMode } from 'flowbite-react'
 import { clearLocalStorage } from '../../helper'
+import { SOCKET_EVENTS } from '../../events'
 
 const Settings = () => {
   const { state } = useLocation()
@@ -27,7 +28,7 @@ const Settings = () => {
   const { mode, setMode } = useThemeMode()
   const [selected, setSelected] = useState(state?.friendTap || 0)
   const { setGlobalLoading } = useLoading()
-  const { ws, setWs } = useSocketStates()
+  const { ws } = useSocketStates()
 
   useEffect(() => {
     return () => {
@@ -92,16 +93,13 @@ const Settings = () => {
         actionArea={true}
         onClose={() => setOpenModal(false)}
         onAccept={async () => {
-          if (ws?.readyState === WebSocket.OPEN) {
-            ws?.sendDataToServer({
-              type: 'CLOSE_CONNECTION',
-            })
-          }
+          ws?.sendDataToServer({
+            type: SOCKET_EVENTS.CLOSE_CONNECTION,
+          })
           clearLocalStorage()
           setOpenModal(false)
           setGlobalLoading(true)
-          // @ts-expect-error - //
-          setWs(null)
+          ws?.close()
           await sleep(3000)
           googleLogout()
           window.location.reload()

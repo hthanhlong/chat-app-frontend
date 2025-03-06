@@ -6,7 +6,7 @@ import { useAuth } from '../../hooks/useAuth'
 import { useSelectedUserChat } from '../../hooks/useSelectedUserChat'
 import { useSocketStates } from '../../hooks/useSocketStates'
 import { useMessage } from '../../hooks/useMessage'
-
+import { SOCKET_EVENTS } from '../../events'
 const InputChat = () => {
   const { id } = useAuth()
   const { selectedId: partnerId } = useSelectedUserChat()
@@ -28,10 +28,10 @@ const InputChat = () => {
         createdAt: new Date().toISOString(),
       }
       ws?.sendDataToServer({
-        type: 'SEND_MESSAGE',
+        type: SOCKET_EVENTS.SEND_MESSAGE,
         payload: newMessage,
       })
-      setMessages([newMessage, ...messages])
+      setMessages([...messages, newMessage])
     }
     reset((formValues) => ({
       ...formValues,
