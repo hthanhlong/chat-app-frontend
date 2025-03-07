@@ -1,11 +1,11 @@
+import { RootLayout } from '../../layouts'
 import {
   ChatLeft,
   ChatRight,
   LeftContentLayout,
   RightContentLayout,
 } from '../../components'
-import RootLayout from '../../Layouts/RootLayout'
-import MessageProvider from '../../provider/MessageProvider'
+import { MessageProvider } from '../../core/provider'
 
 const Home = () => {
   return (

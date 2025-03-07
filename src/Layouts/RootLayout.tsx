@@ -1,7 +1,7 @@
 import { ReactNode, useEffect } from 'react'
 import { Flowbite, useThemeMode } from 'flowbite-react'
 import { motion } from 'framer-motion'
-import MenuProvider from '../provider/MenuProvider'
+import { MenuProvider } from '../core/provider'
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   const theme = useThemeMode()

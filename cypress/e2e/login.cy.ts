@@ -1,4 +1,4 @@
-describe('Should login successfully', async () => {
+describe('Should sign in successfully', async () => {
   it('passes', () => {
     cy.viewport(1920, 1240)
     cy.visit('http://localhost:5173/')

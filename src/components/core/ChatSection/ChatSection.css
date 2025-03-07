@@ -1,0 +1,36 @@
+.chat-section::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.chat-section::-webkit-scrollbar-track {
+    background: #ffffff;
+}
+
+.chat-section::-webkit-scrollbar-thumb {
+    background-color: #d4d4d4;
+    border-radius: 20px;
+}
+
+.chat-section::-webkit-scrollbar-thumb:hover {
+    background: #e6e6e6;
+}
+
+/* // */
+.dark-chat-section::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.dark-chat-section::-webkit-scrollbar-track {
+    background: black;
+}
+
+.dark-chat-section::-webkit-scrollbar-thumb {
+    background-color: #2a2a2a;
+    border-radius: 20px;
+}
+
+.dark-chat-section::-webkit-scrollbar-thumb:hover {
+    background: #373737;
+}

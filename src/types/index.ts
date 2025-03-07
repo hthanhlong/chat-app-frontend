@@ -1,11 +1,16 @@
 import { FieldValues, UseFormRegister } from 'react-hook-form'
 
-export interface ILoginInput {
+export interface ISignIn {
   username: string
   password: string
 }
 
-export interface ISignUpInput {
+export interface ISignInResponse {
+  accessToken: string
+  refreshToken: string
+}
+
+export interface ISignUp {
   nickname: string
   username: string
   email: string
@@ -13,7 +18,12 @@ export interface ISignUpInput {
   confirmPassword: string
 }
 
-export interface I_ERROR_MESSAGE {
+export interface ISignUpResponse {
+  accessToken: string
+  refreshToken: string
+}
+
+export interface IErrorMessages {
   required: string
   maxLength: string
 }

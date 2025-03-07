@@ -6,21 +6,83 @@ import {
   faMoon,
   faSun,
 } from '@fortawesome/free-solid-svg-icons'
-import RootLayout from '../../Layouts/RootLayout'
+import RootLayout from '../../layouts/RootLayout'
 import { Link, useLocation } from 'react-router-dom'
+import { useLoading, useSocketStates } from '../../core/hooks'
+import { sleep } from '../../utils'
+import { useThemeMode } from 'flowbite-react'
+import { SOCKET_EVENTS } from '../../core/constant'
 import {
-  CustomLink,
-  CustomModal,
+  Friends,
+  Profiles,
+  Account,
+  Security,
+  Notifications,
+  Privacy,
+  Help,
+} from '../../components/core'
+import {
   LeftContentLayout,
   RightContentLayout,
-} from '../../components'
-import { useLoading } from '../../hooks/useLoading'
-import { sleep } from '../../utils'
-import { LIST_COMPONENTS, LIST_SETTINGS } from './utils'
-import { useSocketStates } from '../../hooks/useSocketStates'
-import { useThemeMode } from 'flowbite-react'
-import { clearLocalStorage } from '../../helper'
-import { SOCKET_EVENTS } from '../../events'
+  CustomLink,
+  CustomModal,
+} from '../../components/ui'
+import { LocalStorageService } from '../../core/services'
+
+const LIST_SETTINGS = [
+  {
+    id: 0,
+    title: 'Friends',
+  },
+  {
+    id: 1,
+    title: 'Profile',
+  },
+  {
+    id: 2,
+    title: 'Account',
+  },
+  {
+    id: 3,
+    title: 'Security',
+  },
+  {
+    id: 4,
+    title: 'Notifications',
+  },
+  {
+    id: 5,
+    title: 'Privacy',
+  },
+  {
+    id: 6,
+    title: 'Help',
+  },
+]
+
+const LIST_COMPONENTS = [
+  {
+    component: <Friends />,
+  },
+  {
+    component: <Profiles />,
+  },
+  {
+    component: <Account />,
+  },
+  {
+    component: <Security />,
+  },
+  {
+    component: <Notifications />,
+  },
+  {
+    component: <Privacy />,
+  },
+  {
+    component: <Help />,
+  },
+]
 
 const Settings = () => {
   const { state } = useLocation()
@@ -96,7 +158,7 @@ const Settings = () => {
           ws?.sendDataToServer({
             type: SOCKET_EVENTS.CLOSE_CONNECTION,
           })
-          clearLocalStorage()
+          LocalStorageService.clear()
           setOpenModal(false)
           setGlobalLoading(true)
           ws?.close()

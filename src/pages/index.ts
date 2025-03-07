@@ -1,6 +1,8 @@
-import Login from './Login/Login'
-import Home from './Home/Home'
-import ErrorPage from './ErrorPage/ErrorPage'
-import SignUp from './signup/Signup'
+import Login from './sign-in/SignIn'
+import Home from './home/Home'
+import SignUp from './sign-up/SignUp'
+import Settings from './settings/Settings'
+import NotFound from './not-found/NotFound'
+import ErrorPage from './error/ErrorPage'
 
-export { Login, Home, ErrorPage, SignUp }
+export { Login, Home, ErrorPage, SignUp, Settings, NotFound }

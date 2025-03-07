@@ -2,7 +2,7 @@ import googleSvg from './google.svg'
 import x from './x.svg'
 import OpenEye from './open-eye.svg'
 import HiddenEye from './hidden-eye.svg'
-import LoginImage from './images/login.png'
+import SignInImage from './images/signin.png'
 import SignUpImage from './images/signup.png'
 import AvatarSvg from './avatarDefault.svg'
 import Menu from './menu.svg'
@@ -49,8 +49,8 @@ const AvatarDefault = ({
   )
 }
 
-const LoginBackground = () => (
-  <img src={LoginImage} className="object-fit h-full w-full" />
+const SignInBackground = () => (
+  <img src={SignInImage} className="object-fit h-full w-full" />
 )
 
 const SignUpBackground = () => (
@@ -62,7 +62,7 @@ export {
   XIcon,
   OpenPasswordIcon,
   HiddenPasswordIcon,
-  LoginBackground,
+  SignInBackground,
   SignUpBackground,
   AvatarDefault,
   MenuIcon,
