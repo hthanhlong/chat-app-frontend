@@ -3,6 +3,7 @@ import END_POINT from '../endpoint'
 
 class UserService {
   getAllUsers = async (id: string) => {
+    if (!id) return Promise.reject(new Error('No id found'))
     try {
       const response = await HttpService.get(END_POINT.USERS, {
         params: { id, type: 'all' },
@@ -14,9 +15,10 @@ class UserService {
   }
 
   getUserById = async (id: string) => {
+    if (!id) return Promise.reject(new Error('No id found'))
     try {
       const response = await HttpService.get(END_POINT.USERS, {
-        params: { id, type: 'one' },
+        params: { id: id, type: 'one' },
       })
       return response
     } catch (error) {
@@ -25,6 +27,7 @@ class UserService {
   }
 
   updateUserById = async (id: string, data: Record<string, unknown>) => {
+    if (!id) return Promise.reject(new Error('No id found'))
     try {
       const response = await HttpService.patch(END_POINT.USERS, { id, data })
       return response

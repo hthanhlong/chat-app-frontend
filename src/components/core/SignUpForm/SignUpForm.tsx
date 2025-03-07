@@ -51,7 +51,7 @@ const SignUpForm = () => {
         'Account created successfully, redirecting to login page...',
       )
       await sleep(2000)
-      navigate('/login')
+      navigate('/sign-in')
     }
   }
 
@@ -116,7 +116,7 @@ const SignUpForm = () => {
       </div>
       <ButtonSignUp isLoading={isLoading} />
       <div className="mt-4 text-center text-sky-500 underline">
-        <Link to="/login">You already have account?</Link>
+        <Link to="/sign-in">You already have account?</Link>
       </div>
     </form>
   )

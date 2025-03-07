@@ -5,7 +5,7 @@ import Settings from '../pages/settings/Settings'
 
 const routesForPublic = [
   {
-    path: '/login',
+    path: '/sign-in',
     element: <Login />,
   },
   {

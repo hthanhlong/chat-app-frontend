@@ -1,5 +1,6 @@
 import { ReactNode, createContext, useEffect, useState } from 'react'
 import { LocalStorageService } from '../services'
+import { ISignInResponse } from '../../types'
 
 type AuthContextType = {
   id: string
@@ -7,7 +8,7 @@ type AuthContextType = {
   accessToken: string
   refreshToken: string
   isLogged: boolean
-  setAuth: (data: Record<string, unknown>) => void
+  setAuth: (data: ISignInResponse) => void
 }
 
 const helperIsLogged = (data: string | null) => {
@@ -23,7 +24,9 @@ export const AuthContext = createContext<AuthContextType>({
   accessToken: '',
   refreshToken: '',
   isLogged: false,
-  setAuth: () => {},
+  setAuth: (response: ISignInResponse) => {
+    console.log('response', response)
+  },
 })
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -35,7 +38,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     isLogged: helperIsLogged(LocalStorageService.getIsLogged()),
   })
 
-  const setAuth = (data: Record<string, unknown>) => {
+  const setAuth = (data: ISignInResponse) => {
     setAuthObject_((prev) => ({ ...prev, ...data, isLogged: true }))
   }
 

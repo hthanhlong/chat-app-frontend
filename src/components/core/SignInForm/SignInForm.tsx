@@ -1,5 +1,5 @@
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { GoogleLogin } from '@react-oauth/google'
+// import { GoogleLogin } from '@react-oauth/google'
 import { useNavigate } from 'react-router-dom'
 import {
   PasswordInput,
@@ -12,17 +12,14 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import { loginSchema } from '../../../core/validation'
 import { useMutation } from '@tanstack/react-query'
-import { capitalizeFirstLetter, sleep } from '../../../utils'
-import { useEffect } from 'react'
-import { useLoading, useAuth } from '../../../core/hooks'
-import { ISignIn, ISuccessResponse } from '../../../types'
+import { capitalizeFirstLetter } from '../../../utils'
+import { useAuth } from '../../../core/hooks'
+import { ISignIn, ISignInResponse, ISuccessResponse } from '../../../types'
 import { AuthService } from '../../../core/services'
 
 const SignInForm = () => {
-  const { accessToken, setAuth } = useAuth()
+  const { setAuth } = useAuth()
   const navigate = useNavigate()
-
-  const { setGlobalLoading } = useLoading()
 
   const {
     register,
@@ -33,58 +30,57 @@ const SignInForm = () => {
   })
 
   const onSubmit: SubmitHandler<ISignIn> = (data) => {
-    loginFn(data)
+    signInFn(data)
   }
 
   const {
-    mutate: loginFn,
-    //@ts-expect-error - //
-    isLoading,
+    mutate: signInFn,
     error,
-    data,
+    isPending,
   } = useMutation({
     mutationFn: (data: ISignIn) => {
       return AuthService.signIn(data)
     },
+    onSuccess: (response: ISuccessResponse<ISignInResponse>) => {
+      if (response.isSuccess) {
+        setAuth(response.data)
+        navigate('/')
+      }
+    },
   })
 
-  const redirectFn = async (
-    data: ISuccessResponse<{
-      accessToken: string
-    }>,
-  ): Promise<void | undefined> => {
-    if (data && data.isSuccess) {
-      setGlobalLoading(true)
-      await sleep(3000)
-      setAuth(data?.data)
-    }
-  }
+  // const redirectFn = async (
+  //   data: ISuccessResponse<{
+  //     accessToken: string
+  //   }>,
+  // ): Promise<void | undefined> => {
+  //   if (data && data.isSuccess) {
+  //     setGlobalLoading(true)
+  //     await sleep(3000)
+  //     setAuth(data?.data)
+  //   }
+  // }
 
-  const handleResponseMessage = async (response: unknown) => {
-    // @ts-expect-error - //
-    const result: ISuccessResponse = await AuthService.loginByGoogle(response)
-    if (result.isSuccess) {
-      await redirectFn(result)
-    } else {
-      console.error('Failed to login with Google', result)
-    }
-  }
+  // const handleResponseMessage = async (response: unknown) => {
+  //   // @ts-expect-error - //
+  //   const result: ISuccessResponse = await AuthService.signInByGoogle(response)
+  //   if (result.isSuccess) {
+  //     await redirectFn(result)
+  //   } else {
+  //     console.error('Failed to login with Google', result)
+  //   }
+  // }
 
-  const handleErrorMessage = (error: unknown) => {
-    console.error('Login error:', error)
-  }
+  // const handleErrorMessage = (error: unknown) => {
+  //   console.error('Login error:', error)
+  // }
 
-  useEffect(() => {
-    //@ts-expect-error - //
-    if (data) redirectFn(data)
-  }, [data])
-
-  useEffect(() => {
-    if (accessToken) navigate('/')
-    return () => {
-      setGlobalLoading(false)
-    }
-  }, [accessToken])
+  // useEffect(() => {
+  //   if (accessToken) navigate('/')
+  //   return () => {
+  //     setGlobalLoading(false)
+  //   }
+  // }, [accessToken])
 
   return (
     <form
@@ -115,16 +111,16 @@ const SignInForm = () => {
             : ''}
         </p>
       </div>
-      <ButtonSignIn isLoading={isLoading} />
+      <ButtonSignIn isLoading={isPending} />
       <SignInDivider />
-      <div className="flex items-center justify-center">
+      {/* <div className="flex items-center justify-center">
         <GoogleLogin
           text="signin_with"
           theme="filled_blue"
           onSuccess={handleResponseMessage}
           onError={() => handleErrorMessage}
         />
-      </div>
+      </div> */}
 
       <SignUpNow />
     </form>

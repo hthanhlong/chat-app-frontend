@@ -23,9 +23,10 @@ class FriendService {
   }
 
   getMyFriends = async (id: string) => {
+    if (!id) return Promise.reject(new Error('No id found'))
     try {
-      const response = await HttpService.get(END_POINT.GET_MY_FRIENDS, {
-        params: { id },
+      const response = await HttpService.get(END_POINT.GET_FRIENDS, {
+        params: { id: id },
       })
       return response
     } catch (error) {

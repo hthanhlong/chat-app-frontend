@@ -5,7 +5,7 @@ const END_POINT = {
   USERS: '/users',
   FRIEND_REQUEST: '/send-friend-request',
   GET_FRIEND_REQUESTS: '/friend-requests',
-  GET_MY_FRIENDS: '/get-friends',
+  GET_FRIENDS: '/get-friends',
   UPDATE_FRIEND_STATUS: '/update-status-friend',
   SEARCH_FRIEND: '/search-friend',
   NOTIFICATIONS: '/notifications',

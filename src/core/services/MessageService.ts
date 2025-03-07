@@ -2,6 +2,7 @@ import END_POINT from '../endpoint'
 import { HttpService } from '.'
 class MessageService {
   getAllMessages = async (partnerId: string) => {
+    if (!partnerId) return Promise.reject(new Error('No partnerId found'))
     try {
       const response = await HttpService.get(END_POINT.GET_MESSAGES, {
         params: { partnerId },
@@ -13,6 +14,7 @@ class MessageService {
   }
 
   getLastMessages = async (partnerId: string) => {
+    if (!partnerId) return Promise.reject(new Error('No partnerId found'))
     try {
       const response = await HttpService.get(END_POINT.GET_LAST_MESSAGES, {
         params: { partnerId },

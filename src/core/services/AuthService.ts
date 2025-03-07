@@ -1,14 +1,22 @@
 import { AxiosRequestConfig } from 'axios'
-import END_POINT from '../endpoint'
-import { ISignIn, ISignUp } from '../../types'
+import {
+  ISignIn,
+  ISignInResponse,
+  ISignUp,
+  ISuccessResponse,
+} from '../../types'
 import { HttpService, LocalStorageService } from '.'
+import END_POINT from '../endpoint'
 
 class AuthService {
-  async signIn(data: ISignIn, options?: AxiosRequestConfig) {
+  async signIn(
+    data: ISignIn,
+    options?: AxiosRequestConfig,
+  ): Promise<ISuccessResponse<ISignInResponse>> {
     const response = await HttpService.post(END_POINT.SIGN_IN, data, {
       ...options,
     })
-    return response.data
+    return response as unknown as ISuccessResponse<ISignInResponse>
   }
 
   async signUp(data: ISignUp, options?: AxiosRequestConfig) {
@@ -27,7 +35,7 @@ class AuthService {
     return response.data
   }
 
-  async loginByGoogle(data: unknown, options?: AxiosRequestConfig) {
+  async signInByGoogle(data: unknown, options?: AxiosRequestConfig) {
     const response = await HttpService.post(END_POINT.AUTH_GOOGLE, data, {
       ...options,
     })

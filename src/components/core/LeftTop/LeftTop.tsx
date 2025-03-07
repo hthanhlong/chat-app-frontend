@@ -16,15 +16,10 @@ const LeftTop = () => {
 
   const { data } = useQuery({
     queryKey: ['user', id],
-    queryFn: () => {
-      if (id) {
-        return UserService.getUserById(id)
-      } else {
-        Promise.resolve({ data: null })
-      }
-    },
+    queryFn: () => UserService.getUserById(id),
   })
 
+  console.log('data', data)
   return (
     <>
       <div className="flex min-h-[80px] items-center justify-between border-b-[1px] p-2 dark:border-gray-600">

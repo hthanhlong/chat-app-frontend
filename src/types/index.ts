@@ -6,6 +6,8 @@ export interface ISignIn {
 }
 
 export interface ISignInResponse {
+  id: string
+  username: string
   accessToken: string
   refreshToken: string
 }
