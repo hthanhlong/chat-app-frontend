@@ -7,7 +7,9 @@ type LoadingContextType = {
 
 export const LoadingContext = createContext<LoadingContextType>({
   isLoading: false,
-  setGlobalLoading: () => {},
+  setGlobalLoading: (isLoading: boolean) => {
+    console.log('isLoading', isLoading)
+  },
 })
 
 const LoadingProvider = ({ children }: { children: ReactNode }) => {

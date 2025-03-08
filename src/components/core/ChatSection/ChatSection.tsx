@@ -1,11 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
-import {
-  useAuth,
-  useMessage,
-  useSelectedUserChat,
-  useSocketStates,
-} from '../../../core/hooks'
-import { useEffect } from 'react'
+import { useAuth, useSelectedUserChat, useWebSocket } from '../../../core/hooks'
+import { useEffect, useState } from 'react'
 import Message from '../../ui/Message/Message'
 import Skeleton from '../../ui/Skeleton/Skeleton'
 import { useThemeMode } from 'flowbite-react'
@@ -18,19 +13,19 @@ const ChatSection = () => {
   const { mode } = useThemeMode()
   const { id } = useAuth()
   const { selectedId: partnerId } = useSelectedUserChat()
-  const { socketListener } = useSocketStates()
-  const { messages, setMessages } = useMessage()
+  const { webSocketEvent } = useWebSocket()
+  const [messages, setMessages] = useState<IMessage[]>([])
 
-  const { data, isLoading } = useQuery({
+  const { data: response, isLoading } = useQuery({
     queryKey: ['get-message', partnerId],
-    // @ts-expect-error -//
-    queryFn: () => {
-      if (partnerId) {
-        return MessageService.getAllMessages(partnerId)
-      }
-      return Promise.resolve({ data: [] })
-    },
+    queryFn: () => MessageService.getAllMessages(partnerId),
   })
+
+  useEffect(() => {
+    if (response?.data.length > 0) {
+      setMessages(response?.data)
+    }
+  }, [response])
 
   useEffect(() => {
     const element = document.querySelector('.scroll-nail')
@@ -41,21 +36,13 @@ const ChatSection = () => {
   })
 
   useEffect(() => {
-    setMessages([])
-    if (data?.data.length > 0) {
-      setMessages(data?.data)
-    }
-  }, [data])
-
-  useEffect(() => {
-    if (socketListener?.type === SOCKET_EVENTS.HAS_NEW_MESSAGE) {
-      const newMessage = socketListener.payload as IMessage
+    if (webSocketEvent?.type === SOCKET_EVENTS.HAS_NEW_MESSAGE) {
+      const newMessage = webSocketEvent.payload as IMessage
       if (newMessage.senderId === partnerId) {
-        // @ts-expect-error -//
         setMessages((prev: IMessage[]) => [...prev, newMessage])
       }
     }
-  }, [socketListener])
+  }, [webSocketEvent])
 
   const styleScrollBar = mode === 'light' ? 'chat-section' : 'dark-chat-section'
 

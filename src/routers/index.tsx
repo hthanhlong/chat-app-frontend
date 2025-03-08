@@ -9,7 +9,7 @@ const routesForPublic = [
     element: <Login />,
   },
   {
-    path: '/signup',
+    path: '/sign-up',
     element: <SignUp />,
   },
 ]

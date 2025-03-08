@@ -25,7 +25,10 @@ export const AuthContext = createContext<AuthContextType>({
   refreshToken: '',
   isLogged: false,
   setAuth: (response: ISignInResponse) => {
-    console.log('response', response)
+    LocalStorageService.setId(response.id ?? '')
+    LocalStorageService.setUsername(response.username ?? '')
+    LocalStorageService.setAccessToken(response.accessToken)
+    LocalStorageService.setRefreshToken(response.refreshToken ?? '')
   },
 })
 

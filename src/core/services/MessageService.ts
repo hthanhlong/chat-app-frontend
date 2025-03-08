@@ -5,18 +5,18 @@ class MessageService {
     if (!partnerId) return Promise.reject(new Error('No partnerId found'))
     try {
       const response = await HttpService.get(END_POINT.GET_MESSAGES, {
-        params: { partnerId },
+        params: { partnerId: partnerId },
       })
       return response
     } catch (error) {
-      throw new Error('Failed to get users')
+      throw new Error('Failed to get messages')
     }
   }
 
-  getLastMessages = async (partnerId: string) => {
+  getLatestMessage = async (partnerId: string) => {
     if (!partnerId) return Promise.reject(new Error('No partnerId found'))
     try {
-      const response = await HttpService.get(END_POINT.GET_LAST_MESSAGES, {
+      const response = await HttpService.get(END_POINT.GET_LATEST_MESSAGE, {
         params: { partnerId },
       })
       return response

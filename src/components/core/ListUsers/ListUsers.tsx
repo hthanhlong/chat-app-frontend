@@ -2,7 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { FriendService } from '../../../core/services'
 import {
   useAuth,
-  useSocketStates,
+  useWebSocket,
   usePropertiesElement,
   useSelectedUserChat,
 } from '../../../core/hooks'
@@ -11,11 +11,12 @@ import ClearMessage from '../ClearMessage/ClearMessage'
 import Unfriend from '../Unfriend/Unfriend'
 import { SOCKET_EVENTS } from '../../../core/constant'
 import UserItem from '../UserItem/UserItem'
+
 const ListUsers = () => {
   const { id } = useAuth()
   const { selectedId, listFriends, setSelectedId, setListFriends } =
     useSelectedUserChat()
-  const { ws, socketListener } = useSocketStates()
+  const { webSocket, webSocketEvent } = useWebSocket()
   const [listOnLineUsers, setListOnLineUsers] = useState<string[]>([])
   const properties = usePropertiesElement('main-layout')
   const properties2 = usePropertiesElement('chat-left-top')
@@ -30,7 +31,7 @@ const ListUsers = () => {
 
   useEffect(() => {
     if (data && data.data?.length > 0) {
-      ws?.sendDataToServer({
+      webSocket?.sendDataToServer({
         type: SOCKET_EVENTS.GET_ONLINE_USERS,
         payload: { userId: id },
       })
@@ -41,7 +42,7 @@ const ListUsers = () => {
       }
       setListFriends(data?.data)
     }
-  }, [data, ws])
+  }, [data, webSocket])
 
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
@@ -56,16 +57,16 @@ const ListUsers = () => {
   }, [])
 
   useEffect(() => {
-    if (socketListener?.type === SOCKET_EVENTS.GET_ONLINE_USERS) {
-      const onlineUsers = socketListener.payload as string[]
+    if (webSocketEvent?.type === SOCKET_EVENTS.GET_ONLINE_USERS) {
+      const onlineUsers = webSocketEvent.payload as string[]
       const filterOnlineUsers = onlineUsers.filter((user) => user !== id)
       setListOnLineUsers(filterOnlineUsers)
     }
 
-    if (socketListener?.type === SOCKET_EVENTS.UPDATE_FRIEND_LIST) {
+    if (webSocketEvent?.type === SOCKET_EVENTS.UPDATE_FRIEND_LIST) {
       queryClient.invalidateQueries({ queryKey: ['myFriends'] })
     }
-  }, [id, listFriends, socketListener])
+  }, [id, listFriends, webSocketEvent])
 
   return (
     <div className="overflow-auto" style={{ height: currentHeight || '' }}>

@@ -2,8 +2,7 @@ import { MouseEventHandler, useEffect, useState } from 'react'
 import Avatar from '../Avatar/Avatar'
 import { useQuery } from '@tanstack/react-query'
 import { MessageService } from '../../../core/services'
-import { useSocketStates } from '../../../core/hooks'
-import { useMessage } from '../../../core/hooks'
+import { useWebSocket } from '../../../core/hooks'
 import { IMessage } from '../../../types'
 import { Timer } from '../../ui'
 
@@ -18,48 +17,36 @@ const UserItem = ({
 }: {
   name: string
   caption: string
-  active?: boolean
-  isOnline?: boolean
-  userId?: string
+  active: boolean
+  isOnline: boolean
+  userId: string
   onClick?: MouseEventHandler
   onContextMenu?: MouseEventHandler
 }) => {
-  const { socketListener } = useSocketStates()
+  const { webSocketEvent } = useWebSocket()
   const [latestMessage, setLatestMessage] = useState<IMessage>()
-  const { messages } = useMessage()
   const [highLight, setHighLight] = useState<boolean>(false)
 
-  const { data } = useQuery({
-    queryKey: ['get-last-message', userId],
-    // @ts-expect-error -//
-    queryFn: () => {
-      if (userId) {
-        return MessageService.getLastMessages(userId)
-      }
-      return Promise.resolve({ data: {} })
-    },
+  const { data: response } = useQuery({
+    queryKey: ['get-latest-message', userId],
+    queryFn: () => MessageService.getLatestMessage(userId),
   })
 
   useEffect(() => {
-    setLatestMessage(data?.data)
-  }, [data])
+    if (response?.data) {
+      setLatestMessage(response?.data)
+    }
+  }, [response])
 
   useEffect(() => {
-    if (socketListener?.type === 'HAS_NEW_MESSAGE') {
-      const newMessage = socketListener.payload as IMessage
+    if (webSocketEvent?.type === 'HAS_NEW_MESSAGE') {
+      const newMessage = webSocketEvent.payload as IMessage
       if (newMessage.senderId === userId) {
         setLatestMessage(newMessage)
         setHighLight(true)
       }
     }
-  }, [socketListener])
-
-  useEffect(() => {
-    const lastMessage = messages[messages.length - 1]
-    if (lastMessage?.receiverId === userId) {
-      setLatestMessage(lastMessage)
-    }
-  }, [messages])
+  }, [webSocketEvent])
 
   return (
     <div

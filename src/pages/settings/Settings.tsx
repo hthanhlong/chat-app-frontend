@@ -8,7 +8,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import RootLayout from '../../layouts/RootLayout'
 import { Link, useLocation } from 'react-router-dom'
-import { useLoading, useSocketStates } from '../../core/hooks'
+import { useLoading, useWebSocket } from '../../core/hooks'
 import { sleep } from '../../utils'
 import { useThemeMode } from 'flowbite-react'
 import { SOCKET_EVENTS } from '../../core/constant'
@@ -90,7 +90,7 @@ const Settings = () => {
   const { mode, setMode } = useThemeMode()
   const [selected, setSelected] = useState(state?.friendTap || 0)
   const { setGlobalLoading } = useLoading()
-  const { ws } = useSocketStates()
+  const { webSocket } = useWebSocket()
 
   useEffect(() => {
     return () => {
@@ -155,13 +155,14 @@ const Settings = () => {
         actionArea={true}
         onClose={() => setOpenModal(false)}
         onAccept={async () => {
-          ws?.sendDataToServer({
+          webSocket?.sendDataToServer({
             type: SOCKET_EVENTS.CLOSE_CONNECTION,
+            payload: null,
           })
           LocalStorageService.clear()
           setOpenModal(false)
           setGlobalLoading(true)
-          ws?.close()
+          webSocket?.close()
           await sleep(3000)
           googleLogout()
           window.location.reload()

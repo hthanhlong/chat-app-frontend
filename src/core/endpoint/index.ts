@@ -10,7 +10,7 @@ const END_POINT = {
   SEARCH_FRIEND: '/search-friend',
   NOTIFICATIONS: '/notifications',
   GET_MESSAGES: '/get-messages',
-  GET_LAST_MESSAGES: '/get-last-message',
+  GET_LATEST_MESSAGE: '/get-latest-message',
   AUTH_GOOGLE: '/auth/google',
   UNFRIEND: '/unfriend',
   DELETE_ALL_MESSAGE: '/delete-all-message',

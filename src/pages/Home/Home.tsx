@@ -1,24 +1,12 @@
 import { RootLayout } from '../../layouts'
-import {
-  ChatLeft,
-  ChatRight,
-  LeftContentLayout,
-  RightContentLayout,
-} from '../../components'
-import { MessageProvider } from '../../core/provider'
+import { ChatLeft, ChatRight } from '../../components'
 
 const Home = () => {
   return (
-    <MessageProvider>
-      <RootLayout>
-        <LeftContentLayout>
-          <ChatLeft />
-        </LeftContentLayout>
-        <RightContentLayout>
-          <ChatRight />
-        </RightContentLayout>
-      </RootLayout>
-    </MessageProvider>
+    <RootLayout>
+      <ChatLeft />
+      <ChatRight />
+    </RootLayout>
   )
 }
 

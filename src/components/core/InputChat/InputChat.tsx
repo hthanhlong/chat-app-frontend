@@ -1,28 +1,29 @@
+import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 import { useForm } from 'react-hook-form'
-import {
-  useAuth,
-  useSelectedUserChat,
-  useSocketStates,
-  useMessage,
-} from '../../../core/hooks'
+import { useAuth, useSelectedUserChat, useWebSocket } from '../../../core/hooks'
 import { SOCKET_EVENTS } from '../../../core/constant'
+import { IMessage } from '../../../types'
+
+type FormValues = {
+  message: string
+}
 
 const InputChat = () => {
   const { id } = useAuth()
   const { selectedId: partnerId } = useSelectedUserChat()
-  const { ws } = useSocketStates()
-  const { register, handleSubmit, reset } = useForm()
-  const { messages, setMessages } = useMessage()
+  const { webSocket } = useWebSocket()
+  const { register, handleSubmit, reset } = useForm<FormValues>()
+  const [messages, setMessages] = useState<IMessage[]>([])
 
-  const onsubmit = (data: { message: string }) => {
+  const onsubmit = (data: FormValues) => {
     const { message } = data
     if (message.trim() === '') {
       return
     }
-    if (ws?.readyState === WebSocket.OPEN) {
+    if (webSocket?.readyState === WebSocket.OPEN) {
       const newMessage = {
         _id: uuidv4(),
         senderId: id,
@@ -30,7 +31,7 @@ const InputChat = () => {
         message: message,
         createdAt: new Date().toISOString(),
       }
-      ws?.sendDataToServer({
+      webSocket.sendDataToServer({
         type: SOCKET_EVENTS.SEND_MESSAGE,
         payload: newMessage,
       })
@@ -45,7 +46,6 @@ const InputChat = () => {
   return (
     <form
       className="flex h-[80px] items-center bg-slate-300 p-2 px-2  dark:bg-gray-700"
-      // @ts-expect-error - //
       onSubmit={handleSubmit(onsubmit)}
     >
       <div className="relative w-full rounded-full border-2 dark:border-gray-500">

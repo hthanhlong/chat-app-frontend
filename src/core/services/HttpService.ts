@@ -28,6 +28,7 @@ class HttpService {
     this.http.interceptors.response.use(
       (response) => response.data,
       async (error) => {
+        console.log('error ->>>> 123', error)
         const originalRequest = error.config
         if (
           error.response?.data.errorCode === 'AccessTokenExpiredError' &&
