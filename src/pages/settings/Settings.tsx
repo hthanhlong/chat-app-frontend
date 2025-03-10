@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { googleLogout } from '@react-oauth/google'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -7,7 +8,6 @@ import {
   faSun,
 } from '@fortawesome/free-solid-svg-icons'
 import RootLayout from '../../layouts/RootLayout'
-import { Link, useLocation } from 'react-router-dom'
 import { useLoading, useWebSocket } from '../../core/hooks'
 import { sleep } from '../../utils'
 import { useThemeMode } from 'flowbite-react'
@@ -99,54 +99,56 @@ const Settings = () => {
   }, [])
 
   return (
-    <RootLayout>
-      <LeftContentLayout>
-        <div className="flex min-h-[80px] items-center justify-between border-b-[1px] border-gray-600 p-4">
-          <h1 className="text-md dark:text-white lg:text-xl">Settings</h1>
-          <div>
-            <button
-              onClick={() => setMode(mode === 'light' ? 'dark' : 'light')}
-              className="mr-6 text-gray-500 hover:text-gray-700"
-            >
-              <FontAwesomeIcon
-                icon={mode === 'light' ? faMoon : faSun}
-                fontSize={24}
-              />
-            </button>
-            <Link to="/">
-              <FontAwesomeIcon
-                icon={faArrowRightFromBracket}
-                className="text-gray-500 hover:text-gray-700"
-                fontSize={24}
-              />
-            </Link>
+    <>
+      <RootLayout>
+        <LeftContentLayout>
+          <div className="flex h-[80px] items-center justify-between border-b-[1px] border-gray-600 p-4">
+            <h1 className="text-md dark:text-white lg:text-xl">Settings</h1>
+            <div>
+              <button
+                onClick={() => setMode(mode === 'light' ? 'dark' : 'light')}
+                className="mr-6 text-gray-500 hover:text-gray-700"
+              >
+                <FontAwesomeIcon
+                  icon={mode === 'light' ? faMoon : faSun}
+                  fontSize={24}
+                />
+              </button>
+              <Link to="/">
+                <FontAwesomeIcon
+                  icon={faArrowRightFromBracket}
+                  className="text-gray-500 hover:text-gray-700"
+                  fontSize={24}
+                />
+              </Link>
+            </div>
           </div>
-        </div>
-        <div className="flex flex-col dark:border-gray-600 dark:bg-black">
-          <ul className="mt-2 min-h-[562px] overflow-auto">
-            {LIST_SETTINGS.map((item, index) => (
-              <CustomLink
-                key={index}
-                text={item.title}
-                id={item.id}
-                onClick={() => setSelected(item.id)}
-                selected={selected}
-              />
-            ))}
-            <li
-              onClick={() => {
-                setOpenModal(true)
-              }}
-              className="mx-4 cursor-pointer rounded px-2 py-3 hover:bg-gray-100 hover:text-blue-700 dark:text-white hover:dark:bg-gray-800"
-            >
-              Sign out
-            </li>
-          </ul>
-        </div>
-      </LeftContentLayout>
-      <RightContentLayout>
-        {LIST_COMPONENTS[selected].component}
-      </RightContentLayout>
+          <div className="flex flex-col dark:border-gray-600 dark:bg-black">
+            <ul>
+              {LIST_SETTINGS.map((item, index) => (
+                <CustomLink
+                  key={index}
+                  text={item.title}
+                  id={item.id}
+                  onClick={() => setSelected(item.id)}
+                  selected={selected}
+                />
+              ))}
+              <li
+                onClick={() => {
+                  setOpenModal(true)
+                }}
+                className="mx-4 cursor-pointer rounded px-2 py-3 hover:bg-gray-100 hover:text-blue-700 dark:text-white hover:dark:bg-gray-800"
+              >
+                Sign out
+              </li>
+            </ul>
+          </div>
+        </LeftContentLayout>
+        <RightContentLayout>
+          {LIST_COMPONENTS[selected].component}
+        </RightContentLayout>
+      </RootLayout>
       <CustomModal
         openModal={openModal}
         body="Are you sure you want to logout?"
@@ -156,10 +158,12 @@ const Settings = () => {
         onClose={() => setOpenModal(false)}
         onAccept={async () => {
           if (webSocket && webSocket.readyState === WebSocket.OPEN) {
-            webSocket?.sendDataToServer({
-              type: SOCKET_EVENTS.CLOSE_CONNECTION,
-              payload: null,
-            })
+            if (typeof webSocket.sendDataToServer === 'function') {
+              webSocket?.sendDataToServer({
+                type: SOCKET_EVENTS.CLOSE_CONNECTION,
+                payload: null,
+              })
+            }
           }
           LocalStorageService.clear()
           setOpenModal(false)
@@ -170,7 +174,7 @@ const Settings = () => {
           window.location.reload()
         }}
       />
-    </RootLayout>
+    </>
   )
 }
 

@@ -9,12 +9,12 @@ const LeftContentLayout = ({ children }: { children: ReactNode }) => {
     if (!scope && !animate) return
     // @ts-expect-error - animate
     animate(scope.current, {
-      left: '-300px',
+      left: '-320px',
     })
   }
 
   useEffect(() => {
-    const element = document.querySelector('.chat-left')
+    const element = document.getElementById('chat-left')
 
     const handleClickGlobal = (event: MouseEvent) => {
       const properties = element?.getBoundingClientRect()
@@ -38,7 +38,8 @@ const LeftContentLayout = ({ children }: { children: ReactNode }) => {
   return (
     <motion.div
       ref={scope}
-      className="chat-left z-10 w-full max-w-[300px] border-r-[1px] border-gray-600 bg-white shadow-gray-500 dark:bg-black max-lg:fixed max-lg:-left-[300px] max-lg:top-0 max-lg:h-full"
+      id="chat-left"
+      className="fixed z-10 h-screen min-w-[320px] max-w-[320px] border-r-[1px] border-gray-600 bg-white shadow-gray-500 dark:bg-black lg:relative"
     >
       {children}
     </motion.div>
