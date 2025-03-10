@@ -26,13 +26,13 @@ class AuthService {
     return response.data
   }
 
-  async refreshToken() {
+  async refreshToken(): Promise<{ accessToken: string }> {
     const refToken = LocalStorageService.getRefreshToken()
     if (!refToken) return Promise.reject(new Error('No refresh token found'))
     const response = await HttpService.post(END_POINT.REFRESH_TOKEN, {
       refreshToken: refToken,
     })
-    return response.data
+    return response.data as unknown as { accessToken: string }
   }
 
   async signInByGoogle(data: unknown, options?: AxiosRequestConfig) {

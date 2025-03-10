@@ -37,18 +37,29 @@ const WebSocketProvider = ({ children }: { children: ReactNode }) => {
     const url = `${hostSocket}/?accessToken=${accessToken}`
     const webSocket = new WebSocket(url) as CustomWebSocket
     webSocket.onmessage = (event: MessageEvent) => {
-      console.log('WebSocket message', event.data)
       setWebSocketEvent(JSON.parse(event.data) as WebSocketEvent)
     }
-    webSocket.onerror = (event) => console.error('WebSocket error', event)
-    webSocket.onclose = () => console.log('WebSocket closed')
+    webSocket.onclose = (event) => {
+      if (event.reason === 'INVALID_ACCESS_TOKEN') {
+        const accessToken = LocalStorageService.getAccessToken()
+        if (!accessToken) return
+        const url = `${hostSocket}/?accessToken=${accessToken}`
+        const webSocket = new WebSocket(url) as CustomWebSocket
+        setWebSocket(webSocket as CustomWebSocket)
+      }
+    }
     webSocket.onopen = () => console.log('WebSocket opened')
     webSocket.sendDataToServer = (data: WebSocketEvent) => {
-      webSocket.send(JSON.stringify(data))
+      if (webSocket.readyState === WebSocket.OPEN) {
+        webSocket.send(JSON.stringify(data))
+      }
     }
+
     setWebSocket(webSocket as CustomWebSocket)
     return () => {
-      webSocket.close()
+      if (webSocket) {
+        webSocket.close()
+      }
     }
   }, [])
 

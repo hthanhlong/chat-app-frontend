@@ -1,7 +1,6 @@
 import Account from './Account/Account'
 import AddFriends from './AddFriends/AddFriends'
 import Avatar from './Avatar/Avatar'
-import InputChat from './InputChat/InputChat'
 import ChatSection from './ChatSection/ChatSection'
 import FriendRequest from './FriendRequest/FriendRequest'
 import Friends from './Friends/Friends'
@@ -24,7 +23,6 @@ export {
   Account,
   AddFriends,
   Avatar,
-  InputChat,
   ChatSection,
   FriendRequest,
   Friends,

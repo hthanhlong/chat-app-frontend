@@ -155,10 +155,12 @@ const Settings = () => {
         actionArea={true}
         onClose={() => setOpenModal(false)}
         onAccept={async () => {
-          webSocket?.sendDataToServer({
-            type: SOCKET_EVENTS.CLOSE_CONNECTION,
-            payload: null,
-          })
+          if (webSocket && webSocket.readyState === WebSocket.OPEN) {
+            webSocket?.sendDataToServer({
+              type: SOCKET_EVENTS.CLOSE_CONNECTION,
+              payload: null,
+            })
+          }
           LocalStorageService.clear()
           setOpenModal(false)
           setGlobalLoading(true)

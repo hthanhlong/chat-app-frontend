@@ -31,10 +31,12 @@ const ListUsers = () => {
 
   useEffect(() => {
     if (data && data.data?.length > 0) {
-      webSocket?.sendDataToServer({
-        type: SOCKET_EVENTS.GET_ONLINE_USERS,
-        payload: { userId: id },
-      })
+      if (webSocket && webSocket.readyState === WebSocket.OPEN) {
+        webSocket?.sendDataToServer({
+          type: SOCKET_EVENTS.GET_ONLINE_USERS,
+          payload: { userId: id },
+        })
+      }
       if (!selectedId || data?.data.includes(selectedId)) {
         setSelectedId(data?.data?.[0]._id)
       } else {

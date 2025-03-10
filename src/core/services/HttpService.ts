@@ -28,19 +28,18 @@ class HttpService {
     this.http.interceptors.response.use(
       (response) => response.data,
       async (error) => {
-        console.log('error ->>>> 123', error)
         const originalRequest = error.config
         if (
-          error.response?.data.errorCode === 'AccessTokenExpiredError' &&
+          error.response?.data.errorCode === 'AccessTokenExpired' &&
           this.isCalling === false
         ) {
           this.isCalling = true
           originalRequest._retry = true
           try {
-            const newToken = await AuthService.refreshToken()
-            if (!newToken) return Promise.reject(error)
-            originalRequest.headers['Authorization'] = 'Bearer ' + newToken
-            LocalStorageService.setAccessToken(newToken.refreshToken)
+            const { accessToken } = await AuthService.refreshToken()
+            if (!accessToken) return Promise.reject(error)
+            originalRequest.headers['Authorization'] = 'Bearer ' + accessToken
+            LocalStorageService.setAccessToken(accessToken)
             setTimeout(() => (this.isCalling = false), 3000)
             return this.http(originalRequest)
           } catch (refreshError) {
