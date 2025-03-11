@@ -9,7 +9,7 @@ import { useQuery } from '@tanstack/react-query'
 import { UserService } from '../../../core/services'
 import { useAuth } from '../../../core/hooks'
 import { Skeleton } from '../../ui'
-
+import Notification from '../Notification/Notification'
 const LeftTop = () => {
   const [openModal, setOpenModal] = useState(false)
   const { id } = useAuth()
@@ -43,7 +43,7 @@ const LeftTop = () => {
               <FontAwesomeIcon icon={faPlus} fontSize={20} />
             </Button>
           </Tooltip>
-          {/* <Notification /> */}
+          <Notification />
         </div>
       </div>
       <CustomModal

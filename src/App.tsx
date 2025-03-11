@@ -1,6 +1,5 @@
 import { RouterProvider } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import { Toaster } from 'react-hot-toast'
 import { router } from './routers'
 import { LoadingComponent } from './components'
 const App = () => {
@@ -10,12 +9,17 @@ const App = () => {
         <LoadingComponent />
         <RouterProvider router={router} />
       </div>
-      <ToastContainer
+      <Toaster
         position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
+        toastOptions={{
+          success: {
+            duration: 3000,
+          },
+          error: {
+            duration: 3000,
+          },
+          className: 'text-xs',
+        }}
       />
     </>
   )

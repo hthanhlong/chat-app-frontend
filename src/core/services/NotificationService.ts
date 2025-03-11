@@ -4,9 +4,7 @@ import { HttpService } from '.'
 class NotificationService {
   getAllNotifications = async (id: string) => {
     try {
-      const response = await HttpService.get(END_POINT.NOTIFICATIONS, {
-        params: { id },
-      })
+      const response = await HttpService.get(`${END_POINT.NOTIFICATIONS}/${id}`)
       return response
     } catch (error) {
       throw new Error('Failed to send friend request')

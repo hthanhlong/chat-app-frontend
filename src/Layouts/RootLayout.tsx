@@ -2,7 +2,7 @@ import { ReactNode, useEffect } from 'react'
 import { Flowbite, useThemeMode } from 'flowbite-react'
 import { motion } from 'framer-motion'
 import { MenuProvider } from '../core/provider'
-
+import { Link } from 'react-router-dom'
 const RootLayout = ({ children }: { children: ReactNode }) => {
   const theme = useThemeMode()
 
@@ -26,7 +26,13 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
+          className="border-[1px] border-gray-600"
         >
+          <Link to="/">
+            <div className="hidden border-b-[1px] border-gray-600 bg-white px-2 py-3 text-sm font-bold text-black dark:bg-black dark:text-white lg:block lg:text-lg">
+              A5 CHAT APP
+            </div>
+          </Link>
           <div className="flex h-full w-full overflow-hidden shadow-lg lg:h-[650px] lg:w-[960px]">
             {children}
           </div>

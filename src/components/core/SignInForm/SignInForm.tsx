@@ -1,4 +1,5 @@
 import { useForm, SubmitHandler } from 'react-hook-form'
+import toast from 'react-hot-toast'
 // import { GoogleLogin } from '@react-oauth/google'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -12,14 +13,15 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import { loginSchema } from '../../../core/validation'
 import { useMutation } from '@tanstack/react-query'
-import { capitalizeFirstLetter } from '../../../utils'
-import { useAuth } from '../../../core/hooks'
+import { capitalizeFirstLetter, sleep } from '../../../utils'
+import { useAuth, useLoading } from '../../../core/hooks'
 import { ISignIn, ISignInResponse, ISuccessResponse } from '../../../types'
 import { AuthService } from '../../../core/services'
 
 const SignInForm = () => {
   const { setAuth } = useAuth()
   const navigate = useNavigate()
+  const { setGlobalLoading } = useLoading()
 
   const {
     register,
@@ -41,46 +43,20 @@ const SignInForm = () => {
     mutationFn: (data: ISignIn) => {
       return AuthService.signIn(data)
     },
-    onSuccess: (response: ISuccessResponse<ISignInResponse>) => {
+    onSuccess: async (response: ISuccessResponse<ISignInResponse>) => {
       if (response.isSuccess) {
         setAuth(response.data)
+        toast.success('Sign in successfully, redirecting to home page...')
+        setGlobalLoading(true)
+        await sleep(3000)
+        setGlobalLoading(false)
         navigate('/')
       }
     },
+    onError: () => {
+      toast.error('Sign in failed, please try again')
+    },
   })
-
-  // const redirectFn = async (
-  //   data: ISuccessResponse<{
-  //     accessToken: string
-  //   }>,
-  // ): Promise<void | undefined> => {
-  //   if (data && data.isSuccess) {
-  //     setGlobalLoading(true)
-  //     await sleep(3000)
-  //     setAuth(data?.data)
-  //   }
-  // }
-
-  // const handleResponseMessage = async (response: unknown) => {
-  //   // @ts-expect-error - //
-  //   const result: ISuccessResponse = await AuthService.signInByGoogle(response)
-  //   if (result.isSuccess) {
-  //     await redirectFn(result)
-  //   } else {
-  //     console.error('Failed to login with Google', result)
-  //   }
-  // }
-
-  // const handleErrorMessage = (error: unknown) => {
-  //   console.error('Login error:', error)
-  // }
-
-  // useEffect(() => {
-  //   if (accessToken) navigate('/')
-  //   return () => {
-  //     setGlobalLoading(false)
-  //   }
-  // }, [accessToken])
 
   return (
     <form
@@ -92,10 +68,9 @@ const SignInForm = () => {
       <Input
         label="username"
         name="username"
-        defaultValue="guest_1"
         register={register}
         errorMessage={errors.username?.message}
-        placeholder="id: guest_1 or guest_2"
+        placeholder="guest_1 or guest_2"
       />
       <PasswordInput
         register={register}
@@ -103,7 +78,7 @@ const SignInForm = () => {
         errorMessage={errors.password?.message}
       />
       <div className="text-center text-xs">
-        <p className="h-[16px] text-red-500">
+        <p className="h-[16px] text-xs text-red-500">
           {/* @ts-expect-error - //*/}
           {error?.response?.data.message
             ? //  @ts-expect-error - //

@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import toast from 'react-hot-toast'
 import { signupSchema } from '../../../core/validation'
 import { useMutation } from '@tanstack/react-query'
 import { useLoading } from '../../../core/hooks'
@@ -10,6 +11,7 @@ import Title from '../../ui/Title/Title'
 import { ISignUp } from '../../../types'
 import { ButtonSignUp, Input } from '../../ui'
 import { LocalStorageService } from '../../../core/services'
+import { sleep } from '../../../utils'
 const SignUpForm = () => {
   const navigate = useNavigate()
   const { setGlobalLoading } = useLoading()
@@ -35,9 +37,15 @@ const SignUpForm = () => {
     mutationFn: (data: ISignUp) => {
       return AuthService.signUp(data)
     },
-    onSuccess: () => {
+    onSuccess: async () => {
+      toast.success('Sign up successfully, redirecting to sign in page...')
+      await sleep(3000)
       setGlobalLoading(false)
       navigate('/sign-in')
+    },
+    onError: () => {
+      setGlobalLoading(false)
+      toast.error('Sign up failed, please try again')
     },
   })
 
@@ -87,8 +95,8 @@ const SignUpForm = () => {
         errorMessage={errors.confirmPassword?.message}
       />
       <div className="text-center">
-        {/* @ts-expect-error - //*/}
-        <p className="text-red-500">{error?.response?.data.message}</p>
+        {/* @ts-expect-error - error is not defined */}
+        <p className="text-xs text-red-500">{error?.response?.data.message}</p>
       </div>
       <ButtonSignUp isLoading={isPending} />
       <div className="mt-4 text-center text-sky-500 underline">

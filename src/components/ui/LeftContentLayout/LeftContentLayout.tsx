@@ -18,11 +18,11 @@ const LeftContentLayout = ({ children }: { children: ReactNode }) => {
 
     const handleClickGlobal = (event: MouseEvent) => {
       const properties = element?.getBoundingClientRect()
-
       if (
-        properties &&
-        element &&
-        !element.contains(event.target as Node) &&
+        (properties &&
+          element &&
+          !element.contains(event.target as Node) &&
+          properties?.x === 1) ||
         properties?.x === 0
       ) {
         handleClickClose()
