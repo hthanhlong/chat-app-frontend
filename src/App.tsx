@@ -2,6 +2,7 @@ import { RouterProvider } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { router } from './routers'
 import { LoadingComponent } from './components'
+
 const App = () => {
   return (
     <>
