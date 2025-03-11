@@ -20,7 +20,9 @@ class AuthService {
   }
 
   async signUp(data: ISignUp, options?: AxiosRequestConfig) {
-    const response = await HttpService.post(END_POINT.SIGN_UP, data, {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { confirmPassword, ...rest } = data
+    const response = await HttpService.post(END_POINT.SIGN_UP, rest, {
       ...options,
     })
     return response.data
@@ -38,6 +40,13 @@ class AuthService {
   async signInByGoogle(data: unknown, options?: AxiosRequestConfig) {
     const response = await HttpService.post(END_POINT.AUTH_GOOGLE, data, {
       ...options,
+    })
+    return response.data
+  }
+
+  async signOut(id: string) {
+    const response = await HttpService.post(END_POINT.SIGN_OUT, {
+      id,
     })
     return response.data
   }

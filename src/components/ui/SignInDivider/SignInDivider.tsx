@@ -5,7 +5,7 @@ const SignInDivider = () => {
     <div className="my-8 flex items-center text-neutral-300">
       <Divider />
       <span className="w-full text-center font-light max-lg:text-xs">
-        Social Log in
+        Social Sign in
       </span>
       <Divider />
     </div>

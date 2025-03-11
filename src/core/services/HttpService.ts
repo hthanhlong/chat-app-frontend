@@ -47,15 +47,13 @@ class HttpService {
             return Promise.reject(refreshError)
           }
         }
-
         if (error.response?.data.errorCode === 'RefreshTokenExpiredError') {
-          try {
-            LocalStorageService.clear()
-            window.location.reload()
-          } catch (refreshError) {
-            console.error(refreshError)
-            return Promise.reject(refreshError)
-          }
+          LocalStorageService.clear()
+          window.location.reload()
+        }
+        if (error.response?.data.errorCode === 'BadTokenError') {
+          LocalStorageService.clear()
+          window.location.reload()
         }
         return Promise.reject(error)
       },

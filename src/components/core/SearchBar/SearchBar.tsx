@@ -24,8 +24,6 @@ const SearchBar = (
     queryFn: () => FriendService.getMyFriends(id),
   })
 
-  console.log('data', data)
-
   const onSubmit = async (keyword: string) => {
     const friends = await FriendService.searchFriends({
       id,

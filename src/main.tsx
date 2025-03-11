@@ -7,7 +7,6 @@ import {
   NotificationProvider,
   SelectedUserChatProvider,
   LoadingProvider,
-  WebSocketProvider,
 } from './core/provider'
 import App from './App'
 import './global.css'
@@ -21,11 +20,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <QueryClientProvider client={queryClient}>
           <NotificationProvider>
             <SelectedUserChatProvider>
-              <WebSocketProvider>
-                <LoadingProvider>
-                  <App />
-                </LoadingProvider>
-              </WebSocketProvider>
+              <LoadingProvider>
+                <App />
+              </LoadingProvider>
             </SelectedUserChatProvider>
           </NotificationProvider>
         </QueryClientProvider>

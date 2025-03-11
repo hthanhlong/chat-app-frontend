@@ -13,9 +13,9 @@ class FriendService {
 
   getFriendRequests = async (id: string) => {
     try {
-      const response = await HttpService.get(END_POINT.GET_FRIEND_REQUESTS, {
-        params: { id },
-      })
+      const response = await HttpService.get(
+        `${END_POINT.GET_FRIEND_REQUESTS}/${id}`,
+      )
       return response
     } catch (error) {
       throw new Error('Failed to get friend requests')

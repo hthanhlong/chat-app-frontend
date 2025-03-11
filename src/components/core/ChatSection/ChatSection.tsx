@@ -5,12 +5,12 @@ import { useThemeMode } from 'flowbite-react'
 import { v4 as uuidv4 } from 'uuid'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
-import { useAuth, useSelectedUserChat, useWebSocket } from '../../../core/hooks'
+import { useAuth, useSelectedUserChat } from '../../../core/hooks'
 import Message from '../../ui/Message/Message'
 import Skeleton from '../../ui/Skeleton/Skeleton'
 import { IMessage } from '../../../types'
 import { SOCKET_EVENTS } from '../../../core/constant'
-import { MessageService } from '../../../core/services'
+import { MessageService, WebsocketService } from '../../../core/services'
 import './ChatSection.css'
 
 type FormValues = {
@@ -21,21 +21,58 @@ const ChatSection = () => {
   const { mode } = useThemeMode()
   const { id } = useAuth()
   const { selectedId: partnerId } = useSelectedUserChat()
-  const { webSocketEvent } = useWebSocket()
   const [messages, setMessages] = useState<IMessage[]>([])
-  const { webSocket } = useWebSocket()
   const { register, handleSubmit, reset } = useForm<FormValues>()
 
-  const { data: response, isLoading } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['get-message', partnerId],
     queryFn: () => MessageService.getAllMessages(partnerId),
   })
 
   useEffect(() => {
-    if (response?.data.length > 0) {
-      setMessages(response?.data)
+    if (data?.data.length > 0) {
+      setMessages(data?.data)
     }
-  }, [response])
+  }, [data])
+
+  useEffect(() => {
+    const webSocket = WebsocketService.getInstance()
+    if (!webSocket) return
+    const handleMessage = (event: MessageEvent) => {
+      const data = JSON.parse(event.data)
+      if (data.type === SOCKET_EVENTS.HAS_NEW_MESSAGE) {
+        const newMessage = data.payload as IMessage
+        setMessages((prev: IMessage[]) => [...prev, newMessage])
+      }
+    }
+    webSocket.addEventListener('message', handleMessage)
+    return () => {
+      webSocket.removeEventListener('message', handleMessage)
+    }
+  }, [partnerId])
+
+  const onsubmit = (data: FormValues) => {
+    const { message } = data
+    if (message.trim() === '') return
+    const newMessage = {
+      _id: uuidv4(),
+      senderId: id,
+      receiverId: partnerId,
+      message: message,
+      createdAt: new Date().toISOString(),
+    }
+    if (WebsocketService.getInstance()) {
+      WebsocketService.sendDataToServer({
+        type: SOCKET_EVENTS.SEND_MESSAGE,
+        payload: newMessage,
+      })
+    }
+    setMessages([...messages, newMessage])
+    reset((formValues) => ({
+      ...formValues,
+      message: '',
+    }))
+  }
 
   useEffect(() => {
     const element = document.querySelector('.scroll-nail')
@@ -45,41 +82,7 @@ const ChatSection = () => {
     })
   })
 
-  useEffect(() => {
-    if (webSocketEvent?.type === SOCKET_EVENTS.HAS_NEW_MESSAGE) {
-      const newMessage = webSocketEvent.payload as IMessage
-      if (newMessage.senderId === partnerId) {
-        setMessages((prev: IMessage[]) => [...prev, newMessage])
-      }
-    }
-  }, [webSocketEvent])
-
   const styleScrollBar = mode === 'light' ? 'chat-section' : 'dark-chat-section'
-
-  const onsubmit = (data: FormValues) => {
-    const { message } = data
-    if (message.trim() === '') {
-      return
-    }
-    if (webSocket && webSocket.readyState === WebSocket.OPEN) {
-      const newMessage = {
-        _id: uuidv4(),
-        senderId: id,
-        receiverId: partnerId,
-        message: message,
-        createdAt: new Date().toISOString(),
-      }
-      webSocket.sendDataToServer({
-        type: SOCKET_EVENTS.SEND_MESSAGE,
-        payload: newMessage,
-      })
-      setMessages([...messages, newMessage])
-    }
-    reset((formValues) => ({
-      ...formValues,
-      message: '',
-    }))
-  }
 
   return (
     <>

@@ -88,7 +88,7 @@ const SignInForm = () => {
       onSubmit={handleSubmit(onSubmit)}
       autoComplete="off"
     >
-      <Title text="Log in" />
+      <Title text="Sign in" />
       <Input
         label="username"
         name="username"
@@ -121,7 +121,6 @@ const SignInForm = () => {
           onError={() => handleErrorMessage}
         />
       </div> */}
-
       <SignUpNow />
     </form>
   )

@@ -13,7 +13,7 @@ const AddFriends = () => {
 
   const { data: ListUser, isLoading: isLoadingGetListUser } = useQuery({
     queryKey: ['listUser', senderId],
-    queryFn: () => UserService.getAllUsers(senderId),
+    queryFn: () => UserService.getUsersWhoIsNotFriend(senderId),
   })
 
   const { mutateAsync } = useMutation({

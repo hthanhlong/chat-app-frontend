@@ -15,7 +15,7 @@ const LeftTop = () => {
   const { id } = useAuth()
 
   const { data } = useQuery({
-    queryKey: ['user', id],
+    queryKey: ['me', id],
     queryFn: () => UserService.getUserById(id),
   })
 

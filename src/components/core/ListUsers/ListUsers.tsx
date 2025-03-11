@@ -1,18 +1,18 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { FriendService } from '../../../core/services'
-import { useAuth, useWebSocket, useSelectedUserChat } from '../../../core/hooks'
+import { useAuth, useSelectedUserChat } from '../../../core/hooks'
 import { useEffect, useState } from 'react'
 import ClearMessage from '../ClearMessage/ClearMessage'
 import Unfriend from '../Unfriend/Unfriend'
 import { SOCKET_EVENTS } from '../../../core/constant'
 import UserItem from '../UserItem/UserItem'
+import { WebsocketService } from '../../../core/services'
 import './list-users.css'
 
 const ListUsers = () => {
   const { id } = useAuth()
   const { selectedId, listFriends, setSelectedId, setListFriends } =
     useSelectedUserChat()
-  const { webSocket, webSocketEvent } = useWebSocket()
   const [listOnLineUsers, setListOnLineUsers] = useState<string[]>([])
   const [rightClick, setRightClick] = useState('')
   const queryClient = useQueryClient()
@@ -24,22 +24,20 @@ const ListUsers = () => {
 
   useEffect(() => {
     if (data && data.data?.length > 0) {
-      if (webSocket && webSocket.readyState === WebSocket.OPEN) {
-        if (typeof webSocket.sendDataToServer === 'function') {
-          webSocket?.sendDataToServer({
-            type: SOCKET_EVENTS.GET_ONLINE_USERS,
-            payload: { userId: id },
-          })
-        }
+      if (WebsocketService.getInstance()) {
+        WebsocketService.sendDataToServer({
+          type: SOCKET_EVENTS.GET_ONLINE_USERS,
+          payload: { userId: id },
+        })
       }
-      if (!selectedId || data?.data.includes(selectedId)) {
-        setSelectedId(data?.data?.[0]._id)
-      } else {
-        setSelectedId(selectedId)
-      }
-      setListFriends(data?.data)
     }
-  }, [data, webSocket])
+    if (!selectedId || data?.data.includes(selectedId)) {
+      setSelectedId(data?.data?.[0]._id)
+    } else {
+      setSelectedId(selectedId)
+    }
+    setListFriends(data?.data)
+  }, [data])
 
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
@@ -54,16 +52,27 @@ const ListUsers = () => {
   }, [])
 
   useEffect(() => {
-    if (webSocketEvent?.type === SOCKET_EVENTS.GET_ONLINE_USERS) {
-      const onlineUsers = webSocketEvent.payload as string[]
-      const filterOnlineUsers = onlineUsers.filter((user) => user !== id)
-      setListOnLineUsers(filterOnlineUsers)
+    const webSocket = WebsocketService.getInstance()
+    const handleMessage = (event: MessageEvent) => {
+      const data = JSON.parse(event.data)
+      if (data.type === SOCKET_EVENTS.GET_ONLINE_USERS) {
+        const onlineUsers = data.payload as string[]
+        const filterOnlineUsers = onlineUsers.filter((user) => user !== id)
+        setListOnLineUsers(filterOnlineUsers)
+      }
+      if (data.type === SOCKET_EVENTS.UPDATE_FRIEND_LIST) {
+        queryClient.invalidateQueries({ queryKey: ['myFriends'] })
+      }
     }
-
-    if (webSocketEvent?.type === SOCKET_EVENTS.UPDATE_FRIEND_LIST) {
-      queryClient.invalidateQueries({ queryKey: ['myFriends'] })
+    if (webSocket) {
+      webSocket.addEventListener('message', handleMessage)
     }
-  }, [id, listFriends, webSocketEvent])
+    return () => {
+      if (webSocket) {
+        webSocket.removeEventListener('message', handleMessage)
+      }
+    }
+  }, [id, listFriends])
 
   return (
     <div className="list-users lg:min-h-[calc(650px-160px)]">

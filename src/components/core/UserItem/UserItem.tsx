@@ -1,10 +1,10 @@
 import { MouseEventHandler, useEffect, useState } from 'react'
 import Avatar from '../Avatar/Avatar'
 import { useQuery } from '@tanstack/react-query'
-import { MessageService } from '../../../core/services'
-import { useWebSocket } from '../../../core/hooks'
+import { MessageService, WebsocketService } from '../../../core/services'
 import { IMessage } from '../../../types'
 import { Timer } from '../../ui'
+import { SOCKET_EVENTS } from '../../../core/constant'
 
 const UserItem = ({
   name,
@@ -23,7 +23,6 @@ const UserItem = ({
   onClick?: MouseEventHandler
   onContextMenu?: MouseEventHandler
 }) => {
-  const { webSocketEvent } = useWebSocket()
   const [latestMessage, setLatestMessage] = useState<IMessage>()
   const [highLight, setHighLight] = useState<boolean>(false)
 
@@ -39,14 +38,23 @@ const UserItem = ({
   }, [response])
 
   useEffect(() => {
-    if (webSocketEvent?.type === 'HAS_NEW_MESSAGE') {
-      const newMessage = webSocketEvent.payload as IMessage
-      if (newMessage.senderId === userId) {
-        setLatestMessage(newMessage)
-        setHighLight(true)
+    const webSocket = WebsocketService.getInstance()
+    if (!webSocket) return
+    const handleMessage = (event: MessageEvent) => {
+      const data = JSON.parse(event.data)
+      if (data.type === SOCKET_EVENTS.HAS_NEW_MESSAGE) {
+        const newMessage = data.payload as IMessage
+        if (newMessage.senderId === userId) {
+          setLatestMessage(newMessage)
+          setHighLight(true)
+        }
       }
     }
-  }, [webSocketEvent])
+    webSocket.addEventListener('message', handleMessage)
+    return () => {
+      webSocket.removeEventListener('message', handleMessage)
+    }
+  }, [userId])
 
   return (
     <div

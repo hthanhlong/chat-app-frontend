@@ -8,10 +8,9 @@ import {
   faSun,
 } from '@fortawesome/free-solid-svg-icons'
 import RootLayout from '../../layouts/RootLayout'
-import { useLoading, useWebSocket } from '../../core/hooks'
+import { useLoading, useAuth } from '../../core/hooks'
 import { sleep } from '../../utils'
 import { useThemeMode } from 'flowbite-react'
-import { SOCKET_EVENTS } from '../../core/constant'
 import {
   Friends,
   Profiles,
@@ -27,7 +26,11 @@ import {
   CustomLink,
   CustomModal,
 } from '../../components/ui'
-import { LocalStorageService } from '../../core/services'
+import {
+  AuthService,
+  LocalStorageService,
+  WebsocketService,
+} from '../../core/services'
 
 const LIST_SETTINGS = [
   {
@@ -85,12 +88,12 @@ const LIST_COMPONENTS = [
 ]
 
 const Settings = () => {
+  const { id } = useAuth()
   const { state } = useLocation()
   const [openModal, setOpenModal] = useState(false)
   const { mode, setMode } = useThemeMode()
   const [selected, setSelected] = useState(state?.friendTap || 0)
   const { setGlobalLoading } = useLoading()
-  const { webSocket } = useWebSocket()
 
   useEffect(() => {
     return () => {
@@ -157,18 +160,13 @@ const Settings = () => {
         actionArea={true}
         onClose={() => setOpenModal(false)}
         onAccept={async () => {
-          if (webSocket && webSocket.readyState === WebSocket.OPEN) {
-            if (typeof webSocket.sendDataToServer === 'function') {
-              webSocket?.sendDataToServer({
-                type: SOCKET_EVENTS.CLOSE_CONNECTION,
-                payload: null,
-              })
-            }
+          if (WebsocketService.getInstance()) {
+            WebsocketService.close()
           }
+          await AuthService.signOut(id)
           LocalStorageService.clear()
           setOpenModal(false)
           setGlobalLoading(true)
-          webSocket?.close()
           await sleep(3000)
           googleLogout()
           window.location.reload()

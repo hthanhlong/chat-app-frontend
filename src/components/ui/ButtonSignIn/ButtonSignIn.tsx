@@ -7,7 +7,7 @@ const ButtonSignIn = ({ isLoading }: { isLoading: boolean }) => {
         disabled={isLoading}
         type="submit"
         text="Sign in"
-        className="my-2 w-full rounded bg-[#6d4aff] px-5 py-2 text-lg font-medium text-white hover:bg-opacity-80 focus:outline-none focus:ring-4 focus:ring-[#6d4aff]"
+        className="my-2 w-full rounded bg-[#6d4aff] px-5 py-2 text-sm font-medium text-white hover:bg-opacity-80 focus:outline-none focus:ring-4 focus:ring-[#6d4aff]"
       />
       <div className="flex justify-between">
         <p className="cursor-pointer text-xs text-blue-400">Forget password</p>

@@ -15,19 +15,8 @@ const RightTop = () => {
   const { selectedId } = useSelectedUserChat()
 
   const { data, isLoading } = useQuery({
-    queryKey: ['get-user-top-right', selectedId],
-    // @ts-expect-error - //
-    queryFn: () => {
-      if (selectedId) {
-        return UserService.getUserById(selectedId)
-      }
-      return Promise.resolve({
-        data: {
-          nickname: '',
-          caption: '',
-        },
-      })
-    },
+    queryKey: ['get-user', selectedId],
+    queryFn: () => UserService.getUserById(selectedId),
   })
 
   return (
