@@ -34,10 +34,10 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t ${{ secrets.REGISTRY_URL }}/chat-app-frontend:latest .
-          docker tag ${{ secrets.REGISTRY_URL }}/chat-app-frontend:latest ${{ secrets.REGISTRY_URL }}/chat-app-frontend:${{ github.sha }}
+          docker build -t ${{ secrets.DOCKER_REGISTRY_URL }}/chat-app-frontend:latest .
+          docker tag ${{ secrets.DOCKER_REGISTRY_URL }}/chat-app-frontend:latest ${{ secrets.DOCKER_REGISTRY_URL }}/chat-app-frontend:${{ github.sha }}
 
       - name: Push Docker Image
         run: |
-          docker push ${{ secrets.REGISTRY_URL }}/chat-app-frontend:latest
-          docker push ${{ secrets.REGISTRY_URL }}/chat-app-frontend:${{ github.sha }}
+          docker push ${{ secrets.DOCKER_REGISTRY_URL }}/chat-app-frontend:latest
+          docker push ${{ secrets.DOCKER_REGISTRY_URL }}/chat-app-frontend:${{ github.sha }}
