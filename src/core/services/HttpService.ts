@@ -4,7 +4,7 @@ import { AuthService, LocalStorageService } from '.'
 
 class HttpService {
   private isCalling = false
-  private baseUrl = `${host}/api/v1/`
+  private baseUrl = `${host}/v1/`
   private http: AxiosInstance
 
   constructor() {

@@ -6,22 +6,30 @@ class WebsocketService {
   type: string = ''
   payload: unknown = null
 
-  init(accessToken: string) {
-    const url = `${hostSocket}/?accessToken=${accessToken}`
-    const webSocket = new WebSocket(url)
-    this.webSocket = webSocket
-    webSocket.onopen = () => {
-      console.log('WebSocket connected')
-    }
-    webSocket.onclose = () => {
-      console.log('WebSocket disconnected')
-    }
-    webSocket.onmessage = (event: MessageEvent) => {
-      const message = JSON.parse(event.data)
-      this.type = message.type
-      this.payload = message.payload
-    }
-    return webSocket
+  async init(accessToken: string) {
+    return new Promise((resolve, reject) => {
+      const url = `${hostSocket}/?accessToken=${accessToken}`
+      const webSocket = new WebSocket(url)
+      this.webSocket = webSocket
+      webSocket.onopen = () => {
+        console.log('WebSocket connected')
+        resolve(true)
+      }
+      webSocket.onclose = () => {
+        console.log('WebSocket disconnected')
+        reject(new Error('WebSocket disconnected'))
+      }
+      webSocket.onerror = (error) => {
+        console.log('WebSocket error', error)
+        reject(error)
+      }
+      webSocket.onmessage = (event: MessageEvent) => {
+        const message = JSON.parse(event.data)
+        this.type = message.type
+        this.payload = message.payload
+      }
+      return webSocket
+    })
   }
 
   getInstance() {

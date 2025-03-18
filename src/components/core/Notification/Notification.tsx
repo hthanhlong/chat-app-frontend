@@ -63,13 +63,10 @@ const Notification = () => {
   useEffect(() => {
     const webSocket = WebsocketService.getInstance()
     if (!webSocket) return
-    console.log('webSocket', webSocket)
 
     const handleMessage = (event: MessageEvent) => {
       const data = JSON.parse(event.data)
-      console.log('data', data)
       if (data.type === SOCKET_EVENTS.HAS_NEW_NOTIFICATION) {
-        console.log('has new notification')
         setIsNotification(true)
         queryClient.invalidateQueries({ queryKey: ['notifications', id] }) // refetch data
       }
