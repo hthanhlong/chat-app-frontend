@@ -1,21 +1,15 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { FriendService } from '../../../core/services'
 
-const Unfriend = ({
-  senderId,
-  receiverId,
-}: {
-  senderId: string
-  receiverId: string
-}) => {
+const Unfriend = ({ receiverId }: { receiverId: string }) => {
   const queryClient = useQueryClient()
 
   const { mutateAsync } = useMutation({
     mutationFn: () => {
-      return FriendService.unfriend({ senderId, receiverId })
+      return FriendService.unfriend({ receiverId, status: 'UNFRIEND' })
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['myFriends', senderId] })
+      queryClient.invalidateQueries({ queryKey: ['myFriends'] })
     },
   })
 

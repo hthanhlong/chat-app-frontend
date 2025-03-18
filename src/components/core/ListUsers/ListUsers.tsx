@@ -10,7 +10,7 @@ import { WebsocketService } from '../../../core/services'
 import './list-users.css'
 
 const ListUsers = () => {
-  const { id } = useAuth()
+  const { userId } = useAuth()
   const { selectedId, listFriends, setSelectedId, setListFriends } =
     useSelectedUserChat()
   const [listOnLineUsers, setListOnLineUsers] = useState<string[]>([])
@@ -18,8 +18,8 @@ const ListUsers = () => {
   const queryClient = useQueryClient()
 
   const { data, isLoading } = useQuery({
-    queryKey: ['myFriends', id],
-    queryFn: () => FriendService.getMyFriends(id),
+    queryKey: ['myFriends'],
+    queryFn: () => FriendService.getFriends(),
   })
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const ListUsers = () => {
       if (WebsocketService.getInstance()) {
         WebsocketService.sendDataToServer({
           type: SOCKET_EVENTS.GET_ONLINE_USERS,
-          payload: { userId: id },
+          payload: { userId: userId },
         })
       }
     }
@@ -57,7 +57,7 @@ const ListUsers = () => {
       const data = JSON.parse(event.data)
       if (data.type === SOCKET_EVENTS.GET_ONLINE_USERS) {
         const onlineUsers = data.payload as string[]
-        const filterOnlineUsers = onlineUsers.filter((user) => user !== id)
+        const filterOnlineUsers = onlineUsers.filter((user) => user !== userId)
         setListOnLineUsers(filterOnlineUsers)
       }
       if (data.type === SOCKET_EVENTS.UPDATE_FRIEND_LIST) {
@@ -72,7 +72,7 @@ const ListUsers = () => {
         webSocket.removeEventListener('message', handleMessage)
       }
     }
-  }, [id, listFriends])
+  }, [userId, listFriends])
 
   return (
     <div className="list-users lg:min-h-[calc(650px-160px)]">
@@ -102,7 +102,7 @@ const ListUsers = () => {
                     <ClearMessage />
                   </li>
                   <li className="cursor-pointer border-b-[1px] px-1 py-2 text-xs last-of-type:border-none hover:bg-slate-200 dark:border-slate-600 dark:hover:bg-slate-600">
-                    <Unfriend senderId={id} receiverId={user._id} />
+                    <Unfriend receiverId={user._id} />
                   </li>
                 </ul>
               </div>

@@ -13,7 +13,6 @@ import { Skeleton } from '../../ui'
 
 const RightTop = () => {
   const { selectedId } = useSelectedUserChat()
-
   const { data, isLoading } = useQuery({
     queryKey: ['get-user', selectedId],
     queryFn: () => UserService.getUserById(selectedId),

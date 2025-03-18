@@ -19,14 +19,14 @@ type FormValues = {
 
 const ChatSection = () => {
   const { mode } = useThemeMode()
-  const { id } = useAuth()
-  const { selectedId: partnerId } = useSelectedUserChat()
+  const { userId } = useAuth()
+  const { selectedId: friendId } = useSelectedUserChat()
   const [messages, setMessages] = useState<IMessage[]>([])
   const { register, handleSubmit, reset } = useForm<FormValues>()
 
   const { data, isLoading } = useQuery({
-    queryKey: ['get-message', partnerId],
-    queryFn: () => MessageService.getAllMessages(partnerId),
+    queryKey: ['get-message', friendId],
+    queryFn: () => MessageService.getMessageById(friendId),
   })
 
   useEffect(() => {
@@ -42,22 +42,25 @@ const ChatSection = () => {
       const data = JSON.parse(event.data)
       if (data.type === SOCKET_EVENTS.HAS_NEW_MESSAGE) {
         const newMessage = data.payload as IMessage
-        setMessages((prev: IMessage[]) => [...prev, newMessage])
+        const { senderId } = data.payload
+        if (senderId === friendId) {
+          setMessages((prev: IMessage[]) => [...prev, newMessage])
+        }
       }
     }
     webSocket.addEventListener('message', handleMessage)
     return () => {
       webSocket.removeEventListener('message', handleMessage)
     }
-  }, [partnerId])
+  }, [friendId])
 
   const onsubmit = (data: FormValues) => {
     const { message } = data
     if (message.trim() === '') return
     const newMessage = {
       _id: uuidv4(),
-      senderId: id,
-      receiverId: partnerId,
+      senderId: userId,
+      receiverId: friendId,
       message: message,
       createdAt: new Date().toISOString(),
     }
@@ -93,7 +96,7 @@ const ChatSection = () => {
           messages.map((message: IMessage) => (
             <Message
               key={message._id ? message._id : ''}
-              isSender={message.senderId === id}
+              isSender={message.senderId === userId}
               message={message.message}
             />
           ))

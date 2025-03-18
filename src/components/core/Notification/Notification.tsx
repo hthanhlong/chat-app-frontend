@@ -23,28 +23,31 @@ interface INotification {
 }
 
 const Notification = () => {
-  const { id } = useAuth()
+  const { userId } = useAuth()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
   const [isNotification, setIsNotification] = useState(false)
 
   const { data, isSuccess } = useQuery({
-    queryKey: ['notifications', id],
-    queryFn: () => NotificationService.getAllNotifications(id),
+    queryKey: ['notifications'],
+    queryFn: () => NotificationService.getNotifications(),
   })
 
   const { mutateAsync } = useMutation({
-    mutationFn: (data: { id: string; status: 'READ' | 'UNREAD' }) => {
+    mutationFn: (data: {
+      notificationId: string
+      status: 'READ' | 'UNREAD'
+    }) => {
       return NotificationService.updateNotification(data)
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notifications', id] })
+      queryClient.invalidateQueries({ queryKey: ['notifications', userId] })
     },
   })
 
   const handleClick = async (notification: INotification) => {
     await mutateAsync({
-      id: notification._id,
+      notificationId: notification._id,
       status: 'READ',
     })
     if (
@@ -68,14 +71,14 @@ const Notification = () => {
       const data = JSON.parse(event.data)
       if (data.type === SOCKET_EVENTS.HAS_NEW_NOTIFICATION) {
         setIsNotification(true)
-        queryClient.invalidateQueries({ queryKey: ['notifications', id] }) // refetch data
+        queryClient.invalidateQueries({ queryKey: ['notifications', userId] }) // refetch data
       }
     }
     webSocket.addEventListener('message', handleMessage)
     return () => {
       webSocket.removeEventListener('message', handleMessage)
     }
-  }, [id])
+  }, [userId])
 
   return (
     <div className="relative" onClick={() => setIsNotification(false)}>

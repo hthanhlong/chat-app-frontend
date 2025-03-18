@@ -1,11 +1,11 @@
 import END_POINT from '../endpoint'
 import { HttpService } from '.'
 class MessageService {
-  getAllMessages = async (partnerId: string) => {
-    if (!partnerId) return Promise.reject(new Error('No partnerId found'))
+  getMessages = async (friendId: string) => {
+    if (!friendId) return Promise.reject(new Error('No friendId found'))
     try {
-      const response = await HttpService.get(END_POINT.GET_MESSAGES, {
-        params: { partnerId: partnerId },
+      const response = await HttpService.get(END_POINT.message.getMessages, {
+        params: { friendId: friendId },
       })
       return response
     } catch (error) {
@@ -13,22 +13,36 @@ class MessageService {
     }
   }
 
-  getLatestMessage = async (partnerId: string) => {
-    if (!partnerId) return Promise.reject(new Error('No partnerId found'))
+  getMessageById = async (friendId: string) => {
+    if (!friendId) return Promise.reject(new Error('No friendId found'))
     try {
-      const response = await HttpService.get(END_POINT.GET_LATEST_MESSAGE, {
-        params: { partnerId },
-      })
+      const response = await HttpService.get(
+        END_POINT.message.getMessageById(friendId),
+        {
+          params: { friendId },
+        },
+      )
       return response
     } catch (error) {
       throw new Error('Failed to get users')
     }
   }
 
-  deleteAllMessage = async (data: { senderId: string; receiverId: string }) => {
+  getLatestMessage = async (friendId: string) => {
+    try {
+      const response = await HttpService.get(
+        END_POINT.message.getLatestMessage(friendId),
+      )
+      return response
+    } catch (error) {
+      throw new Error('Failed to get latest message')
+    }
+  }
+
+  deleteAllMessage = async (data: { friendId: string }) => {
     try {
       const response = await HttpService.post(
-        END_POINT.DELETE_ALL_MESSAGE,
+        END_POINT.message.deleteAllMessageByFriendId(data.friendId),
         data,
       )
       return response
@@ -37,5 +51,4 @@ class MessageService {
     }
   }
 }
-
 export default new MessageService()

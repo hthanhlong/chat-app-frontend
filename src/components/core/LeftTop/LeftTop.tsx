@@ -7,17 +7,15 @@ import { CustomModal } from '../../ui'
 import AddFriends from '../AddFriends/AddFriends'
 import { useQuery } from '@tanstack/react-query'
 import { UserService } from '../../../core/services'
-import { useAuth } from '../../../core/hooks'
 import { Skeleton } from '../../ui'
 import Notification from '../Notification/Notification'
 
 const LeftTop = () => {
   const [openModal, setOpenModal] = useState(false)
-  const { id } = useAuth()
 
   const { data } = useQuery({
-    queryKey: ['me', id],
-    queryFn: () => UserService.getUserById(id),
+    queryKey: ['me'],
+    queryFn: () => UserService.getUser(),
   })
 
   return (

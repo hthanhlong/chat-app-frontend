@@ -2,10 +2,10 @@ import { ClassAttributes, FormHTMLAttributes, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { JSX } from 'react/jsx-runtime'
 import useDebounce from '../../../core/hooks/useDebounce'
-import { useAuth, useSelectedUserChat } from '../../../core/hooks'
+import { useSelectedUserChat } from '../../../core/hooks'
 import { FriendService } from '../../../core/services'
 import { useQuery } from '@tanstack/react-query'
-
+import { IFriend } from '../../../types'
 export const PADDING_CONTAINER = 'p-4'
 
 const SearchBar = (
@@ -13,23 +13,21 @@ const SearchBar = (
     ClassAttributes<HTMLFormElement> &
     FormHTMLAttributes<HTMLFormElement>,
 ) => {
-  const { id } = useAuth()
   const { register, handleSubmit, watch } = useForm()
   const { setListFriends } = useSelectedUserChat()
   const watchShowAge = watch('search-friend')
   const { valueDebounce } = useDebounce(watchShowAge)
 
   const { data } = useQuery({
-    queryKey: ['myFriends', id],
-    queryFn: () => FriendService.getMyFriends(id),
+    queryKey: ['myFriends'],
+    queryFn: () => FriendService.getFriends(),
   })
 
   const onSubmit = async (keyword: string) => {
-    const friends = await FriendService.searchFriends({
-      id,
-      keyword: keyword,
-    })
-    setListFriends(friends.data)
+    const friends = await FriendService.searchFriendByKeyword(keyword)
+    if (friends.data) {
+      setListFriends(friends.data as unknown as IFriend[])
+    }
   }
 
   useEffect(() => {

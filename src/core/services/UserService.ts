@@ -2,34 +2,37 @@ import { HttpService } from '.'
 import END_POINT from '../endpoint'
 
 class UserService {
-  getUserById = async (id: string) => {
-    if (!id) return Promise.reject(new Error('No id found'))
+  getUser = async () => {
     try {
-      const response = await HttpService.get(END_POINT.ME, {
-        params: { id },
-      })
+      const response = await HttpService.get(END_POINT.user.getUser)
       return response
     } catch (error) {
-      throw new Error('Failed to get me')
+      throw new Error('Failed to get user')
     }
   }
 
-  getUsersWhoIsNotFriend = async (id: string) => {
-    if (!id) return Promise.reject(new Error('No id found'))
+  getUserById = async (id: string) => {
+    if (!id) throw new Error('User ID is required')
+
     try {
-      const response = await HttpService.get(END_POINT.USERS, {
-        params: { id },
-      })
+      const response = await HttpService.get(END_POINT.user.getUserById(id))
+      return response
+    } catch (error) {
+      throw new Error('Failed to get user')
+    }
+  }
+  getUsersNonFriends = async () => {
+    try {
+      const response = await HttpService.get(END_POINT.user.getUsersNonFriends)
       return response
     } catch (error) {
       throw new Error('Failed to get users')
     }
   }
 
-  updateUserById = async (id: string, data: Record<string, unknown>) => {
-    if (!id) return Promise.reject(new Error('No id found'))
+  updateUser = async (data: Record<string, unknown>) => {
     try {
-      const response = await HttpService.patch(END_POINT.USERS, { id, data })
+      const response = await HttpService.post(END_POINT.user.updateUser, data)
       return response
     } catch (error) {
       throw new Error('Failed to update user')

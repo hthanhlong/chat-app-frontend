@@ -1,18 +1,16 @@
 import { Button } from 'flowbite-react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useAuth } from '../../../core/hooks'
 import { FriendService } from '../../../core/services'
 import { IFriendRequest } from '../../../types'
 import { Skeleton } from '../../ui'
 import Avatar from '../Avatar/Avatar'
 
 const FriendRequest = () => {
-  const { id } = useAuth()
   const queryClient = useQueryClient()
 
   const { data: ListFriendRequest, isLoading } = useQuery({
     queryKey: ['friendRequests'],
-    queryFn: () => FriendService.getFriendRequests(id),
+    queryFn: () => FriendService.getFriendRequests(),
   })
 
   const { mutate } = useMutation({
@@ -39,8 +37,7 @@ const FriendRequest = () => {
                   className="mr-1"
                   onClick={() => {
                     mutate({
-                      senderId: user._id,
-                      receiverId: id,
+                      receiverId: user._id,
                       status: 'FRIEND',
                     })
                   }}
@@ -52,8 +49,7 @@ const FriendRequest = () => {
                   size="xs"
                   onClick={() => {
                     mutate({
-                      senderId: user._id,
-                      receiverId: id,
+                      receiverId: user._id,
                       status: 'REJECT',
                     })
                   }}

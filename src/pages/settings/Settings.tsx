@@ -8,7 +8,7 @@ import {
   faSun,
 } from '@fortawesome/free-solid-svg-icons'
 import RootLayout from '../../layouts/RootLayout'
-import { useLoading, useAuth } from '../../core/hooks'
+import { useLoading } from '../../core/hooks'
 import { sleep } from '../../utils'
 import { useThemeMode } from 'flowbite-react'
 import {
@@ -88,7 +88,6 @@ const LIST_COMPONENTS = [
 ]
 
 const Settings = () => {
-  const { id } = useAuth()
   const { state } = useLocation()
   const [openModal, setOpenModal] = useState(false)
   const { mode, setMode } = useThemeMode()
@@ -163,7 +162,7 @@ const Settings = () => {
           if (WebsocketService.getInstance()) {
             WebsocketService.close()
           }
-          await AuthService.signOut(id)
+          await AuthService.signOut()
           LocalStorageService.clear()
           setOpenModal(false)
           setGlobalLoading(true)

@@ -48,7 +48,6 @@ export interface ISuccessResponse<T> {
 }
 
 export interface IFriendRequest {
-  senderId: string
   receiverId: string
   status: 'PENDING' | 'FRIEND' | 'UNFRIEND' | 'REJECT'
 }
@@ -84,4 +83,10 @@ export interface ICustomNotification {
   status: 'READ' | 'UNREAD'
   updatedAt?: string
   createdAt?: string
+}
+
+export interface IFriend {
+  _id: string
+  nickname: string
+  profilePicUrl: string
 }

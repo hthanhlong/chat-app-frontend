@@ -2,32 +2,27 @@ import END_POINT from '../endpoint'
 import { IFriendRequest } from '../../types'
 import { HttpService } from '.'
 class FriendService {
-  sendFriendRequest = async (data: IFriendRequest) => {
+  addFriend = async (data: IFriendRequest) => {
     try {
-      const response = await HttpService.post(END_POINT.FRIEND_REQUEST, data)
+      const response = await HttpService.post(END_POINT.friend.addFriend, data)
       return response
     } catch (error) {
       throw new Error('Failed to send friend request')
     }
   }
 
-  getFriendRequests = async (id: string) => {
+  getFriendRequests = async () => {
     try {
-      const response = await HttpService.get(
-        `${END_POINT.GET_FRIEND_REQUESTS}/${id}`,
-      )
+      const response = await HttpService.get(END_POINT.friend.getFriendRequest)
       return response
     } catch (error) {
       throw new Error('Failed to get friend requests')
     }
   }
 
-  getMyFriends = async (id: string) => {
-    if (!id) return Promise.reject(new Error('No id found'))
+  getFriends = async () => {
     try {
-      const response = await HttpService.get(END_POINT.GET_FRIENDS, {
-        params: { id: id },
-      })
+      const response = await HttpService.get(END_POINT.friend.getFriends)
       return response
     } catch (error) {
       throw new Error('Failed to get friends')
@@ -37,7 +32,7 @@ class FriendService {
   updateFriendStatus = async (data: IFriendRequest) => {
     try {
       const response = await HttpService.post(
-        END_POINT.UPDATE_FRIEND_STATUS,
+        END_POINT.friend.updateFriendStatus,
         data,
       )
       return response
@@ -46,20 +41,27 @@ class FriendService {
     }
   }
 
-  searchFriends = async (data: { id: string; keyword: string }) => {
+  searchFriendByKeyword = async (keyword: string) => {
     try {
-      const response = await HttpService.get(END_POINT.SEARCH_FRIEND, {
-        params: data,
-      })
+      const response = await HttpService.get(
+        END_POINT.friend.searchFriendByKeyword,
+        {
+          params: {
+            keyword: keyword,
+          },
+        },
+      )
       return response
     } catch (error) {
       throw new Error('Failed to search friends')
     }
   }
 
-  unfriend = async (data: { senderId: string; receiverId: string }) => {
+  unfriend = async (data: IFriendRequest) => {
     try {
-      const response = await HttpService.post(END_POINT.UNFRIEND, data)
+      const response = await HttpService.get(
+        END_POINT.friend.unFriend(data.receiverId),
+      )
       return response
     } catch (error) {
       throw new Error('Failed to unfriend')

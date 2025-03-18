@@ -3,7 +3,7 @@ import { LocalStorageService } from '../services'
 import { ISignInResponse } from '../../types'
 
 type AuthContextType = {
-  id: string
+  userId: string
   username: string
   isLogged: boolean
   setAuth: (data: ISignInResponse) => void
@@ -17,11 +17,11 @@ const helperIsLogged = (data: string | null) => {
 }
 
 export const AuthContext = createContext<AuthContextType>({
-  id: '',
+  userId: '',
   username: '',
   isLogged: false,
   setAuth: (response: ISignInResponse) => {
-    LocalStorageService.setId(response.id ?? '')
+    LocalStorageService.setUserId(response.id ?? '')
     LocalStorageService.setUsername(response.username ?? '')
     LocalStorageService.setAccessToken(response.accessToken ?? '')
     LocalStorageService.setRefreshToken(response.refreshToken ?? '')
@@ -30,7 +30,7 @@ export const AuthContext = createContext<AuthContextType>({
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [authObject, setAuthObject_] = useState({
-    id: LocalStorageService.getId(),
+    userId: LocalStorageService.getUserId(),
     username: LocalStorageService.getUsername(),
     accessToken: LocalStorageService.getAccessToken(),
     refreshToken: LocalStorageService.getRefreshToken(),
@@ -43,7 +43,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (authObject.accessToken) {
-      LocalStorageService.setId(authObject.id ?? '')
+      LocalStorageService.setUserId(authObject.userId ?? '')
       LocalStorageService.setUsername(authObject.username ?? '')
       LocalStorageService.setAccessToken(authObject.accessToken)
       LocalStorageService.setIsLogged(authObject.isLogged)
@@ -56,7 +56,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   return (
     <AuthContext.Provider
       value={{
-        id: authObject.id || '',
+        userId: authObject.userId || '',
         username: authObject.username || '',
         isLogged: authObject.isLogged || false,
         setAuth,

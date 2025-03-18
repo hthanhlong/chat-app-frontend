@@ -2,18 +2,26 @@ import END_POINT from '../endpoint'
 import { HttpService } from '.'
 
 class NotificationService {
-  getAllNotifications = async (id: string) => {
+  getNotifications = async () => {
     try {
-      const response = await HttpService.get(`${END_POINT.NOTIFICATIONS}/${id}`)
+      const response = await HttpService.get(
+        END_POINT.notification.getNotifications,
+      )
       return response
     } catch (error) {
       throw new Error('Failed to send friend request')
     }
   }
 
-  updateNotification = async <T>(data: T) => {
+  updateNotification = async (data: {
+    notificationId: string
+    status: 'READ' | 'UNREAD'
+  }) => {
     try {
-      const response = await HttpService.patch(END_POINT.NOTIFICATIONS, data)
+      const response = await HttpService.post(
+        END_POINT.notification.updateNotification,
+        data,
+      )
       return response
     } catch (error) {
       throw new Error('Failed to send friend request')

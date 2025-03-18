@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import toast from 'react-hot-toast'
 // import { GoogleLogin } from '@react-oauth/google'
@@ -11,35 +12,31 @@ import {
   SignInDivider,
 } from '../../ui'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { loginSchema } from '../../../core/validation'
+import { signInSchema } from '../../../core/validation'
 import { useMutation } from '@tanstack/react-query'
-import { capitalizeFirstLetter, sleep } from '../../../utils'
+import { sleep } from '../../../utils'
 import { useAuth, useLoading } from '../../../core/hooks'
 import { ISignIn, ISignInResponse, ISuccessResponse } from '../../../types'
 import { AuthService } from '../../../core/services'
-
 const SignInForm = () => {
   const { setAuth } = useAuth()
   const navigate = useNavigate()
   const { setGlobalLoading } = useLoading()
+  const [error, setError] = useState<string>('')
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<ISignIn>({
-    resolver: yupResolver(loginSchema),
+    resolver: yupResolver(signInSchema),
   })
 
   const onSubmit: SubmitHandler<ISignIn> = (data) => {
     signInFn(data)
   }
 
-  const {
-    mutate: signInFn,
-    error,
-    isPending,
-  } = useMutation({
+  const { mutate: signInFn, isPending } = useMutation({
     mutationFn: (data: ISignIn) => {
       return AuthService.signIn(data)
     },
@@ -54,6 +51,7 @@ const SignInForm = () => {
       }
     },
     onError: () => {
+      setError('Username or password is incorrect, please try again')
       toast.error('Sign in failed, please try again')
     },
   })
@@ -78,13 +76,7 @@ const SignInForm = () => {
         errorMessage={errors.password?.message}
       />
       <div className="text-center text-xs">
-        <p className="h-[16px] text-xs text-red-500">
-          {/* @ts-expect-error - //*/}
-          {error?.response?.data.message
-            ? //  @ts-expect-error - //
-              capitalizeFirstLetter(error?.response?.data.message)
-            : ''}
-        </p>
+        <p className="h-[16px] text-xs text-red-500">{error}</p>
       </div>
       <ButtonSignIn isLoading={isPending} />
       <SignInDivider />

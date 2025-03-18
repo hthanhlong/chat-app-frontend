@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Tooltip } from 'flowbite-react'
-import { useAuth } from '../../../core/hooks'
 import { UserService } from '../../../core/services'
 import { AvatarDefault } from '../../../assets'
 
@@ -24,15 +23,14 @@ const Avatar = ({
   isEditable?: boolean
 }) => {
   const { handleSubmit, register } = useForm()
-  const { id } = useAuth()
   const queryClient = useQueryClient()
 
   const { mutateAsync } = useMutation({
     mutationFn: (data: Record<string, unknown>) => {
-      return UserService.updateUserById(id, data)
+      return UserService.updateUser(data)
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['user', id] })
+      queryClient.invalidateQueries({ queryKey: ['user'] })
     },
   })
 
