@@ -13,13 +13,15 @@ class MessageService {
     }
   }
 
-  getMessageById = async (friendId: string) => {
+  getMessageById = async (friendId: string, page: number) => {
     if (!friendId) return Promise.reject(new Error('No friendId found'))
     try {
       const response = await HttpService.get(
         END_POINT.message.getMessageById(friendId),
         {
-          params: { friendId },
+          params: {
+            page,
+          },
         },
       )
       return response

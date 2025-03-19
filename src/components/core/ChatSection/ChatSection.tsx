@@ -24,16 +24,16 @@ const ChatSection = () => {
   const [messages, setMessages] = useState<IMessage[]>([])
   const { register, handleSubmit, reset } = useForm<FormValues>()
 
-  const { data, isLoading } = useQuery({
+  const { data: response, isLoading } = useQuery({
     queryKey: ['get-message', friendId],
-    queryFn: () => MessageService.getMessageById(friendId),
+    queryFn: () => MessageService.getMessageById(friendId, 1),
   })
 
   useEffect(() => {
-    if (data?.data.length > 0) {
-      setMessages(data?.data)
+    if (response?.data.messages.length > 0) {
+      setMessages(response?.data.messages)
     }
-  }, [data])
+  }, [response])
 
   useEffect(() => {
     const webSocket = WebsocketService.getInstance()
