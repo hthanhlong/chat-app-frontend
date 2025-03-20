@@ -16,6 +16,7 @@ const RightTop = () => {
   const { data, isLoading } = useQuery({
     queryKey: ['get-user', selectedId],
     queryFn: () => UserService.getUserById(selectedId),
+    staleTime: 1000 * 60 * 1,
   })
 
   return (

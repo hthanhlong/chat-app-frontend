@@ -20,6 +20,7 @@ const ListUsers = () => {
   const { data, isLoading } = useQuery({
     queryKey: ['myFriends'],
     queryFn: () => FriendService.getFriends(),
+    staleTime: 1000 * 60 * 1,
   })
 
   useEffect(() => {

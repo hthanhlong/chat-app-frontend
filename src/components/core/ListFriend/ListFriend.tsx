@@ -8,13 +8,14 @@ import Avatar from '../Avatar/Avatar'
 const ListFriend = () => {
   const queryClient = useQueryClient()
   const { data: ListFriend, isLoading } = useQuery({
-    queryKey: ['friends'],
+    queryKey: ['myFriends'],
     queryFn: () => FriendService.getFriends(),
+    staleTime: 1000 * 60 * 1,
   })
 
   const { mutate } = useMutation({
     mutationFn: (request: IFriendRequest) => FriendService.unfriend(request),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['friends'] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['myFriends'] }),
   })
 
   return (

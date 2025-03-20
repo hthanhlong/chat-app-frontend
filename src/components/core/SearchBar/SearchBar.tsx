@@ -21,6 +21,7 @@ const SearchBar = (
   const { data } = useQuery({
     queryKey: ['myFriends'],
     queryFn: () => FriendService.getFriends(),
+    staleTime: 1000 * 60 * 1,
   })
 
   const onSubmit = async (keyword: string) => {

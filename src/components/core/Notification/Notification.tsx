@@ -6,10 +6,10 @@ import { Dropdown } from 'flowbite-react'
 import { faBell } from '@fortawesome/free-solid-svg-icons'
 import Avatar from '../Avatar/Avatar'
 import { NotificationService, WebsocketService } from '../../../core/services'
-import { useAuth } from '../../../core/hooks'
 import { Skeleton, Ping } from '../../ui'
 import { SOCKET_EVENTS } from '../../../core/constant'
 import { formatDate } from '../../../helper'
+import { useAuth } from '../../../core/hooks'
 
 interface INotification {
   content: string
@@ -31,6 +31,7 @@ const Notification = () => {
   const { data, isSuccess } = useQuery({
     queryKey: ['notifications'],
     queryFn: () => NotificationService.getNotifications(),
+    staleTime: 1000 * 60 * 1,
   })
 
   const { mutateAsync } = useMutation({
@@ -41,7 +42,7 @@ const Notification = () => {
       return NotificationService.updateNotification(data)
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notifications', userId] })
+      queryClient.invalidateQueries({ queryKey: ['notifications'] })
     },
   })
 
@@ -71,7 +72,7 @@ const Notification = () => {
       const data = JSON.parse(event.data)
       if (data.type === SOCKET_EVENTS.HAS_NEW_NOTIFICATION) {
         setIsNotification(true)
-        queryClient.invalidateQueries({ queryKey: ['notifications', userId] }) // refetch data
+        queryClient.invalidateQueries({ queryKey: ['notifications'] }) // refetch data
       }
     }
     webSocket.addEventListener('message', handleMessage)

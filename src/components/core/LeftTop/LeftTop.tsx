@@ -16,6 +16,7 @@ const LeftTop = () => {
   const { data } = useQuery({
     queryKey: ['me'],
     queryFn: () => UserService.getUser(),
+    staleTime: 1000 * 60 * 1,
   })
 
   return (
