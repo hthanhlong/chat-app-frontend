@@ -26,6 +26,7 @@ import ChatLeft from './ChatLeft/ChatLeft'
 import ChatRight from './ChatRight/ChatRight'
 import LoadingComponent from './LoadingComponent/LoadingComponent'
 import RightContent from './RightContent/RightContent'
+import AvatarDefault from './AvatarDefault/AvatarDefault'
 
 export {
   Button,
@@ -56,4 +57,5 @@ export {
   ChatRight,
   LoadingComponent,
   RightContent,
+  AvatarDefault,
 }

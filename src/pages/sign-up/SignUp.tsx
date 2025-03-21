@@ -1,4 +1,4 @@
-import { SignUpBackground } from '../../assets'
+import SignUpImage from '../../assets/images/signup.png'
 import SignUpForm from '../../components/core/SignUpForm/SignUpForm'
 import { motion } from 'framer-motion'
 
@@ -16,7 +16,7 @@ const SignUp = () => {
           <SignUpForm />
         </div>
         <div className="hidden lg:block lg:w-1/2">
-          <SignUpBackground />
+          <img src={SignUpImage} className="object-fit h-full w-full" />
         </div>
       </motion.div>
     </div>

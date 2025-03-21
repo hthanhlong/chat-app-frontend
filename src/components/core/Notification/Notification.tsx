@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Dropdown } from 'flowbite-react'
 import { faBell } from '@fortawesome/free-solid-svg-icons'
@@ -9,7 +9,7 @@ import { NotificationService, WebsocketService } from '../../../core/services'
 import { Skeleton, Ping } from '../../ui'
 import { SOCKET_EVENTS } from '../../../core/constant'
 import { formatDate } from '../../../helper'
-import { useAuth } from '../../../core/hooks'
+import { useAuth, useGetNotifications } from '../../../core/hooks'
 
 interface INotification {
   content: string
@@ -28,11 +28,7 @@ const Notification = () => {
   const navigate = useNavigate()
   const [isNotification, setIsNotification] = useState(false)
 
-  const { data, isSuccess } = useQuery({
-    queryKey: ['notifications'],
-    queryFn: () => NotificationService.getNotifications(),
-    staleTime: 1000 * 60 * 1,
-  })
+  const { data, isSuccess } = useGetNotifications()
 
   const { mutateAsync } = useMutation({
     mutationFn: (data: {

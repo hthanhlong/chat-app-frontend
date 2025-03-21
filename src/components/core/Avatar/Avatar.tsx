@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Tooltip } from 'flowbite-react'
 import { UserService } from '../../../core/services'
-import { AvatarDefault } from '../../../assets'
+import { AvatarDefault } from '../../ui'
 
 const Avatar = ({
   avatarUrl,

@@ -1,5 +1,5 @@
 import Button from '../Button/Button'
-import { XIcon } from '../../../assets'
+import { XIcon } from '../../icons'
 
 const ButtonSignInX = () => {
   return (

@@ -1,6 +1,6 @@
 import { UseFormRegister } from 'react-hook-form'
 import { useState } from 'react'
-import { HiddenPasswordIcon, OpenPasswordIcon } from '../../../assets'
+import { HiddenEyeIcon, OpenEyeIcon } from '../../icons'
 import { ISignIn } from '../../../types'
 import ErrorMessage from '../ErrorMessage/ErrorMessage'
 
@@ -30,7 +30,7 @@ const PasswordInput = ({
           className="absolute right-[4%] top-[50%] -translate-y-1/2 cursor-pointer"
           onClick={() => setShowPassword((prev) => !prev)}
         >
-          {showPassword ? <HiddenPasswordIcon /> : <OpenPasswordIcon />}
+          {showPassword ? <HiddenEyeIcon /> : <OpenEyeIcon />}
         </div>
       </div>
       <ErrorMessage errorMessage={errorMessage} />

@@ -1,17 +1,14 @@
 import { Button } from 'flowbite-react'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { FriendService } from '../../../core/services'
 import { IFriendRequest } from '../../../types'
 import { Skeleton } from '../../ui'
 import Avatar from '../Avatar/Avatar'
+import { useGetFriends } from '../../../core/hooks'
 
 const ListFriend = () => {
   const queryClient = useQueryClient()
-  const { data: ListFriend, isLoading } = useQuery({
-    queryKey: ['myFriends'],
-    queryFn: () => FriendService.getFriends(),
-    staleTime: 1000 * 60 * 1,
-  })
+  const { data: ListFriend, isLoading } = useGetFriends()
 
   const { mutate } = useMutation({
     mutationFn: (request: IFriendRequest) => FriendService.unfriend(request),

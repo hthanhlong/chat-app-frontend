@@ -2,9 +2,8 @@ import { ClassAttributes, FormHTMLAttributes, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { JSX } from 'react/jsx-runtime'
 import useDebounce from '../../../core/hooks/useDebounce'
-import { useSelectedUserChat } from '../../../core/hooks'
+import { useSelectedUserChat, useGetFriends } from '../../../core/hooks'
 import { FriendService } from '../../../core/services'
-import { useQuery } from '@tanstack/react-query'
 import { IFriend } from '../../../types'
 export const PADDING_CONTAINER = 'p-4'
 
@@ -18,11 +17,7 @@ const SearchBar = (
   const watchShowAge = watch('search-friend')
   const { valueDebounce } = useDebounce(watchShowAge)
 
-  const { data } = useQuery({
-    queryKey: ['myFriends'],
-    queryFn: () => FriendService.getFriends(),
-    staleTime: 1000 * 60 * 1,
-  })
+  const { data } = useGetFriends()
 
   const onSubmit = async (keyword: string) => {
     const friends = await FriendService.searchFriendByKeyword(keyword)

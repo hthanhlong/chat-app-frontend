@@ -24,9 +24,8 @@ const ChatSection = () => {
   const { register, handleSubmit, reset } = useForm<FormValues>()
   const chatContainerRef = useRef<HTMLDivElement>(null)
   const [localMessages, setLocalMessages] = useState<IMessage[]>([])
-  const [isTyping, setIsTyping] = useState(false)
+  // const [isTyping, setIsTyping] = useState(false)
   const callOneTime = useRef(true)
-  console.log('isTyping', isTyping)
 
   const {
     data: response,
@@ -134,7 +133,7 @@ const ChatSection = () => {
     }
 
     setLocalMessages((prev) => [...prev, newMessage])
-    setIsTyping((prev) => !prev)
+    // setIsTyping((prev) => !prev)
     reset({ message: '' })
   }
 

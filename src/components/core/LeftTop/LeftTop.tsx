@@ -5,19 +5,14 @@ import { Button, Tooltip } from 'flowbite-react'
 import { useState } from 'react'
 import { CustomModal } from '../../ui'
 import AddFriends from '../AddFriends/AddFriends'
-import { useQuery } from '@tanstack/react-query'
-import { UserService } from '../../../core/services'
+import { useGetMe } from '../../../core/hooks'
 import { Skeleton } from '../../ui'
 import Notification from '../Notification/Notification'
 
 const LeftTop = () => {
   const [openModal, setOpenModal] = useState(false)
 
-  const { data } = useQuery({
-    queryKey: ['me'],
-    queryFn: () => UserService.getUser(),
-    staleTime: 1000 * 60 * 1,
-  })
+  const { data } = useGetMe()
 
   return (
     <>

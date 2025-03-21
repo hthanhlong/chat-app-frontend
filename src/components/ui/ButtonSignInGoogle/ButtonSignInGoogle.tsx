@@ -1,5 +1,5 @@
+import { GoogleIcon } from '../../icons'
 import Button from '../Button/Button'
-import { GoogleIcon } from '../../../assets'
 
 const ButtonSignInGoogle = () => {
   return (

@@ -1,4 +1,4 @@
-import { SignInBackground } from '../../assets'
+import SignInImage from '../../assets/images/signin.png'
 import { SignInForm } from '../../components/core'
 import { motion } from 'framer-motion'
 
@@ -13,7 +13,7 @@ const SignIn = () => {
         className="rounded-md bg-white p-10 lg:flex lg:max-w-[1200px] lg:p-2"
       >
         <div className="hidden lg:block lg:w-1/2">
-          <SignInBackground />
+          <img src={SignInImage} className="object-fit h-full w-full" />
         </div>
         <div className="lg:flex lg:w-1/2 lg:items-center lg:justify-center">
           <SignInForm />

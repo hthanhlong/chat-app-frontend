@@ -1,10 +1,10 @@
 import { MouseEventHandler, useEffect, useState } from 'react'
 import Avatar from '../Avatar/Avatar'
-import { useQuery } from '@tanstack/react-query'
-import { MessageService, WebsocketService } from '../../../core/services'
+import { WebsocketService } from '../../../core/services'
 import { IMessage } from '../../../types'
 import { Timer } from '../../ui'
 import { SOCKET_EVENTS } from '../../../core/constant'
+import { useGetLatestMessage } from '../../../core/hooks'
 
 const UserItem = ({
   name,
@@ -26,10 +26,7 @@ const UserItem = ({
   const [latestMessage, setLatestMessage] = useState<IMessage>()
   const [highLight, setHighLight] = useState<boolean>(false)
 
-  const { data: response } = useQuery({
-    queryKey: ['get-latest-message', userId],
-    queryFn: () => MessageService.getLatestMessage(userId),
-  })
+  const { data: response } = useGetLatestMessage(userId)
 
   useEffect(() => {
     if (response?.data) {

@@ -33,6 +33,7 @@ const SignInForm = () => {
   })
 
   const onSubmit: SubmitHandler<ISignIn> = (data) => {
+    console.log('data', data)
     signInFn(data)
   }
 

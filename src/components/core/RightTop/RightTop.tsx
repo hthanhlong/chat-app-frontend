@@ -6,18 +6,12 @@ import {
   faSquarePhoneFlip,
   faCamera,
 } from '@fortawesome/free-solid-svg-icons'
-import { useSelectedUserChat } from '../../../core/hooks'
-import { useQuery } from '@tanstack/react-query'
-import { UserService } from '../../../core/services'
+import { useSelectedUserChat, useGetUserById } from '../../../core/hooks'
 import { Skeleton } from '../../ui'
 
 const RightTop = () => {
   const { selectedId } = useSelectedUserChat()
-  const { data, isLoading } = useQuery({
-    queryKey: ['get-user', selectedId],
-    queryFn: () => UserService.getUserById(selectedId),
-    staleTime: 1000 * 60 * 1,
-  })
+  const { data, isLoading } = useGetUserById(selectedId)
 
   return (
     <div className="flex h-[80px] items-center justify-between border-b-[1px] bg-white dark:border-gray-600 dark:bg-black">

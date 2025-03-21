@@ -1,9 +1,12 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { FriendService } from '../../../core/services'
-import { useAuth, useSelectedUserChat } from '../../../core/hooks'
+import { useQueryClient } from '@tanstack/react-query'
+import {
+  useAuth,
+  useSelectedUserChat,
+  useGetFriends,
+} from '../../../core/hooks'
 import { useEffect, useState } from 'react'
-import ClearMessage from '../ClearMessage/ClearMessage'
-import Unfriend from '../Unfriend/Unfriend'
+// import ClearMessage from '../ClearMessage/ClearMessage'
+// import Unfriend from '../Unfriend/Unfriend'
 import { SOCKET_EVENTS } from '../../../core/constant'
 import UserItem from '../UserItem/UserItem'
 import { WebsocketService } from '../../../core/services'
@@ -14,14 +17,10 @@ const ListUsers = () => {
   const { selectedId, listFriends, setSelectedId, setListFriends } =
     useSelectedUserChat()
   const [listOnLineUsers, setListOnLineUsers] = useState<string[]>([])
-  const [rightClick, setRightClick] = useState('')
+  // const [rightClick, setRightClick] = useState('')
   const queryClient = useQueryClient()
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['myFriends'],
-    queryFn: () => FriendService.getFriends(),
-    staleTime: 1000 * 60 * 1,
-  })
+  const { data, isLoading } = useGetFriends()
 
   useEffect(() => {
     if (data && data.data?.length > 0) {
@@ -40,17 +39,17 @@ const ListUsers = () => {
     setListFriends(data?.data)
   }, [data])
 
-  useEffect(() => {
-    const handleClick = (event: MouseEvent) => {
-      if (!(event.target as HTMLElement).closest('.menu-user-item')) {
-        setRightClick('')
-      }
-    }
-    document.addEventListener('click', handleClick)
-    return () => {
-      document.removeEventListener('click', handleClick)
-    }
-  }, [])
+  // useEffect(() => {
+  //   const handleClick = (event: MouseEvent) => {
+  //     if (!(event.target as HTMLElement).closest('.menu-user-item')) {
+  //       // setRightClick('')
+  //     }
+  //   }
+  //   document.addEventListener('click', handleClick)
+  //   return () => {
+  //     document.removeEventListener('click', handleClick)
+  //   }
+  // }, [])
 
   useEffect(() => {
     const webSocket = WebsocketService.getInstance()
@@ -88,12 +87,12 @@ const ListUsers = () => {
                 name={user.nickname}
                 caption={user.caption}
                 onClick={() => setSelectedId(user._id)}
-                onContextMenu={(e) => {
-                  e.preventDefault()
-                  setRightClick(user._id)
-                }}
+                // onContextMenu={(e) => {
+                //   e.preventDefault()
+                //   setRightClick(user._id)
+                // }}
               />
-              <div
+              {/* <div
                 className={`absolute left-2 top-[50px] mb-3 rounded bg-white shadow-lg ${
                   user._id === rightClick ? 'block' : 'hidden'
                 } `}
@@ -106,7 +105,7 @@ const ListUsers = () => {
                     <Unfriend receiverId={user._id} />
                   </li>
                 </ul>
-              </div>
+              </div> */}
             </div>
           ),
         )
