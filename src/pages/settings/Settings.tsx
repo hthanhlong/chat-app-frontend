@@ -13,7 +13,7 @@ import { sleep } from '../../utils'
 import { useThemeMode } from 'flowbite-react'
 import {
   Friends,
-  Profiles,
+  Profile,
   Account,
   Security,
   Notifications,
@@ -35,11 +35,11 @@ import {
 const LIST_SETTINGS = [
   {
     id: 0,
-    title: 'Friends',
+    title: 'Profile',
   },
   {
     id: 1,
-    title: 'Profile',
+    title: 'Friends',
   },
   {
     id: 2,
@@ -65,10 +65,10 @@ const LIST_SETTINGS = [
 
 const LIST_COMPONENTS = [
   {
-    component: <Friends />,
+    component: <Profile />,
   },
   {
-    component: <Profiles />,
+    component: <Friends />,
   },
   {
     component: <Account />,

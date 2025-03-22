@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Tooltip } from 'flowbite-react'
 import { UserService } from '../../../core/services'
 import { AvatarDefault } from '../../ui'
+import AvatarDefaultImage from '../../../assets/images/a5-avatar-default.jpeg'
 
 const Avatar = ({
   avatarUrl,
@@ -22,23 +23,22 @@ const Avatar = ({
   isOnline?: boolean
   isEditable?: boolean
 }) => {
-  const { handleSubmit, register } = useForm()
+  const { handleSubmit, register } = useForm<{ caption: string }>()
   const queryClient = useQueryClient()
-
+  const [isEdit, setIsEdit] = useState(false)
   const { mutateAsync } = useMutation({
-    mutationFn: (data: Record<string, unknown>) => {
-      return UserService.updateUser(data)
-    },
+    mutationFn: (data: { caption: string }) => UserService.updateUser(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['user'] })
+      queryClient.invalidateQueries({ queryKey: ['get-me'] })
     },
   })
 
-  const onSubmit = async (data: Record<string, unknown>) => {
+  const onSubmit = async (data: { caption: string }) => {
+    if (data.caption.length > 64 || data.caption.length < 1) {
+      return
+    }
     await mutateAsync(data)
   }
-
-  const [isEdit, setIsEdit] = useState(false)
 
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
@@ -60,9 +60,7 @@ const Avatar = ({
       <AvatarDefault
         isOnline={isOnline}
         size={size}
-        avatarUrl={
-          avatarUrl || 'https://avatars.githubusercontent.com/u/54071671?v=4'
-        }
+        avatarUrl={avatarUrl || AvatarDefaultImage}
       />
       <div className="ml-3">
         <div className="max-lg:text-md flex h-full items-center text-black dark:text-gray-300">
@@ -86,7 +84,10 @@ const Avatar = ({
             ) : (
               <>
                 <input
-                  {...register('caption')}
+                  {...register('caption', {
+                    maxLength: 64,
+                    minLength: 1,
+                  })}
                   type="text"
                   className="input-caption h-[16px] w-[140px] border-0 border-b-[1px] bg-gray-100 ps-1 text-xs text-gray-700 focus:ring-0 dark:bg-black dark:text-gray-300 focus:dark:outline-none"
                   autoComplete="off"

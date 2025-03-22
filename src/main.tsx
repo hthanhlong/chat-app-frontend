@@ -5,8 +5,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import {
   AuthProvider,
   NotificationProvider,
-  SelectedUserChatProvider,
   LoadingProvider,
+  PartnerProvider,
 } from './core/provider'
 import App from './App'
 import './global.css'
@@ -19,11 +19,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <AuthProvider>
         <QueryClientProvider client={queryClient}>
           <NotificationProvider>
-            <SelectedUserChatProvider>
-              <LoadingProvider>
+            <LoadingProvider>
+              <PartnerProvider>
                 <App />
-              </LoadingProvider>
-            </SelectedUserChatProvider>
+              </PartnerProvider>
+            </LoadingProvider>
           </NotificationProvider>
         </QueryClientProvider>
       </AuthProvider>

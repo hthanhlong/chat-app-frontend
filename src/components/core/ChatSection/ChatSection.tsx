@@ -5,7 +5,7 @@ import { useThemeMode } from 'flowbite-react'
 import { v4 as uuidv4 } from 'uuid'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
-import { useAuth, useSelectedUserChat } from '../../../core/hooks'
+import { useAuth, usePartner } from '../../../core/hooks'
 import Message from '../../ui/Message/Message'
 import Skeleton from '../../ui/Skeleton/Skeleton'
 import { IMessage } from '../../../types'
@@ -13,18 +13,14 @@ import { SOCKET_EVENTS } from '../../../core/constant'
 import { MessageService, WebsocketService } from '../../../core/services'
 import './ChatSection.css'
 
-type FormValues = {
-  message: string
-}
-
 const ChatSection = () => {
   const { mode } = useThemeMode()
   const { userId } = useAuth()
-  const { selectedId: friendId } = useSelectedUserChat()
-  const { register, handleSubmit, reset } = useForm<FormValues>()
+  const { partnerId } = usePartner()
+  const { register, handleSubmit, reset } = useForm<{ message: string }>()
   const chatContainerRef = useRef<HTMLDivElement>(null)
   const [localMessages, setLocalMessages] = useState<IMessage[]>([])
-  // const [isTyping, setIsTyping] = useState(false)
+  const [scrollToBottomFlag, setScrollToBottomFlag] = useState(false)
   const callOneTime = useRef(true)
 
   const {
@@ -38,10 +34,10 @@ const ChatSection = () => {
     hasMore: boolean
     currentPage: number
   }>({
-    queryKey: ['get-message', friendId],
+    queryKey: ['get-message', partnerId],
     queryFn: async ({ pageParam = 1 }) => {
       const response = await MessageService.getMessageById(
-        friendId,
+        partnerId,
         pageParam as number,
       )
       return response.data
@@ -73,16 +69,16 @@ const ChatSection = () => {
       const data = JSON.parse(event.data)
       if (data.type === SOCKET_EVENTS.HAS_NEW_MESSAGE) {
         const newMessage = data.payload as IMessage
-        if (newMessage.senderId === friendId) {
+        if (newMessage.senderId === partnerId) {
           setLocalMessages((prev) => [...prev, newMessage])
-          scrollToBottom()
+          setScrollToBottomFlag((prev) => !prev)
         }
       }
     }
 
     webSocket.addEventListener('message', handleMessage)
     return () => webSocket.removeEventListener('message', handleMessage)
-  }, [friendId])
+  }, [partnerId])
 
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
@@ -94,15 +90,19 @@ const ChatSection = () => {
     }
   }
 
+  useEffect(() => {
+    scrollToBottom()
+  }, [scrollToBottomFlag])
+
   // todo fix scroll to bottom
   useEffect(() => {
     if (callOneTime.current) {
       callOneTime.current = false
       setTimeout(() => {
-        scrollToBottom()
+        setScrollToBottomFlag((prev) => !prev)
       }, 1000)
     }
-  }, [messages.length])
+  }, [partnerId])
 
   const handleScroll = () => {
     if (!chatContainerRef.current) return
@@ -113,14 +113,14 @@ const ChatSection = () => {
   }
 
   // Submit new message
-  const onsubmit = (data: FormValues) => {
+  const onsubmit = (data: { message: string }) => {
     const { message } = data
     if (message.trim() === '') return
 
     const newMessage: IMessage = {
       _id: uuidv4(),
       senderId: userId,
-      receiverId: friendId,
+      receiverId: partnerId,
       message: message,
       createdAt: new Date().toISOString(),
     }
@@ -133,7 +133,7 @@ const ChatSection = () => {
     }
 
     setLocalMessages((prev) => [...prev, newMessage])
-    // setIsTyping((prev) => !prev)
+    setScrollToBottomFlag((prev) => !prev)
     reset({ message: '' })
   }
 
@@ -144,7 +144,7 @@ const ChatSection = () => {
         onScroll={handleScroll}
         className={`${
           mode === 'light' ? 'chat-section' : 'dark-chat-section'
-        } h-[calc(100vh-160px)] overflow-auto p-2 pt-10 lg:h-[calc(650px-160px)]`}
+        } h-[calc(100vh-160px)] overflow-auto p-2 lg:h-[calc(650px-160px)]`}
       >
         {isLoading ? (
           <Skeleton />

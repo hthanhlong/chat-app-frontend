@@ -6,11 +6,11 @@ import FriendRequest from './FriendRequest/FriendRequest'
 import Friends from './Friends/Friends'
 import Help from './Help/Help'
 import LeftTop from './LeftTop/LeftTop'
-import ListFriend from './ListFriend/ListFriend'
-import ListUsers from './ListUsers/ListUsers'
+import FriendList from './FriendList/FriendList'
+import UserList from './UserList/UserList'
 import Notifications from './Notifications/Notifications'
 import Privacy from './Privacy/Privacy'
-import Profiles from './Profiles/Profiles'
+import Profile from './Profile/Profile'
 import RightTop from './RightTop/RightTop'
 import SearchBar from './SearchBar/SearchBar'
 import Security from './Security/Security'
@@ -28,11 +28,11 @@ export {
   Friends,
   Help,
   LeftTop,
-  ListFriend,
-  ListUsers,
+  FriendList,
+  UserList,
   Notifications,
   Privacy,
-  Profiles,
+  Profile,
   RightTop,
   SearchBar,
   Security,

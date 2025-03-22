@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import ListFriend from '../ListFriend/ListFriend'
+import FriendList from '../FriendList/FriendList'
 import FriendRequest from '../FriendRequest/FriendRequest'
 import { useLocation } from 'react-router-dom'
 
 const TABS = {
-  list: <ListFriend />,
+  list: <FriendList />,
   request: <FriendRequest />,
 }
 
