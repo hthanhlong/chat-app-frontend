@@ -1,14 +1,18 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const useDebounce = (value: string) => {
   const [valueDebounce, setValueDebounce] = useState(value)
+  const timeout = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
-    const handler = setTimeout(() => {
+    if (timeout.current) {
+      clearTimeout(timeout.current)
+    }
+    timeout.current = setTimeout(() => {
       setValueDebounce(value)
     }, 300)
     return () => {
-      clearTimeout(handler)
+      clearTimeout(timeout.current as ReturnType<typeof setTimeout>)
     }
   }, [value])
 

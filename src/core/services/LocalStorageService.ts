@@ -5,7 +5,6 @@ class LocalStorageService {
     IS_LOGGED: 'F7Uk5kTgIn8OcsAD',
     ACCESS_TOKEN: 'jRqUlx1xsPUmj19p',
     REFRESH_TOKEN: 'ymof3KCseoiFaz33',
-    SELECTED_ID: 'n81csAKUlx1xsn8O',
     IS_NOTIFICATION: 'n8OcsAKsd1xsn79',
     FLOWBITE_THEME_MODE: 'flowbite-theme-mode',
   }
@@ -64,18 +63,6 @@ class LocalStorageService {
 
   removeRefreshToken() {
     localStorage.removeItem(this.LOCAL_STORAGE_KEY.REFRESH_TOKEN)
-  }
-
-  setSelectedId(value: string) {
-    localStorage.setItem(this.LOCAL_STORAGE_KEY.SELECTED_ID, value)
-  }
-
-  getSelectedId() {
-    return localStorage.getItem(this.LOCAL_STORAGE_KEY.SELECTED_ID)
-  }
-
-  removeSelectedId() {
-    localStorage.removeItem(this.LOCAL_STORAGE_KEY.SELECTED_ID)
   }
 
   setIsNotification(value: boolean) {

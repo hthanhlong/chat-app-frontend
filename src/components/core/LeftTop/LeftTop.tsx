@@ -42,7 +42,7 @@ const LeftTop = () => {
         </div>
       </div>
       <CustomModal
-        header="Finding friends"
+        header="Finding new friends"
         body={<AddFriends />}
         openModal={openModal}
         size="lg"

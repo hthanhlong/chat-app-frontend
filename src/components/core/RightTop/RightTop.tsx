@@ -6,12 +6,12 @@ import {
   faSquarePhoneFlip,
   faCamera,
 } from '@fortawesome/free-solid-svg-icons'
-import { useSelectedUserChat, useGetUserById } from '../../../core/hooks'
+import { usePartner, useGetUserById } from '../../../core/hooks'
 import { Skeleton } from '../../ui'
 
 const RightTop = () => {
-  const { selectedId } = useSelectedUserChat()
-  const { data, isLoading } = useGetUserById(selectedId)
+  const { partnerId } = usePartner()
+  const { data, isLoading } = useGetUserById(partnerId)
 
   return (
     <div className="flex h-[80px] items-center justify-between border-b-[1px] bg-white dark:border-gray-600 dark:bg-black">

@@ -5,12 +5,12 @@ import Skeleton from '../../ui/Skeleton/Skeleton'
 import './AddFriend.css'
 import { IFriendRequest } from '../../../types'
 import { FriendService } from '../../../core/services'
-import { useGetListUsers } from '../../../core/hooks'
+import { useGetUserList } from '../../../core/hooks'
 
 const AddFriends = () => {
   const queryClient = useQueryClient()
 
-  const { data: ListUser, isLoading: isLoadingGetListUser } = useGetListUsers()
+  const { data: ListUser, isLoading: isLoadingGetListUser } = useGetUserList()
 
   const { mutateAsync } = useMutation({
     mutationFn: (data: IFriendRequest) => FriendService.addFriend(data),
@@ -23,9 +23,12 @@ const AddFriends = () => {
     <div>
       <input
         type="search"
-        placeholder="Search friends"
-        className="mb-3 block w-full rounded-full border-0 bg-gray-100 py-3 ps-5 text-sm text-black focus:ring-0 dark:bg-slate-800 dark:text-white"
+        placeholder="Type email or username"
+        className="mb-3 block w-full rounded-full border-0 bg-gray-100 py-3 ps-5 text-xs text-black focus:ring-0 dark:bg-slate-800 dark:text-white"
         autoComplete="off"
+        onChange={(e) => {
+          console.log(e.target.value)
+        }}
       />
       <ul className="add-friend-list h-[400px] overflow-auto">
         {!isLoadingGetListUser ? (

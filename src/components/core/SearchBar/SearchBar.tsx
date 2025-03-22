@@ -1,34 +1,28 @@
-import { ClassAttributes, FormHTMLAttributes, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { JSX } from 'react/jsx-runtime'
 import useDebounce from '../../../core/hooks/useDebounce'
-import { useSelectedUserChat, useGetFriends } from '../../../core/hooks'
+import { useGetFriends, useFriendList } from '../../../core/hooks'
 import { FriendService } from '../../../core/services'
 import { IFriend } from '../../../types'
 export const PADDING_CONTAINER = 'p-4'
 
-const SearchBar = (
-  props: JSX.IntrinsicAttributes &
-    ClassAttributes<HTMLFormElement> &
-    FormHTMLAttributes<HTMLFormElement>,
-) => {
+const SearchBar = () => {
   const { register, handleSubmit, watch } = useForm()
-  const { setListFriends } = useSelectedUserChat()
-  const watchShowAge = watch('search-friend')
-  const { valueDebounce } = useDebounce(watchShowAge)
-
+  const watchKeyword = watch('keyword')
+  const { valueDebounce } = useDebounce(watchKeyword)
+  const { setFriendList } = useFriendList()
   const { data } = useGetFriends()
 
   const onSubmit = async (keyword: string) => {
     const friends = await FriendService.searchFriendByKeyword(keyword)
     if (friends.data) {
-      setListFriends(friends.data as unknown as IFriend[])
+      setFriendList(friends.data as IFriend[])
     }
   }
 
   useEffect(() => {
     if (!valueDebounce) {
-      setListFriends(data?.data)
+      setFriendList(data?.data as IFriend[])
     } else {
       onSubmit(valueDebounce)
     }
@@ -37,7 +31,6 @@ const SearchBar = (
   return (
     <div className="flex h-[80px] items-center px-2 dark:border-gray-600">
       <form
-        {...props}
         onSubmit={handleSubmit(onSubmit as never)}
         className="relative w-full"
       >
@@ -59,7 +52,7 @@ const SearchBar = (
           </svg>
         </div>
         <input
-          {...register('search-friend', { required: true, maxLength: 64 })}
+          {...register('keyword', { required: true, maxLength: 64 })}
           type="search"
           id="default-search"
           className="block w-full rounded-full border-0 bg-gray-100 p-2.5 ps-10 text-sm text-black focus:ring-0 dark:bg-slate-800 dark:text-white"

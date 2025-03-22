@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { UserService } from '../../services'
 
-const useGetListUsers = () => {
+const useGetUserList = () => {
   return useQuery({
     queryKey: ['listUser'],
     queryFn: () => UserService.getUsersNonFriends(),
@@ -9,4 +9,4 @@ const useGetListUsers = () => {
   })
 }
 
-export default useGetListUsers
+export default useGetUserList

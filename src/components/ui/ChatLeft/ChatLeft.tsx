@@ -1,15 +1,18 @@
 // import { useShowMenu } from '../../hooks/useShowMenu'
 import SearchBar from '../../core/SearchBar/SearchBar'
 import LeftTop from '../../core/LeftTop/LeftTop'
-import ListUsers from '../../core/ListUsers/ListUsers'
+import UserList from '../../core/UserList/UserList'
 import { LeftContentLayout } from '../../ui'
+import { FriendListProvider } from '../../../core/provider'
 
 const ChatLeft = () => {
   return (
     <LeftContentLayout>
       <LeftTop />
-      <SearchBar />
-      <ListUsers />
+      <FriendListProvider>
+        <SearchBar />
+        <UserList />
+      </FriendListProvider>
     </LeftContentLayout>
   )
 }

@@ -89,8 +89,8 @@ const Notification = () => {
         color="gray"
       >
         <Dropdown.Header className="flex justify-between">
-          <div>Notifications</div>
-          <button className="underline">Mark as all read</button>
+          <div className="text-xs">Notifications</div>
+          <button className="text-xs underline">Mark as all read</button>
         </Dropdown.Header>
 
         {isSuccess ? (
@@ -106,8 +106,8 @@ const Notification = () => {
             >
               <Avatar />
               <div className="w-full text-left">
-                <div>{notification.content}</div>
-                <div className="text-xs">
+                <div className="text-xs">{notification.content}</div>
+                <div className="text-[10px]">
                   {formatDate(notification.createdAt as string)}
                 </div>
               </div>

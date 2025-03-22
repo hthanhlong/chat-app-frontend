@@ -5,7 +5,7 @@ import { useThemeMode } from 'flowbite-react'
 import { v4 as uuidv4 } from 'uuid'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
-import { useAuth, useSelectedUserChat } from '../../../core/hooks'
+import { useAuth, usePartner } from '../../../core/hooks'
 import Message from '../../ui/Message/Message'
 import Skeleton from '../../ui/Skeleton/Skeleton'
 import { IMessage } from '../../../types'
@@ -20,7 +20,7 @@ type FormValues = {
 const ChatSection = () => {
   const { mode } = useThemeMode()
   const { userId } = useAuth()
-  const { selectedId: friendId } = useSelectedUserChat()
+  const { partnerId } = usePartner()
   const { register, handleSubmit, reset } = useForm<FormValues>()
   const chatContainerRef = useRef<HTMLDivElement>(null)
   const [localMessages, setLocalMessages] = useState<IMessage[]>([])
@@ -38,10 +38,10 @@ const ChatSection = () => {
     hasMore: boolean
     currentPage: number
   }>({
-    queryKey: ['get-message', friendId],
+    queryKey: ['get-message', partnerId],
     queryFn: async ({ pageParam = 1 }) => {
       const response = await MessageService.getMessageById(
-        friendId,
+        partnerId,
         pageParam as number,
       )
       return response.data
@@ -73,7 +73,7 @@ const ChatSection = () => {
       const data = JSON.parse(event.data)
       if (data.type === SOCKET_EVENTS.HAS_NEW_MESSAGE) {
         const newMessage = data.payload as IMessage
-        if (newMessage.senderId === friendId) {
+        if (newMessage.senderId === partnerId) {
           setLocalMessages((prev) => [...prev, newMessage])
           scrollToBottom()
         }
@@ -82,7 +82,7 @@ const ChatSection = () => {
 
     webSocket.addEventListener('message', handleMessage)
     return () => webSocket.removeEventListener('message', handleMessage)
-  }, [friendId])
+  }, [partnerId])
 
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
@@ -120,7 +120,7 @@ const ChatSection = () => {
     const newMessage: IMessage = {
       _id: uuidv4(),
       senderId: userId,
-      receiverId: friendId,
+      receiverId: partnerId,
       message: message,
       createdAt: new Date().toISOString(),
     }

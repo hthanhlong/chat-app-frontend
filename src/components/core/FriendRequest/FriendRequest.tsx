@@ -8,7 +8,7 @@ import { useGetFriendRequest } from '../../../core/hooks'
 
 const FriendRequest = () => {
   const queryClient = useQueryClient()
-  const { data: ListFriendRequest, isLoading } = useGetFriendRequest()
+  const { data: FriendRequestList, isLoading } = useGetFriendRequest()
 
   const { mutate } = useMutation({
     mutationFn: (request: IFriendRequest) =>
@@ -20,7 +20,7 @@ const FriendRequest = () => {
   return (
     <div className="flex w-full flex-wrap overflow-auto max-lg:h-screen">
       {!isLoading ? (
-        ListFriendRequest?.data?.map(
+        FriendRequestList?.data?.map(
           (user: { _id: string; nickname: string }) => (
             <div
               key={user._id}
