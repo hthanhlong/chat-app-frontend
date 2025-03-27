@@ -118,7 +118,7 @@ const ChatSection = () => {
     if (message.trim() === '') return
 
     const newMessage: IMessage = {
-      _id: uuidv4(),
+      uuid: uuidv4(),
       senderUuid: userUuid,
       receiverUuid: partnerId,
       message: message,
@@ -155,7 +155,7 @@ const ChatSection = () => {
             )}
             {messages.map((message) => (
               <Message
-                key={message._id}
+                key={message.uuid}
                 message={message.message}
                 isSender={message.senderUuid === userUuid}
               />

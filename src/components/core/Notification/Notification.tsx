@@ -19,7 +19,7 @@ interface INotification {
   status: string
   type: string
   updatedAt: string
-  _id: string
+  uuid: string
 }
 
 const Notification = () => {
@@ -44,7 +44,7 @@ const Notification = () => {
 
   const handleClick = async (notification: INotification) => {
     await mutateAsync({
-      notificationId: notification._id,
+      notificationId: notification.uuid,
       status: 'READ',
     })
     if (
@@ -96,7 +96,7 @@ const Notification = () => {
         {isSuccess ? (
           data.data.map((notification: INotification) => (
             <Dropdown.Item
-              key={notification._id}
+              key={notification.uuid}
               className={`text-bold relative mb-1 w-full items-center text-sm font-medium ${
                 notification.status === 'UNREAD'
                   ? ' bg-slate-100 text-black dark:!bg-gray-700 dark:!text-white'

@@ -58,6 +58,7 @@ export interface ICustomWebSocket extends WebSocket {
 }
 
 export interface IMessage {
+  uuid: Key | null | undefined
   _id?: string
   senderUuid: string
   receiverUuid: string
