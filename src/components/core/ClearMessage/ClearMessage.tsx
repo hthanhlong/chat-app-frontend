@@ -5,12 +5,12 @@ const ClearMessage = () => {
   //   const queryClient = useQueryClient()
   //   const { mutateAsync } = useMutation({
   //     mutationFn: () => {
-  //       return deleteAllMessage({ senderId, receiverId })
+  //       return deleteAllMessage({ senderUuid, receiverUuid })
   //     },
   //     onSuccess: () => {
   //       callback()
   //       queryClient.invalidateQueries({
-  //         queryKey: ['get-message', receiverId],
+  //         queryKey: ['get-message', receiverUuid],
   //       })
   //     },
   //   })

@@ -13,7 +13,7 @@ import './list-users.css'
 import { IFriend } from '../../../types'
 
 const UserList = () => {
-  const { userId } = useAuth()
+  const { userUuid } = useAuth()
   const { friendList, setFriendList } = useFriendList()
   const { partnerId, setPartnerId } = usePartner()
   const [listOnLineUsers, setListOnLineUsers] = useState<string[]>([])
@@ -26,11 +26,11 @@ const UserList = () => {
     if (WebsocketService.getInstance()) {
       WebsocketService.sendDataToServer({
         type: SOCKET_EVENTS.GET_ONLINE_USERS,
-        payload: { userId: userId },
+        payload: { userUuid: userUuid },
       })
     }
     if (!partnerId) {
-      setPartnerId(data?.data?.[0]._id)
+      setPartnerId(data?.data?.[0].uuid)
     }
     setFriendList(data?.data)
   }, [data])
@@ -41,7 +41,9 @@ const UserList = () => {
       const data = JSON.parse(event.data)
       if (data.type === SOCKET_EVENTS.GET_ONLINE_USERS) {
         const onlineUsers = data.payload as string[]
-        const filterOnlineUsers = onlineUsers.filter((user) => user !== userId)
+        const filterOnlineUsers = onlineUsers.filter(
+          (user) => user !== userUuid,
+        )
         setListOnLineUsers(filterOnlineUsers)
       }
       if (data.type === SOCKET_EVENTS.UPDATE_FRIEND_LIST) {
@@ -56,20 +58,20 @@ const UserList = () => {
         webSocket.removeEventListener('message', handleMessage)
       }
     }
-  }, [userId, friendList])
+  }, [userUuid, friendList])
 
   return (
     <div className="list-users lg:min-h-[calc(650px-160px)]">
       {!isLoading ? (
         friendList?.map((user: IFriend) => (
-          <div key={user._id} className="z-1 relative">
+          <div key={user.uuid} className="z-1 relative">
             <UserItem
-              isOnline={listOnLineUsers.includes(user._id)}
-              userId={user._id}
-              active={partnerId === user._id}
-              name={user.nickname}
+              isOnline={listOnLineUsers.includes(user.uuid)}
+              userUuid={user.uuid}
+              active={partnerId === user.uuid}
+              name={user.nickName}
               caption={user.caption ?? ''}
-              onClick={() => setPartnerId(user._id)}
+              onClick={() => setPartnerId(user.uuid)}
             />
           </div>
         ))

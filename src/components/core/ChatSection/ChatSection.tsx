@@ -15,7 +15,7 @@ import './ChatSection.css'
 
 const ChatSection = () => {
   const { mode } = useThemeMode()
-  const { userId } = useAuth()
+  const { userUuid } = useAuth()
   const { partnerId } = usePartner()
   const { register, handleSubmit, reset } = useForm<{ message: string }>()
   const chatContainerRef = useRef<HTMLDivElement>(null)
@@ -69,7 +69,7 @@ const ChatSection = () => {
       const data = JSON.parse(event.data)
       if (data.type === SOCKET_EVENTS.HAS_NEW_MESSAGE) {
         const newMessage = data.payload as IMessage
-        if (newMessage.senderId === partnerId) {
+        if (newMessage.senderUuid === partnerId) {
           setLocalMessages((prev) => [...prev, newMessage])
           setScrollToBottomFlag((prev) => !prev)
         }
@@ -119,8 +119,8 @@ const ChatSection = () => {
 
     const newMessage: IMessage = {
       _id: uuidv4(),
-      senderId: userId,
-      receiverId: partnerId,
+      senderUuid: userUuid,
+      receiverUuid: partnerId,
       message: message,
       createdAt: new Date().toISOString(),
     }
@@ -157,7 +157,7 @@ const ChatSection = () => {
               <Message
                 key={message._id}
                 message={message.message}
-                isSender={message.senderId === userId}
+                isSender={message.senderUuid === userUuid}
               />
             ))}
           </>

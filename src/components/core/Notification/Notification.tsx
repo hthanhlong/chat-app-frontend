@@ -14,8 +14,8 @@ import { useAuth, useGetNotifications } from '../../../core/hooks'
 interface INotification {
   content: string
   createdAt: string
-  receiverId: string
-  senderId: string
+  receiverUuid: string
+  senderUuid: string
   status: string
   type: string
   updatedAt: string
@@ -23,7 +23,7 @@ interface INotification {
 }
 
 const Notification = () => {
-  const { userId } = useAuth()
+  const { userUuid } = useAuth()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
   const [isNotification, setIsNotification] = useState(false)
@@ -75,7 +75,7 @@ const Notification = () => {
     return () => {
       webSocket.removeEventListener('message', handleMessage)
     }
-  }, [userId])
+  }, [userUuid])
 
   return (
     <div className="relative" onClick={() => setIsNotification(false)}>

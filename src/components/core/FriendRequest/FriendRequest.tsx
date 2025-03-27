@@ -21,12 +21,12 @@ const FriendRequest = () => {
     <div className="flex w-full flex-wrap overflow-auto max-lg:h-screen">
       {!isLoading ? (
         FriendRequestList?.data?.map(
-          (user: { _id: string; nickname: string }) => (
+          (user: { _id: string; nickName: string }) => (
             <div
-              key={user._id}
+              key={user.uuid}
               className="m-1 flex h-20 w-[calc(50%-8px)] items-center justify-between rounded-md border-[1px] px-2 py-1 hover:bg-gray-100 hover:dark:bg-gray-800"
             >
-              <Avatar name={user.nickname} />
+              <Avatar name={user.nickName} />
               <div className="flex">
                 <Button
                   color="blue"
@@ -34,7 +34,7 @@ const FriendRequest = () => {
                   className="mr-1"
                   onClick={() => {
                     mutate({
-                      receiverId: user._id,
+                      receiverUuid: user.uuid,
                       status: 'FRIEND',
                     })
                   }}
@@ -46,7 +46,7 @@ const FriendRequest = () => {
                   size="xs"
                   onClick={() => {
                     mutate({
-                      receiverId: user._id,
+                      receiverUuid: user.uuid,
                       status: 'REJECT',
                     })
                   }}

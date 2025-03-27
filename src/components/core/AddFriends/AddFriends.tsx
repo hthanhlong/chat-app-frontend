@@ -32,16 +32,16 @@ const AddFriends = () => {
       />
       <ul className="add-friend-list h-[400px] overflow-auto">
         {!isLoadingGetListUser ? (
-          ListUser?.data?.map((user: { _id: string; nickname: string }) => (
-            <li key={user._id} className="flex justify-between p-1">
-              <Avatar name={user.nickname} size="md" />
+          ListUser?.data?.map((user: { uuid: string; nickName: string }) => (
+            <li key={user.uuid} className="flex justify-between p-1">
+              <Avatar name={user.nickName} size="md" />
               <Button
                 color="blue"
                 size="xs"
                 className="h-[32px] w-[140px]"
                 onClick={() => {
                   mutateAsync({
-                    receiverId: user._id,
+                    receiverUuid: user.uuid,
                     status: 'PENDING',
                   })
                 }}

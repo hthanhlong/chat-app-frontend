@@ -13,7 +13,7 @@ export interface ISignInResponse {
 }
 
 export interface ISignUp {
-  nickname: string
+  nickName: string
   username: string
   email: string
   password: string
@@ -32,7 +32,7 @@ export interface IErrorMessages {
 
 export interface IInputProps<T extends FieldValues> {
   label?: string
-  name: 'username' | 'password' | 'nickname' | 'email' | 'confirmPassword'
+  name: 'username' | 'password' | 'nickName' | 'email' | 'confirmPassword'
   errorMessage: string | undefined
   register: UseFormRegister<T>
   placeholder?: string
@@ -48,7 +48,7 @@ export interface ISuccessResponse<T> {
 }
 
 export interface IFriendRequest {
-  receiverId: string
+  receiverUuid: string
   status: 'PENDING' | 'FRIEND' | 'UNFRIEND' | 'REJECT'
 }
 
@@ -59,8 +59,8 @@ export interface ICustomWebSocket extends WebSocket {
 
 export interface IMessage {
   _id?: string
-  senderId: string
-  receiverId: string
+  senderUuid: string
+  receiverUuid: string
   message: string
   createdAt?: string
 }
@@ -70,14 +70,14 @@ export interface IUser {
   username: string
   profilePicUrl?: string
   email: string
-  nickname?: string
+  nickName?: string
   caption?: string
 }
 
 export interface ICustomNotification {
   _id: string | null
-  senderId: string
-  receiverId: string
+  senderUuid: string
+  receiverUuid: string
   type: 'FRIEND' | 'MESSAGE' | 'POST'
   content: string
   status: 'READ' | 'UNREAD'
@@ -86,8 +86,9 @@ export interface ICustomNotification {
 }
 
 export interface IFriend {
-  _id: string
-  nickname: string
+  uuid: string
+  name: string
+  nickName: string
   profilePicUrl: string
   caption?: string
 }

@@ -18,12 +18,12 @@ const FriendList = () => {
   return (
     <div className="flex flex-wrap overflow-auto max-lg:h-screen max-lg:flex-col max-lg:p-2">
       {!isLoading ? (
-        FriendList?.data?.map((user: { _id: string; nickname: string }) => (
+        FriendList?.data?.map((user: { _id: string; nickName: string }) => (
           <div
-            key={user._id}
+            key={user.uuid}
             className="mb-1 flex h-20 w-full items-center justify-between rounded-md border-[1px] px-2 py-1 hover:bg-gray-100 hover:dark:bg-gray-800 lg:m-1 lg:w-[calc(50%-8px)]"
           >
-            <Avatar name={user.nickname} />
+            <Avatar name={user.nickName} />
             <div className="flex">
               <Button
                 color="blue"
@@ -31,7 +31,7 @@ const FriendList = () => {
                 className="mr-1"
                 onClick={() => {
                   mutate({
-                    receiverId: user._id,
+                    receiverUuid: user.uuid,
                     status: 'UNFRIEND',
                   })
                 }}

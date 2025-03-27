@@ -19,7 +19,7 @@ const LeftTop = () => {
       <div className="flex h-[80px] items-center justify-between border-b-[1px] p-2 dark:border-gray-600">
         {data?.data ? (
           <Avatar
-            name={data?.data.nickname}
+            name={data?.data.nickName}
             caption={data.data.caption}
             isEditable={true}
           />

@@ -17,7 +17,7 @@ const RightTop = () => {
     <div className="flex h-[80px] items-center justify-between border-b-[1px] bg-white dark:border-gray-600 dark:bg-black">
       {!isLoading ? (
         <div className="p-2">
-          <Avatar name={data?.data?.nickname} caption={data?.data?.caption} />
+          <Avatar name={data?.data?.nickName} caption={data?.data?.caption} />
         </div>
       ) : (
         <Skeleton className="h-[72px]" />

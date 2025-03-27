@@ -3,7 +3,7 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage'
 
 export interface IInputProps<T extends FieldValues> {
   label?: string
-  name: 'username' | 'password' | 'nickname' | 'email' | 'confirmPassword'
+  name: 'username' | 'password' | 'nickName' | 'email' | 'confirmPassword'
   errorMessage: string | undefined
   register: UseFormRegister<T>
   placeholder?: string

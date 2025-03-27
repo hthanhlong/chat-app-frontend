@@ -62,10 +62,10 @@ const SignUpForm = () => {
     >
       <Title text="Create your Account" />
       <Input
-        label="nickname"
-        name="nickname"
+        label="nickName"
+        name="nickName"
         register={register}
-        errorMessage={errors.nickname?.message}
+        errorMessage={errors.nickName?.message}
       />
       <Input
         label="username"

@@ -60,7 +60,7 @@ class FriendService {
   unfriend = async (data: IFriendRequest) => {
     try {
       const response = await HttpService.get(
-        END_POINT.friend.unFriend(data.receiverId),
+        END_POINT.friend.unFriend(data.receiverUuid),
       )
       return response
     } catch (error) {

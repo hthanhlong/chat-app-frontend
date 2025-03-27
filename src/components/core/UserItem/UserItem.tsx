@@ -13,20 +13,20 @@ const UserItem = ({
   onClick,
   onContextMenu,
   isOnline,
-  userId,
+  userUuid,
 }: {
   name: string
   caption: string
   active: boolean
   isOnline: boolean
-  userId: string
+  userUuid: string
   onClick?: MouseEventHandler
   onContextMenu?: MouseEventHandler
 }) => {
   const [latestMessage, setLatestMessage] = useState<IMessage>()
   const [highLight, setHighLight] = useState<boolean>(false)
 
-  const { data: response } = useGetLatestMessage(userId)
+  const { data: response } = useGetLatestMessage(userUuid)
 
   useEffect(() => {
     if (response?.data) {
@@ -41,7 +41,7 @@ const UserItem = ({
       const data = JSON.parse(event.data)
       if (data.type === SOCKET_EVENTS.HAS_NEW_MESSAGE) {
         const newMessage = data.payload as IMessage
-        if (newMessage.senderId === userId) {
+        if (newMessage.senderUuid === userUuid) {
           setLatestMessage(newMessage)
           setHighLight(true)
         }
@@ -51,7 +51,7 @@ const UserItem = ({
     return () => {
       webSocket.removeEventListener('message', handleMessage)
     }
-  }, [userId])
+  }, [userUuid])
 
   return (
     <div
@@ -80,7 +80,7 @@ const UserItem = ({
                 highLight ? 'font-semibold dark:!text-sky-500' : ''
               } truncate text-xs dark:text-gray-300`}
             >
-              {latestMessage.receiverId === userId ? 'You: ' : `${name}: `}
+              {latestMessage.receiverUuid === userUuid ? 'You: ' : `${name}: `}
               {latestMessage?.message}
             </div>
           </div>

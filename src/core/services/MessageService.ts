@@ -1,11 +1,11 @@
 import END_POINT from '../endpoint'
 import { HttpService } from '.'
 class MessageService {
-  getMessages = async (friendId: string) => {
-    if (!friendId) return Promise.reject(new Error('No friendId found'))
+  getMessages = async (friendUuid: string) => {
+    if (!friendUuid) return Promise.reject(new Error('No friendUuid found'))
     try {
       const response = await HttpService.get(END_POINT.message.getMessages, {
-        params: { friendId: friendId },
+        params: { friendUuid: friendUuid },
       })
       return response
     } catch (error) {
@@ -13,11 +13,11 @@ class MessageService {
     }
   }
 
-  getMessageById = async (friendId: string, page: number) => {
-    if (!friendId) return Promise.reject(new Error('No friendId found'))
+  getMessageById = async (friendUuid: string, page: number) => {
+    if (!friendUuid) return Promise.reject(new Error('No friendUuid found'))
     try {
       const response = await HttpService.get(
-        END_POINT.message.getMessageById(friendId),
+        END_POINT.message.getMessageById(friendUuid),
         {
           params: {
             page,
@@ -30,10 +30,10 @@ class MessageService {
     }
   }
 
-  getLatestMessage = async (friendId: string) => {
+  getLatestMessage = async (friendUuid: string) => {
     try {
       const response = await HttpService.get(
-        END_POINT.message.getLatestMessage(friendId),
+        END_POINT.message.getLatestMessage(friendUuid),
       )
       return response
     } catch (error) {
@@ -41,10 +41,10 @@ class MessageService {
     }
   }
 
-  deleteAllMessage = async (data: { friendId: string }) => {
+  deleteAllMessage = async (data: { friendUuid: string }) => {
     try {
       const response = await HttpService.post(
-        END_POINT.message.deleteAllMessageByFriendId(data.friendId),
+        END_POINT.message.deleteAllMessageByFriendId(data.friendUuid),
         data,
       )
       return response

@@ -1,6 +1,6 @@
 // export interface IUser {
 //   username: string
-//   nickname: string
+//   nickName: string
 //   caption: string
 //   profilePicUrl: string
 // }
@@ -13,7 +13,7 @@ import { useForm } from 'react-hook-form'
 const Profile = () => {
   const { handleSubmit, register } = useForm<{
     avatar: File[]
-    nickname: string
+    nickName: string
     caption: string
   }>()
   const [canSubmit, setCanSubmit] = useState(false)
@@ -27,7 +27,7 @@ const Profile = () => {
 
   const onSubmit = (data: {
     avatar: File[]
-    nickname: string
+    nickName: string
     caption: string
   }) => {
     if (!data.avatar || data.avatar.length === 0) {
@@ -35,14 +35,14 @@ const Profile = () => {
     }
     const formData = new FormData()
     formData.append('avatar', data.avatar[0])
-    formData.append('nickname', data.nickname)
+    formData.append('nickName', data.nickName)
     formData.append('caption', data.caption)
     console.log(formData)
   }
 
   useEffect(() => {
-    setCanSubmit(!!data?.data?.nickname)
-  }, [data?.data?.nickname])
+    setCanSubmit(!!data?.data?.nickName)
+  }, [data?.data?.nickName])
 
   return (
     <div className="p-8">
@@ -77,15 +77,15 @@ const Profile = () => {
             </div>
           </div>
           <div className="mb-2 flex flex-col gap-2">
-            <label className="text-lg font-bold" htmlFor="nickname">
+            <label className="text-lg font-bold" htmlFor="nickName">
               Profile name
             </label>
             <input
-              {...register('nickname')}
+              {...register('nickName')}
               className="w-full rounded-md border-gray-300 bg-gray-100 p-2 text-sm text-black focus:ring-0 dark:bg-slate-800 dark:text-white"
               type="text"
-              id="nickname"
-              defaultValue={data?.data?.nickname}
+              id="nickName"
+              defaultValue={data?.data?.nickName}
             />
           </div>
           <div className="mb-2 flex flex-col gap-2">
