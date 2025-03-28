@@ -1,6 +1,6 @@
 class LocalStorageService {
   LOCAL_STORAGE_KEY = {
-    USER_ID: 'wdXSDDpECBCNgyaF',
+    USER_UUID: 'wdXSDDpECBCNgyaF',
     USERNAME: 'Ufwr5+igITVbTmUy',
     IS_LOGGED: 'F7Uk5kTgIn8OcsAD',
     ACCESS_TOKEN: 'jRqUlx1xsPUmj19p',
@@ -9,12 +9,12 @@ class LocalStorageService {
     FLOWBITE_THEME_MODE: 'flowbite-theme-mode',
   }
 
-  setUserId(value: string) {
-    localStorage.setItem(this.LOCAL_STORAGE_KEY.USER_ID, value)
+  setUserUuid(value: string) {
+    localStorage.setItem(this.LOCAL_STORAGE_KEY.USER_UUID, value)
   }
 
-  getUserId() {
-    return localStorage.getItem(this.LOCAL_STORAGE_KEY.USER_ID)
+  getUserUuid() {
+    return localStorage.getItem(this.LOCAL_STORAGE_KEY.USER_UUID)
   }
 
   getUsername() {
@@ -29,8 +29,8 @@ class LocalStorageService {
     localStorage.removeItem(this.LOCAL_STORAGE_KEY.USERNAME)
   }
 
-  removeUserId() {
-    localStorage.removeItem(this.LOCAL_STORAGE_KEY.USER_ID)
+  removeUserUuid() {
+    localStorage.removeItem(this.LOCAL_STORAGE_KEY.USER_UUID)
   }
 
   setAccessToken(value: string) {

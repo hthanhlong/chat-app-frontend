@@ -6,8 +6,9 @@ export interface ISignIn {
 }
 
 export interface ISignInResponse {
-  id: string
-  username: string
+  uuid: string
+  name: string
+  nickName: string
   accessToken?: string
   refreshToken?: string
 }
@@ -58,8 +59,7 @@ export interface ICustomWebSocket extends WebSocket {
 }
 
 export interface IMessage {
-  uuid: Key | null | undefined
-  _id?: string
+  uuid: string
   senderUuid: string
   receiverUuid: string
   message: string

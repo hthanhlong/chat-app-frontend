@@ -13,7 +13,7 @@ import './list-users.css'
 import { IFriend } from '../../../types'
 
 const UserList = () => {
-  const { userUuid } = useAuth()
+  const { uuid } = useAuth()
   const { friendList, setFriendList } = useFriendList()
   const { partnerId, setPartnerId } = usePartner()
   const [listOnLineUsers, setListOnLineUsers] = useState<string[]>([])
@@ -26,7 +26,7 @@ const UserList = () => {
     if (WebsocketService.getInstance()) {
       WebsocketService.sendDataToServer({
         type: SOCKET_EVENTS.GET_ONLINE_USERS,
-        payload: { userUuid: userUuid },
+        payload: { userUuid: uuid },
       })
     }
     if (!partnerId) {
@@ -41,9 +41,7 @@ const UserList = () => {
       const data = JSON.parse(event.data)
       if (data.type === SOCKET_EVENTS.GET_ONLINE_USERS) {
         const onlineUsers = data.payload as string[]
-        const filterOnlineUsers = onlineUsers.filter(
-          (user) => user !== userUuid,
-        )
+        const filterOnlineUsers = onlineUsers.filter((user) => user !== uuid)
         setListOnLineUsers(filterOnlineUsers)
       }
       if (data.type === SOCKET_EVENTS.UPDATE_FRIEND_LIST) {
@@ -58,7 +56,7 @@ const UserList = () => {
         webSocket.removeEventListener('message', handleMessage)
       }
     }
-  }, [userUuid, friendList])
+  }, [uuid, friendList])
 
   return (
     <div className="list-users lg:min-h-[calc(650px-160px)]">

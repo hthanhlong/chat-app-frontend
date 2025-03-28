@@ -15,7 +15,7 @@ import './ChatSection.css'
 
 const ChatSection = () => {
   const { mode } = useThemeMode()
-  const { userUuid } = useAuth()
+  const { uuid } = useAuth()
   const { partnerId } = usePartner()
   const { register, handleSubmit, reset } = useForm<{ message: string }>()
   const chatContainerRef = useRef<HTMLDivElement>(null)
@@ -52,6 +52,7 @@ const ChatSection = () => {
       return undefined
     },
     initialPageParam: 1,
+    staleTime: 1000 * 5, // 5 seconds
   })
 
   // Combine server messages và local messages
@@ -119,7 +120,7 @@ const ChatSection = () => {
 
     const newMessage: IMessage = {
       uuid: uuidv4(),
-      senderUuid: userUuid,
+      senderUuid: uuid,
       receiverUuid: partnerId,
       message: message,
       createdAt: new Date().toISOString(),
@@ -157,7 +158,7 @@ const ChatSection = () => {
               <Message
                 key={message.uuid}
                 message={message.message}
-                isSender={message.senderUuid === userUuid}
+                isSender={message.senderUuid === uuid}
               />
             ))}
           </>

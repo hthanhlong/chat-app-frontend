@@ -18,6 +18,7 @@ import { sleep } from '../../../utils'
 import { useAuth, useLoading } from '../../../core/hooks'
 import { ISignIn, ISignInResponse, ISuccessResponse } from '../../../types'
 import { AuthService } from '../../../core/services'
+
 const SignInForm = () => {
   const { setAuth } = useAuth()
   const navigate = useNavigate()
@@ -33,7 +34,6 @@ const SignInForm = () => {
   })
 
   const onSubmit: SubmitHandler<ISignIn> = (data) => {
-    console.log('data', data)
     signInFn(data)
   }
 

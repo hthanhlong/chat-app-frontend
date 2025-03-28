@@ -23,7 +23,7 @@ interface INotification {
 }
 
 const Notification = () => {
-  const { userUuid } = useAuth()
+  const { uuid } = useAuth()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
   const [isNotification, setIsNotification] = useState(false)
@@ -32,7 +32,7 @@ const Notification = () => {
 
   const { mutateAsync } = useMutation({
     mutationFn: (data: {
-      notificationId: string
+      notificationUuid: string
       status: 'READ' | 'UNREAD'
     }) => {
       return NotificationService.updateNotification(data)
@@ -44,7 +44,7 @@ const Notification = () => {
 
   const handleClick = async (notification: INotification) => {
     await mutateAsync({
-      notificationId: notification.uuid,
+      notificationUuid: notification.uuid,
       status: 'READ',
     })
     if (
@@ -53,7 +53,7 @@ const Notification = () => {
     ) {
       navigate('/settings', {
         state: {
-          friendTap: 0,
+          friendTap: 1,
           selectTab: 'request',
         },
       })
@@ -75,7 +75,7 @@ const Notification = () => {
     return () => {
       webSocket.removeEventListener('message', handleMessage)
     }
-  }, [userUuid])
+  }, [uuid])
 
   return (
     <div className="relative" onClick={() => setIsNotification(false)}>

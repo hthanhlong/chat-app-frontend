@@ -3,8 +3,8 @@ import { LocalStorageService } from '../services'
 import { ISignInResponse } from '../../types'
 
 type AuthContextType = {
-  userUuid: string
-  username: string
+  uuid: string
+  name: string
   isLogged: boolean
   setAuth: (data: ISignInResponse) => void
 }
@@ -17,12 +17,12 @@ const helperIsLogged = (data: string | null) => {
 }
 
 export const AuthContext = createContext<AuthContextType>({
-  userUuid: '',
-  username: '',
+  uuid: '',
+  name: '',
   isLogged: false,
   setAuth: (response: ISignInResponse) => {
-    LocalStorageService.setUserId(response.id ?? '')
-    LocalStorageService.setUsername(response.username ?? '')
+    LocalStorageService.setUserUuid(response.uuid ?? '')
+    LocalStorageService.setUsername(response.name ?? '')
     LocalStorageService.setAccessToken(response.accessToken ?? '')
     LocalStorageService.setRefreshToken(response.refreshToken ?? '')
   },
@@ -30,8 +30,8 @@ export const AuthContext = createContext<AuthContextType>({
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [authObject, setAuthObject_] = useState({
-    userUuid: LocalStorageService.getUserId(),
-    username: LocalStorageService.getUsername(),
+    uuid: LocalStorageService.getUserUuid(),
+    name: LocalStorageService.getUsername(),
     accessToken: LocalStorageService.getAccessToken(),
     refreshToken: LocalStorageService.getRefreshToken(),
     isLogged: helperIsLogged(LocalStorageService.getIsLogged()),
@@ -43,8 +43,8 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (authObject.accessToken) {
-      LocalStorageService.setUserId(authObject.userUuid ?? '')
-      LocalStorageService.setUsername(authObject.username ?? '')
+      LocalStorageService.setUserUuid(authObject.uuid ?? '')
+      LocalStorageService.setUsername(authObject.name ?? '')
       LocalStorageService.setAccessToken(authObject.accessToken)
       LocalStorageService.setIsLogged(authObject.isLogged)
       LocalStorageService.setRefreshToken(authObject.refreshToken ?? '')
@@ -56,8 +56,8 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   return (
     <AuthContext.Provider
       value={{
-        userUuid: authObject.userUuid || '',
-        username: authObject.username || '',
+        uuid: authObject.uuid || '',
+        name: authObject.name || '',
         isLogged: authObject.isLogged || false,
         setAuth,
       }}

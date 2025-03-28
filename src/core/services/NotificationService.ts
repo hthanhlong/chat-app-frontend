@@ -14,7 +14,7 @@ class NotificationService {
   }
 
   updateNotification = async (data: {
-    notificationId: string
+    notificationUuid: string
     status: 'READ' | 'UNREAD'
   }) => {
     try {
