@@ -13,7 +13,6 @@ export const ProtectedRoute = () => {
     const initWebSocket = async () => {
       const accessToken = LocalStorageService.getAccessToken()
       if (!accessToken) return
-      if (isInitWebSocket) return
       try {
         await WebsocketService.init(accessToken)
         setIsInitWebSocket(true)
