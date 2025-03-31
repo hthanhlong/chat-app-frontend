@@ -17,7 +17,7 @@ class WebsocketService {
       }
       webSocket.onclose = () => {
         console.log('WebSocket disconnected')
-        reject(new Error('WebSocket disconnected'))
+        resolve(true)
       }
       webSocket.onerror = (error) => {
         console.log('WebSocket error', error)
@@ -31,6 +31,10 @@ class WebsocketService {
       return webSocket
     })
   }
+
+  // constructor() {
+  //   this.getInstance()
+  // }
 
   getInstance() {
     if (!this.webSocket) {
