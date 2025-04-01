@@ -13,11 +13,11 @@ class WebsocketService {
       this.webSocket = webSocket
       webSocket.onopen = () => {
         console.log('WebSocket connected')
-        resolve(true)
+        resolve('connected')
       }
       webSocket.onclose = () => {
         console.log('WebSocket disconnected')
-        resolve(true)
+        resolve('disconnected')
       }
       webSocket.onerror = (error) => {
         console.log('WebSocket error', error)
