@@ -1,64 +1,59 @@
 import { hostSocket } from '../../config'
 import LocalStorageService from './LocalStorageService'
+import { io, Socket } from 'socket.io-client'
 
 class WebsocketService {
-  webSocket: WebSocket | null = null
+  socket: Socket | null = null
   type: string = ''
   payload: unknown = null
 
   async init(accessToken: string) {
     return new Promise((resolve, reject) => {
       const url = `${hostSocket}/?accessToken=${accessToken}`
-      const webSocket = new WebSocket(url)
-      this.webSocket = webSocket
-      webSocket.onopen = () => {
+      const socket = io(url)
+      this.socket = socket
+      socket.on('connect', () => {
         console.log('WebSocket connected')
         resolve('connected')
-      }
-      webSocket.onclose = () => {
+      })
+      socket.on('disconnect', () => {
         console.log('WebSocket disconnected')
         resolve('disconnected')
-      }
-      webSocket.onerror = (error) => {
+      })
+      socket.on('error', (error) => {
         console.log('WebSocket error', error)
         reject(error)
-      }
-      webSocket.onmessage = (event: MessageEvent) => {
+      })
+      socket.on('message', (event: MessageEvent) => {
         const message = JSON.parse(event.data)
         this.type = message.type
         this.payload = message.payload
-      }
-      return webSocket
+      })
+      return socket
     })
   }
 
-  // constructor() {
-  //   this.getInstance()
-  // }
-
   getInstance() {
-    if (!this.webSocket) {
+    if (!this.socket) {
       const accessToken = LocalStorageService.getAccessToken()
-      if (!accessToken) {
-        return
-      }
+      if (!accessToken) return
       this.init(accessToken)
     }
-    return this.webSocket
+    return this.socket
   }
 
   sendMessage(message: string) {
-    this.webSocket?.send(message)
+    this.socket?.send(message)
   }
 
   sendDataToServer(data: { type: string; payload: unknown }) {
-    if (this.webSocket?.readyState === WebSocket.OPEN) {
-      this.webSocket?.send(JSON.stringify(data))
+    if (this.socket?.connected) {
+      this.socket?.send(JSON.stringify(data))
     }
   }
 
   close() {
-    this.webSocket?.close()
+    this.socket?.close()
   }
 }
 
