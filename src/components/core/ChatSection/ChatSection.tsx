@@ -66,19 +66,14 @@ const ChatSection = () => {
     const webSocket = WebsocketService.getInstance()
     if (!webSocket) return
 
-    const handleMessage = (event: MessageEvent) => {
-      const data = JSON.parse(event.data)
-      if (data.type === SOCKET_EVENTS.HAS_NEW_MESSAGE) {
-        const newMessage = data.payload as IMessage
-        if (newMessage.senderUuid === partnerId) {
-          setLocalMessages((prev) => [...prev, newMessage])
-          setScrollToBottomFlag((prev) => !prev)
-        }
-      }
-    }
+    webSocket.on(SOCKET_EVENTS.HAS_NEW_MESSAGE, (payload: IMessage) => {
+      setLocalMessages((prev) => [...prev, payload])
+      setScrollToBottomFlag((prev) => !prev)
+    })
 
-    webSocket.addEventListener('message', handleMessage)
-    return () => webSocket.removeEventListener('message', handleMessage)
+    return () => {
+      webSocket.off(SOCKET_EVENTS.HAS_NEW_MESSAGE)
+    }
   }, [partnerId])
 
   const scrollToBottom = () => {
@@ -127,10 +122,7 @@ const ChatSection = () => {
     }
 
     if (WebsocketService.getInstance()) {
-      WebsocketService.sendDataToServer({
-        type: SOCKET_EVENTS.SEND_MESSAGE,
-        payload: newMessage,
-      })
+      WebsocketService.sendMessage(SOCKET_EVENTS.SEND_MESSAGE, newMessage)
     }
 
     setLocalMessages((prev) => [...prev, newMessage])

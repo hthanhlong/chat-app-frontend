@@ -64,16 +64,13 @@ const Notification = () => {
     const webSocket = WebsocketService.getInstance()
     if (!webSocket) return
 
-    const handleMessage = (event: MessageEvent) => {
-      const data = JSON.parse(event.data)
-      if (data.type === SOCKET_EVENTS.HAS_NEW_NOTIFICATION) {
-        setIsNotification(true)
-        queryClient.invalidateQueries({ queryKey: ['notifications'] }) // refetch data
-      }
-    }
-    webSocket.addEventListener('message', handleMessage)
+    webSocket.on(SOCKET_EVENTS.HAS_NEW_NOTIFICATION, () => {
+      setIsNotification(true)
+      queryClient.invalidateQueries({ queryKey: ['notifications'] }) // refetch data
+    })
+
     return () => {
-      webSocket.removeEventListener('message', handleMessage)
+      webSocket.off(SOCKET_EVENTS.HAS_NEW_NOTIFICATION)
     }
   }, [uuid])
 

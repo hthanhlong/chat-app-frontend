@@ -37,19 +37,14 @@ const UserItem = ({
   useEffect(() => {
     const webSocket = WebsocketService.getInstance()
     if (!webSocket) return
-    const handleMessage = (event: MessageEvent) => {
-      const data = JSON.parse(event.data)
-      if (data.type === SOCKET_EVENTS.HAS_NEW_MESSAGE) {
-        const newMessage = data.payload as IMessage
-        if (newMessage.senderUuid === userUuid) {
-          setLatestMessage(newMessage)
-          setHighLight(true)
-        }
-      }
-    }
-    webSocket.addEventListener('message', handleMessage)
+
+    webSocket.on(SOCKET_EVENTS.HAS_NEW_MESSAGE, (payload: IMessage) => {
+      setLatestMessage(payload)
+      setHighLight(true)
+    })
+
     return () => {
-      webSocket.removeEventListener('message', handleMessage)
+      webSocket.off(SOCKET_EVENTS.HAS_NEW_MESSAGE)
     }
   }, [userUuid])
 

@@ -12,7 +12,7 @@ const TIMEOUT_DELAY_GET_ONLINE_USERS = 3000
 const UserList = () => {
   const { uuid } = useAuth()
   const { partnerId, setPartnerId } = usePartner()
-  const [listOnLineUsers, setListOnLineUsers] = useState<string[]>([])
+  const [listOnLineUsers, setListOnLineUsers] = useState<{ uuid: string }[]>([])
   const queryClient = useQueryClient()
 
   const { data, isLoading } = useGetFriends() // init data
@@ -26,9 +26,8 @@ const UserList = () => {
     let timeout: ReturnType<typeof setTimeout> | null = null
     if (WebsocketService.getInstance()) {
       timeout = setTimeout(() => {
-        WebsocketService.sendDataToServer({
-          type: SOCKET_EVENTS.GET_ONLINE_USERS,
-          payload: { userUuid: uuid },
+        WebsocketService.sendMessage(SOCKET_EVENTS.GET_ONLINE_USERS, {
+          userUuid: uuid,
         })
       }, TIMEOUT_DELAY_GET_ONLINE_USERS)
     }
@@ -39,41 +38,40 @@ const UserList = () => {
     }
   }, [])
 
+  console.log('listOnLineUsers', listOnLineUsers)
+
   useEffect(() => {
     const webSocket = WebsocketService.getInstance()
-    const handleMessage = (event: MessageEvent) => {
-      const data = JSON.parse(event.data)
-      if (data.type === SOCKET_EVENTS.GET_ONLINE_USERS) {
-        const onlineUsers = data.payload as string[]
-        const filterOnlineUsers = onlineUsers.filter((user) => user !== uuid)
+    if (!webSocket) return
+    webSocket.on(
+      SOCKET_EVENTS.GET_ONLINE_USERS,
+      (payload: { uuid: string }[]) => {
+        const filterOnlineUsers = payload.filter((user) => user.uuid !== uuid)
         setListOnLineUsers(filterOnlineUsers)
-        return
-      }
-      if (data.type === SOCKET_EVENTS.HAS_NEW_ONLINE_USER) {
-        const newOnlineUser = data.payload.uuid as string
-        setListOnLineUsers((prev) => [...prev, newOnlineUser])
-        return
-      }
-
-      if (data.type === SOCKET_EVENTS.HAS_NEW_OFFLINE_USER) {
-        const newOfflineUser = data.payload.uuid as string
+      },
+    )
+    webSocket.on(
+      SOCKET_EVENTS.HAS_NEW_ONLINE_USER,
+      (payload: { uuid: string }) => {
+        setListOnLineUsers((prev) => [...prev, payload])
+      },
+    )
+    webSocket.on(
+      SOCKET_EVENTS.HAS_NEW_OFFLINE_USER,
+      (payload: { uuid: string }) => {
         setListOnLineUsers((prev) =>
-          prev.filter((userUuid) => userUuid !== newOfflineUser),
+          prev.filter((userUuid) => userUuid.uuid !== payload.uuid),
         )
-        return
-      }
-      if (data.type === SOCKET_EVENTS.UPDATE_FRIEND_LIST) {
-        queryClient.invalidateQueries({ queryKey: ['myFriends'] })
-        return
-      }
-    }
-    if (webSocket) {
-      webSocket.addEventListener('message', handleMessage)
-    }
+      },
+    )
+    webSocket.on(SOCKET_EVENTS.UPDATE_FRIEND_LIST, () => {
+      queryClient.invalidateQueries({ queryKey: ['myFriends'] })
+    })
     return () => {
-      if (webSocket) {
-        webSocket.removeEventListener('message', handleMessage)
-      }
+      webSocket.off(SOCKET_EVENTS.GET_ONLINE_USERS)
+      webSocket.off(SOCKET_EVENTS.HAS_NEW_ONLINE_USER)
+      webSocket.off(SOCKET_EVENTS.HAS_NEW_OFFLINE_USER)
+      webSocket.off(SOCKET_EVENTS.UPDATE_FRIEND_LIST)
     }
   }, [])
 
@@ -83,7 +81,11 @@ const UserList = () => {
         data?.data?.map((user: IFriend) => (
           <div key={user.uuid} className="z-1 relative">
             <UserItem
-              isOnline={listOnLineUsers.includes(user.uuid)}
+              isOnline={
+                listOnLineUsers.find((userUuid) => userUuid.uuid === user.uuid)
+                  ? true
+                  : false
+              }
               userUuid={user.uuid}
               active={partnerId === user.uuid}
               name={user.nickName}

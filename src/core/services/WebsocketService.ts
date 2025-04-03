@@ -42,13 +42,9 @@ class WebsocketService {
     return this.socket
   }
 
-  sendMessage(message: string) {
-    this.socket?.send(message)
-  }
-
-  sendDataToServer(data: { type: string; payload: unknown }) {
+  sendMessage(type: string, payload: unknown) {
     if (this.socket?.connected) {
-      this.socket?.send(JSON.stringify(data))
+      this.socket?.emit(type, payload)
     }
   }
 
