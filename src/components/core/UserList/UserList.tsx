@@ -27,7 +27,7 @@ const UserList = () => {
     if (WebsocketService.getInstance()) {
       timeout = setTimeout(() => {
         WebsocketService.sendMessage(SOCKET_EVENTS.GET_ONLINE_USERS, {
-          userUuid: uuid,
+          uuid,
         })
       }, TIMEOUT_DELAY_GET_ONLINE_USERS)
     }
@@ -37,8 +37,6 @@ const UserList = () => {
       }
     }
   }, [])
-
-  console.log('listOnLineUsers', listOnLineUsers)
 
   useEffect(() => {
     const webSocket = WebsocketService.getInstance()
