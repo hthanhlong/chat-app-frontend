@@ -46,7 +46,7 @@ const AddFriends = () => {
                   })
                 }}
               >
-                + Add Friend
+                Add Friend
               </Button>
             </li>
           ))

@@ -64,6 +64,7 @@ export interface IMessage {
   receiverUuid: string
   message: string
   fileUrl?: string
+  createdAt: string
 }
 
 export interface IUser {
@@ -92,4 +93,9 @@ export interface IFriend {
   nickName: string
   profilePicUrl: string
   caption?: string
+}
+
+export type EventPayload<T> = {
+  eventName: string
+  value: T
 }

@@ -55,7 +55,6 @@ const ChatSection = () => {
     staleTime: 1000 * 5, // 5 seconds
   })
 
-  // Combine server messages và local messages
   const messages = [
     ...(response?.pages.flatMap((page) => page.messages) || []),
     ...localMessages,
@@ -66,18 +65,24 @@ const ChatSection = () => {
     const webSocket = WebsocketService.getInstance()
     if (!webSocket) return
 
-    webSocket.on(
-      SOCKET_CHANNEL.MESSAGE,
-      (payload: { type: string; data: IMessage }) => {
-        if (payload.type === MESSAGE_TYPE.RECEIVE_MESSAGE) {
-          setLocalMessages((prev) => [...prev, payload.data])
+    const handleNewMessage = ({
+      eventName,
+      value,
+    }: {
+      eventName: string
+      value: IMessage
+    }) => {
+      if (eventName === MESSAGE_TYPE.NEW_MESSAGE) {
+        const { senderUuid } = value
+        if (senderUuid === partnerId) {
+          setLocalMessages((prev) => [...prev, value])
           setScrollToBottomFlag((prev) => !prev)
         }
-      },
-    )
-
+      }
+    }
+    webSocket.on(SOCKET_CHANNEL.MESSAGE, handleNewMessage)
     return () => {
-      webSocket.off(SOCKET_CHANNEL.MESSAGE)
+      webSocket.off(SOCKET_CHANNEL.MESSAGE, handleNewMessage)
     }
   }, [partnerId])
 
@@ -90,6 +95,11 @@ const ChatSection = () => {
       })
     }
   }
+
+  // reset local messages when partnerId changes
+  useEffect(() => {
+    setLocalMessages([])
+  }, [partnerId])
 
   useEffect(() => {
     scrollToBottom()
@@ -127,9 +137,9 @@ const ChatSection = () => {
 
     if (WebsocketService.getInstance()) {
       WebsocketService.sendMessage(SOCKET_CHANNEL.MESSAGE, {
-        eventName: MESSAGE_TYPE.SEND_MESSAGE,
+        eventName: MESSAGE_TYPE.NEW_MESSAGE,
         data: {
-          uuid: uuid,
+          uuid,
           value: newMessage,
         },
       })
@@ -156,7 +166,7 @@ const ChatSection = () => {
             {isFetchingNextPage && (
               <div className="text-center">Loading...</div>
             )}
-            {messages.map((message) => (
+            {messages?.map((message) => (
               <Message
                 key={message.uuid}
                 message={message.message}

@@ -5,8 +5,7 @@ import { FRIEND_TYPE, SOCKET_CHANNEL } from '../../../core/constant'
 import UserItem from '../UserItem/UserItem'
 import { WebsocketService } from '../../../core/services'
 import './list-users.css'
-import { IFriend } from '../../../types'
-import { EventPayload } from '../../../core/services/WebsocketService'
+import { IFriend, EventPayload } from '../../../types'
 
 const TIMEOUT_DELAY_GET_ONLINE_USERS = 3000
 
@@ -14,7 +13,6 @@ const UserList = () => {
   const { uuid } = useAuth()
   const { partnerId, setPartnerId } = usePartner()
   const [listOnLineUsers, setListOnLineUsers] = useState<string[]>([])
-  // const queryClient = useQueryClient()
 
   const { data, isLoading } = useGetFriends() // init data
 
@@ -49,30 +47,30 @@ const UserList = () => {
   useEffect(() => {
     const webSocket = WebsocketService.getInstance()
     if (!webSocket) return
-    webSocket.on(
-      SOCKET_CHANNEL.FRIEND,
-      (payload: EventPayload<string[] | string>) => {
-        if (payload.eventName === FRIEND_TYPE.GET_ONLINE_FRIEND_LIST) {
-          const filterOnlineUsers = (payload.data.value as string[]).filter(
-            (user) => user !== uuid,
-          )
-          setListOnLineUsers(filterOnlineUsers)
-        }
-        if (payload.eventName === FRIEND_TYPE.HAS_NEW_ONLINE_USER) {
-          const newOnlineUser = payload.data.value as string
-          setListOnLineUsers((prev) => [...prev, newOnlineUser])
-        }
-        if (payload.eventName === FRIEND_TYPE.HAS_NEW_OFFLINE_USER) {
-          const newOfflineUser = payload.data.value as string
-          setListOnLineUsers((prev) =>
-            prev.filter((user) => user !== newOfflineUser),
-          )
-        }
-      },
-    )
 
+    const handleGetOnlineFriendList = (
+      payload: EventPayload<string[] | string>,
+    ) => {
+      if (payload.eventName === FRIEND_TYPE.GET_ONLINE_FRIEND_LIST) {
+        const filterOnlineUsers = (payload.value as string[]).filter(
+          (user) => user !== uuid,
+        )
+        setListOnLineUsers(filterOnlineUsers)
+      }
+      if (payload.eventName === FRIEND_TYPE.HAS_NEW_ONLINE_USER) {
+        const newOnlineUser = payload.value as string
+        setListOnLineUsers((prev) => [...prev, newOnlineUser])
+      }
+      if (payload.eventName === FRIEND_TYPE.HAS_NEW_OFFLINE_USER) {
+        const newOfflineUser = payload.value as string
+        setListOnLineUsers((prev) =>
+          prev.filter((user) => user !== newOfflineUser),
+        )
+      }
+    }
+    webSocket.on(SOCKET_CHANNEL.FRIEND, handleGetOnlineFriendList)
     return () => {
-      webSocket.off(SOCKET_CHANNEL.FRIEND)
+      webSocket.off(SOCKET_CHANNEL.FRIEND, handleGetOnlineFriendList)
     }
   }, [])
 

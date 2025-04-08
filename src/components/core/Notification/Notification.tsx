@@ -66,8 +66,8 @@ const Notification = () => {
 
     webSocket.on(
       SOCKET_CHANNEL.NOTIFICATION,
-      (payload: { type: string; data: unknown }) => {
-        if (payload.type === NOTIFICATION_TYPE.RECEIVE_NOTIFICATION) {
+      ({ eventName }: { eventName: string; value: unknown }) => {
+        if (eventName === NOTIFICATION_TYPE.HAS_NEW_NOTIFICATION) {
           setIsNotification(true)
           queryClient.invalidateQueries({ queryKey: ['notifications'] }) // refetch data
         }

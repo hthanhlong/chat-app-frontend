@@ -4,10 +4,7 @@ import { io, Socket } from 'socket.io-client'
 
 export type EventPayload<T> = {
   eventName: string
-  data: {
-    uuid?: string
-    value: T
-  }
+  value: T
 }
 
 class WebsocketService {
@@ -48,7 +45,16 @@ class WebsocketService {
     return this.socket as Socket
   }
 
-  sendMessage<T>(channel: string, payload: EventPayload<T>): void {
+  sendMessage<T>(
+    channel: string,
+    payload: {
+      eventName: string
+      data: {
+        uuid: string
+        value: T
+      }
+    },
+  ): void {
     if (!payload.eventName || !payload.data.uuid) {
       throw new Error('eventName, uuid are required')
     }
