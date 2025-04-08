@@ -7,7 +7,7 @@ import { faBell } from '@fortawesome/free-solid-svg-icons'
 import Avatar from '../Avatar/Avatar'
 import { NotificationService, WebsocketService } from '../../../core/services'
 import { Skeleton, Ping } from '../../ui'
-import { SOCKET_EVENTS } from '../../../core/constant'
+import { NOTIFICATION_TYPE, SOCKET_CHANNEL } from '../../../core/constant'
 import { formatDate } from '../../../helper'
 import { useAuth, useGetNotifications } from '../../../core/hooks'
 
@@ -64,13 +64,18 @@ const Notification = () => {
     const webSocket = WebsocketService.getInstance()
     if (!webSocket) return
 
-    webSocket.on(SOCKET_EVENTS.HAS_NEW_NOTIFICATION, () => {
-      setIsNotification(true)
-      queryClient.invalidateQueries({ queryKey: ['notifications'] }) // refetch data
-    })
+    webSocket.on(
+      SOCKET_CHANNEL.NOTIFICATION,
+      (payload: { type: string; data: unknown }) => {
+        if (payload.type === NOTIFICATION_TYPE.RECEIVE_NOTIFICATION) {
+          setIsNotification(true)
+          queryClient.invalidateQueries({ queryKey: ['notifications'] }) // refetch data
+        }
+      },
+    )
 
     return () => {
-      webSocket.off(SOCKET_EVENTS.HAS_NEW_NOTIFICATION)
+      webSocket.off(SOCKET_CHANNEL.NOTIFICATION)
     }
   }, [uuid])
 

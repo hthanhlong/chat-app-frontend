@@ -3,7 +3,7 @@ import Avatar from '../Avatar/Avatar'
 import { WebsocketService } from '../../../core/services'
 import { IMessage } from '../../../types'
 import { Timer } from '../../ui'
-import { SOCKET_EVENTS } from '../../../core/constant'
+import { MESSAGE_TYPE, SOCKET_CHANNEL } from '../../../core/constant'
 import { useGetLatestMessage } from '../../../core/hooks'
 
 const UserItem = ({
@@ -38,13 +38,18 @@ const UserItem = ({
     const webSocket = WebsocketService.getInstance()
     if (!webSocket) return
 
-    webSocket.on(SOCKET_EVENTS.HAS_NEW_MESSAGE, (payload: IMessage) => {
-      setLatestMessage(payload)
-      setHighLight(true)
-    })
+    webSocket.on(
+      SOCKET_CHANNEL.MESSAGE,
+      (payload: { type: string; data: IMessage }) => {
+        if (payload.type === MESSAGE_TYPE.RECEIVE_MESSAGE) {
+          setLatestMessage(payload.data)
+          setHighLight(true)
+        }
+      },
+    )
 
     return () => {
-      webSocket.off(SOCKET_EVENTS.HAS_NEW_MESSAGE)
+      webSocket.off(SOCKET_CHANNEL.MESSAGE)
     }
   }, [userUuid])
 

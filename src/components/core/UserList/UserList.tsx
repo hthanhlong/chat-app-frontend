@@ -1,11 +1,12 @@
-import { useQueryClient } from '@tanstack/react-query'
+// import { useQueryClient } from '@tanstack/react-query'
 import { useAuth, useGetFriends, usePartner } from '../../../core/hooks'
 import { useEffect, useState } from 'react'
-import { SOCKET_EVENTS } from '../../../core/constant'
+import { FRIEND_TYPE, SOCKET_CHANNEL } from '../../../core/constant'
 import UserItem from '../UserItem/UserItem'
 import { WebsocketService } from '../../../core/services'
 import './list-users.css'
 import { IFriend } from '../../../types'
+import { EventPayload } from '../../../core/services/WebsocketService'
 
 const TIMEOUT_DELAY_GET_ONLINE_USERS = 3000
 
@@ -13,7 +14,7 @@ const UserList = () => {
   const { uuid } = useAuth()
   const { partnerId, setPartnerId } = usePartner()
   const [listOnLineUsers, setListOnLineUsers] = useState<string[]>([])
-  const queryClient = useQueryClient()
+  // const queryClient = useQueryClient()
 
   const { data, isLoading } = useGetFriends() // init data
 
@@ -26,14 +27,15 @@ const UserList = () => {
     let timeout: ReturnType<typeof setTimeout> | null = null
     if (WebsocketService.getInstance()) {
       timeout = setTimeout(() => {
-        const friendListUuid = data?.data?.map((user: IFriend) => user.uuid)
-        WebsocketService.sendMessage(SOCKET_EVENTS.GET_ONLINE_USERS, {
-          uuid,
-          data: friendListUuid,
-        })
-        WebsocketService.sendMessage(SOCKET_EVENTS.HAS_NEW_ONLINE_USER, {
-          uuid,
-          data: friendListUuid,
+        const friendListUuid: string[] = data?.data?.map(
+          (user: IFriend) => user.uuid,
+        )
+        WebsocketService.sendMessage(SOCKET_CHANNEL.FRIEND, {
+          eventName: FRIEND_TYPE.INIT,
+          data: {
+            uuid: uuid,
+            value: friendListUuid,
+          },
         })
       }, TIMEOUT_DELAY_GET_ONLINE_USERS)
     }
@@ -47,24 +49,30 @@ const UserList = () => {
   useEffect(() => {
     const webSocket = WebsocketService.getInstance()
     if (!webSocket) return
-    webSocket.on(SOCKET_EVENTS.GET_ONLINE_USERS, (payload: string[]) => {
-      const filterOnlineUsers = payload.filter((user) => user !== uuid)
-      setListOnLineUsers(filterOnlineUsers)
-    })
-    webSocket.on(SOCKET_EVENTS.HAS_NEW_ONLINE_USER, (payload: string) => {
-      setListOnLineUsers((prev) => [...prev, payload])
-    })
-    webSocket.on(SOCKET_EVENTS.HAS_NEW_OFFLINE_USER, (payload: string) => {
-      setListOnLineUsers((prev) => prev.filter((user) => user !== payload))
-    })
-    webSocket.on(SOCKET_EVENTS.UPDATE_FRIEND_LIST, () => {
-      queryClient.invalidateQueries({ queryKey: ['myFriends'] })
-    })
+    webSocket.on(
+      SOCKET_CHANNEL.FRIEND,
+      (payload: EventPayload<string[] | string>) => {
+        if (payload.eventName === FRIEND_TYPE.GET_ONLINE_FRIEND_LIST) {
+          const filterOnlineUsers = (payload.data.value as string[]).filter(
+            (user) => user !== uuid,
+          )
+          setListOnLineUsers(filterOnlineUsers)
+        }
+        if (payload.eventName === FRIEND_TYPE.HAS_NEW_ONLINE_USER) {
+          const newOnlineUser = payload.data.value as string
+          setListOnLineUsers((prev) => [...prev, newOnlineUser])
+        }
+        if (payload.eventName === FRIEND_TYPE.HAS_NEW_OFFLINE_USER) {
+          const newOfflineUser = payload.data.value as string
+          setListOnLineUsers((prev) =>
+            prev.filter((user) => user !== newOfflineUser),
+          )
+        }
+      },
+    )
+
     return () => {
-      webSocket.off(SOCKET_EVENTS.GET_ONLINE_USERS)
-      webSocket.off(SOCKET_EVENTS.HAS_NEW_ONLINE_USER)
-      webSocket.off(SOCKET_EVENTS.HAS_NEW_OFFLINE_USER)
-      webSocket.off(SOCKET_EVENTS.UPDATE_FRIEND_LIST)
+      webSocket.off(SOCKET_CHANNEL.FRIEND)
     }
   }, [])
 

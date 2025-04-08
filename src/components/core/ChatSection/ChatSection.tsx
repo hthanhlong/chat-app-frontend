@@ -9,7 +9,7 @@ import { useAuth, usePartner } from '../../../core/hooks'
 import Message from '../../ui/Message/Message'
 import Skeleton from '../../ui/Skeleton/Skeleton'
 import { IMessage } from '../../../types'
-import { SOCKET_EVENTS } from '../../../core/constant'
+import { MESSAGE_TYPE, SOCKET_CHANNEL } from '../../../core/constant'
 import { MessageService, WebsocketService } from '../../../core/services'
 import './ChatSection.css'
 
@@ -66,13 +66,18 @@ const ChatSection = () => {
     const webSocket = WebsocketService.getInstance()
     if (!webSocket) return
 
-    webSocket.on(SOCKET_EVENTS.HAS_NEW_MESSAGE, (payload: IMessage) => {
-      setLocalMessages((prev) => [...prev, payload])
-      setScrollToBottomFlag((prev) => !prev)
-    })
+    webSocket.on(
+      SOCKET_CHANNEL.MESSAGE,
+      (payload: { type: string; data: IMessage }) => {
+        if (payload.type === MESSAGE_TYPE.RECEIVE_MESSAGE) {
+          setLocalMessages((prev) => [...prev, payload.data])
+          setScrollToBottomFlag((prev) => !prev)
+        }
+      },
+    )
 
     return () => {
-      webSocket.off(SOCKET_EVENTS.HAS_NEW_MESSAGE)
+      webSocket.off(SOCKET_CHANNEL.MESSAGE)
     }
   }, [partnerId])
 
@@ -118,11 +123,16 @@ const ChatSection = () => {
       senderUuid: uuid,
       receiverUuid: partnerId,
       message: message,
-      createdAt: new Date().toISOString(),
     }
 
     if (WebsocketService.getInstance()) {
-      WebsocketService.sendMessage(SOCKET_EVENTS.SEND_MESSAGE, newMessage)
+      WebsocketService.sendMessage(SOCKET_CHANNEL.MESSAGE, {
+        eventName: MESSAGE_TYPE.SEND_MESSAGE,
+        data: {
+          uuid: uuid,
+          value: newMessage,
+        },
+      })
     }
 
     setLocalMessages((prev) => [...prev, newMessage])
