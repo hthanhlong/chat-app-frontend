@@ -10,7 +10,7 @@ const SignUp = () => {
         whileInView={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
-        className="rounded-md bg-white p-10 lg:flex lg:max-w-[1200px] lg:p-2"
+        className="lg:flex lg:h-[650px] lg:max-w-[960px] lg:rounded-md lg:bg-white lg:p-2"
       >
         <div className="lg:flex lg:w-1/2 lg:items-center lg:justify-center">
           <SignUpForm />

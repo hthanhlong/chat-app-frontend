@@ -62,7 +62,7 @@ const SignUpForm = () => {
     >
       <Title text="Create your Account" />
       <Input
-        label="nickName"
+        label="nickname"
         name="nickName"
         register={register}
         errorMessage={errors.nickName?.message}
@@ -100,7 +100,9 @@ const SignUpForm = () => {
       </div>
       <ButtonSignUp isLoading={isPending} />
       <div className="mt-4 text-center text-sky-500 underline">
-        <Link to="/sign-in">You already have account?</Link>
+        <Link className="text-xs" to="/sign-in">
+          You already have account?
+        </Link>
       </div>
     </form>
   )
