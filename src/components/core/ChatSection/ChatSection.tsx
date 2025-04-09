@@ -22,8 +22,6 @@ const ChatSection = () => {
   const [localMessages, setLocalMessages] = useState<IMessage[]>([])
   const [scrollToBottomFlag, setScrollToBottomFlag] = useState(false)
   const callOneTime = useRef(true)
-  const timerDragOver = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const timerDragLeave = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const {
     data: response,
@@ -148,27 +146,48 @@ const ChatSection = () => {
     reset({ message: '' })
   }
 
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault()
-    if (timerDragOver.current) {
-      clearTimeout(timerDragOver.current)
-    }
-    timerDragOver.current = setTimeout(() => {
-      console.log('drag over 2')
-    }, 2000)
-  }
+    const file = e.dataTransfer.files[0]
+    const _uuid = uuidv4()
+    const uploadImagePromise = new Promise((resolve, reject) => {
+      try {
+        if (!file || !file.type.startsWith('image/')) return
 
-  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault()
-    if (timerDragLeave.current) {
-      clearTimeout(timerDragLeave.current)
-    }
-    timerDragLeave.current = setTimeout(() => {
-      if (timerDragOver.current) {
-        clearTimeout(timerDragOver.current)
+        const newMessage: IMessage = {
+          uuid: _uuid,
+          senderUuid: uuid,
+          receiverUuid: partnerId,
+          message: file.name,
+          fileUrl: URL.createObjectURL(file),
+          isImageLoaded: false,
+        }
+        setLocalMessages((prev) => [...prev, newMessage])
+        setScrollToBottomFlag((prev) => !prev)
+        resolve(newMessage)
+      } catch (error) {
+        reject(error)
       }
-      console.log('drag leave')
-    }, 1000)
+    })
+
+    uploadImagePromise.then(() => {
+      setTimeout(() => {
+        const response = {
+          isSuccess: true,
+          errorCode: null,
+          message: 'Image saved successfully',
+          data: { uuid: _uuid, fileUrl: 'https://example.com/image.jpg' },
+        }
+        console.log(response)
+        setLocalMessages((prev) =>
+          prev.map((message) =>
+            message.uuid === _uuid
+              ? { ...message, isImageLoaded: true }
+              : message,
+          ),
+        )
+      }, 2000)
+    })
   }
 
   return (
@@ -179,8 +198,9 @@ const ChatSection = () => {
         className={`${
           mode === 'light' ? 'chat-section' : 'dark-chat-section'
         } h-[calc(100vh-160px)] overflow-auto p-2 lg:h-[calc(650px-160px)]`}
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+        onDragOver={(e) => e.preventDefault()}
+        onDragLeave={(e) => e.preventDefault()}
       >
         {isLoading ? (
           <Skeleton />
@@ -194,6 +214,8 @@ const ChatSection = () => {
                 key={message.uuid}
                 message={message.message}
                 isSender={message.senderUuid === uuid}
+                fileUrl={message.fileUrl}
+                isImageLoaded={message.isImageLoaded}
               />
             ))}
           </>

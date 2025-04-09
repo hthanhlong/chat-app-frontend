@@ -65,6 +65,7 @@ export interface IMessage {
   message: string
   fileUrl?: string
   createdAt?: string
+  isImageLoaded?: boolean
 }
 
 export interface IUser {
