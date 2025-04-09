@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { useThemeMode } from 'flowbite-react'
 import { v4 as uuidv4 } from 'uuid'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+import { faPaperPlane, faDungeon } from '@fortawesome/free-solid-svg-icons'
 import { useAuth, usePartner } from '../../../core/hooks'
 import Message from '../../ui/Message/Message'
 import Skeleton from '../../ui/Skeleton/Skeleton'
@@ -22,6 +22,8 @@ const ChatSection = () => {
   const [localMessages, setLocalMessages] = useState<IMessage[]>([])
   const [scrollToBottomFlag, setScrollToBottomFlag] = useState(false)
   const callOneTime = useRef(true)
+  const timerDragOver = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const timerDragLeave = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const {
     data: response,
@@ -62,6 +64,7 @@ const ChatSection = () => {
 
   // Handle socket messages
   useEffect(() => {
+    setLocalMessages([]) // reset local messages when partnerId changes
     const webSocket = WebsocketService.getInstance()
     if (!webSocket) return
 
@@ -95,11 +98,6 @@ const ChatSection = () => {
       })
     }
   }
-
-  // reset local messages when partnerId changes
-  useEffect(() => {
-    setLocalMessages([])
-  }, [partnerId])
 
   useEffect(() => {
     scrollToBottom()
@@ -150,6 +148,29 @@ const ChatSection = () => {
     reset({ message: '' })
   }
 
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    if (timerDragOver.current) {
+      clearTimeout(timerDragOver.current)
+    }
+    timerDragOver.current = setTimeout(() => {
+      console.log('drag over 2')
+    }, 2000)
+  }
+
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    if (timerDragLeave.current) {
+      clearTimeout(timerDragLeave.current)
+    }
+    timerDragLeave.current = setTimeout(() => {
+      if (timerDragOver.current) {
+        clearTimeout(timerDragOver.current)
+      }
+      console.log('drag leave')
+    }, 1000)
+  }
+
   return (
     <div>
       <div
@@ -158,6 +179,8 @@ const ChatSection = () => {
         className={`${
           mode === 'light' ? 'chat-section' : 'dark-chat-section'
         } h-[calc(100vh-160px)] overflow-auto p-2 lg:h-[calc(650px-160px)]`}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
       >
         {isLoading ? (
           <Skeleton />
@@ -180,19 +203,25 @@ const ChatSection = () => {
         className="flex h-[80px] items-center bg-slate-300 p-2 px-2 dark:bg-gray-700"
         onSubmit={handleSubmit(onsubmit)}
       >
-        <div className="relative w-full rounded-full border-2 dark:border-gray-500">
+        <div className="relative flex w-full dark:border-gray-500">
           <input
             type="text"
             {...register('message', { required: true })}
-            className="block w-full rounded-full border-0 bg-gray-50 p-3.5 text-sm text-gray-900 outline-none focus:ring-0 dark:bg-slate-800 dark:text-white"
             placeholder="Type a message..."
             autoComplete="off"
+            className="order-0 mx-4 w-full rounded-full bg-gray-50 p-3 text-xs text-gray-900 outline-none focus:ring-0 dark:bg-slate-800 dark:text-white"
           />
           <button
+            className="absolute right-4 top-1/2 mx-1 h-8 w-8 -translate-y-1/2 rounded-full bg-sky-300"
             type="submit"
-            className="font-large absolute end-1.5 top-[4px] h-10 w-10 rounded-full bg-sky-300 text-sm text-white"
           >
             <FontAwesomeIcon icon={faPaperPlane} />
+          </button>
+          <button
+            className="absolute right-14 top-1/2 mx-1 h-8 w-8 -translate-y-1/2 rounded-full bg-sky-300"
+            type="submit"
+          >
+            <FontAwesomeIcon icon={faDungeon} />
           </button>
         </div>
       </form>

@@ -64,7 +64,7 @@ export interface IMessage {
   receiverUuid: string
   message: string
   fileUrl?: string
-  createdAt: string
+  createdAt?: string
 }
 
 export interface IUser {
