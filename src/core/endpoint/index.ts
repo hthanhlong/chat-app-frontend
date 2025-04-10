@@ -29,6 +29,7 @@ const END_POINT = {
     getMessageById: (friendUuid: string) => `/messages/${friendUuid}`,
     deleteAllMessageByFriendId: (id: string) =>
       `/messages/delete-all-message/${id}`,
+    uploadImage: '/messages/upload-file',
   },
   notification: {
     getNotifications: '/notifications',

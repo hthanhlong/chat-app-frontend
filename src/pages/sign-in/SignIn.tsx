@@ -10,7 +10,7 @@ const SignIn = () => {
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
         exit={{ opacity: 0 }}
-        className="rounded-md bg-white p-10 lg:flex lg:h-[650px] lg:max-w-[960px] lg:p-2"
+        className="rounded-md bg-white p-10 lg:flex lg:h-[650px] lg:w-[960px] lg:p-2"
       >
         <div className="hidden lg:block lg:w-1/2">
           <img src={SignInImage} className="object-fit h-full w-full" />

@@ -73,7 +73,6 @@ const SignInForm = () => {
       />
       <PasswordInput
         register={register}
-        defaultValue="Password123"
         errorMessage={errors.password?.message}
       />
       <div className="text-center text-xs">

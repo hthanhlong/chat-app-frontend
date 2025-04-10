@@ -1,22 +1,20 @@
 const Message = ({
   isSender = false,
   message,
-  fileUrl,
-  isImageLoaded,
+  file,
 }: {
   isSender?: boolean
   message: string
-  fileUrl?: string
-  isImageLoaded?: boolean
+  file?: string
 }) => {
   return (
     <div className={`${isSender ? 'text-right' : 'text-left'} my-1`}>
-      {fileUrl ? (
+      {file ? (
         <img
-          src={fileUrl}
+          src={file}
           alt="file"
           className={`inline-block max-w-xs rounded-md ${
-            isImageLoaded ? 'opacity-100' : 'opacity-20'
+            file.includes('store.s3') ? 'opacity-100' : 'opacity-20'
           }`}
         />
       ) : (

@@ -4,7 +4,8 @@ import { useForm } from 'react-hook-form'
 import { useThemeMode } from 'flowbite-react'
 import { v4 as uuidv4 } from 'uuid'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPaperPlane, faDungeon } from '@fortawesome/free-solid-svg-icons'
+import { faPaperPlane, faFile } from '@fortawesome/free-solid-svg-icons'
+import toast from 'react-hot-toast'
 import { useAuth, usePartner } from '../../../core/hooks'
 import Message from '../../ui/Message/Message'
 import Skeleton from '../../ui/Skeleton/Skeleton'
@@ -146,9 +147,8 @@ const ChatSection = () => {
     reset({ message: '' })
   }
 
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault()
-    const file = e.dataTransfer.files[0]
+  const handleUploadImage = (file: File) => {
+    if (!file) return
     const _uuid = uuidv4()
     const uploadImagePromise = new Promise((resolve, reject) => {
       try {
@@ -158,9 +158,8 @@ const ChatSection = () => {
           uuid: _uuid,
           senderUuid: uuid,
           receiverUuid: partnerId,
-          message: file.name,
-          fileUrl: URL.createObjectURL(file),
-          isImageLoaded: false,
+          message: '',
+          file: URL.createObjectURL(file),
         }
         setLocalMessages((prev) => [...prev, newMessage])
         setScrollToBottomFlag((prev) => !prev)
@@ -170,24 +169,39 @@ const ChatSection = () => {
       }
     })
 
-    uploadImagePromise.then(() => {
-      setTimeout(() => {
-        const response = {
-          isSuccess: true,
-          errorCode: null,
-          message: 'Image saved successfully',
-          data: { uuid: _uuid, fileUrl: 'https://example.com/image.jpg' },
+    uploadImagePromise.then((value: unknown) => {
+      setTimeout(async () => {
+        if (typeof value !== 'object') return
+        const newMessage = value as IMessage
+        const formData = new FormData()
+        formData.append('file', file)
+        for (const key in newMessage) {
+          if (key === 'file') continue
+          if (key === 'isImageLoaded') continue
+          formData.append(key, newMessage[key as keyof IMessage] as string)
         }
-        console.log(response)
-        setLocalMessages((prev) =>
-          prev.map((message) =>
-            message.uuid === _uuid
-              ? { ...message, isImageLoaded: true }
-              : message,
-          ),
-        )
-      }, 2000)
+        const response = await MessageService.uploadImage(formData)
+        const data = response.data as unknown as IMessage
+        if (data) {
+          setLocalMessages((preMessages) =>
+            preMessages.map((message: IMessage) =>
+              message.uuid === data.uuid ? { ...data } : message,
+            ),
+          )
+        }
+      }, 1000)
     })
+  }
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    const file = e.dataTransfer.files[0]
+    //validate size max 5MB
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('File size must be less than 5MB')
+      return
+    }
+    handleUploadImage(file)
   }
 
   return (
@@ -214,8 +228,7 @@ const ChatSection = () => {
                 key={message.uuid}
                 message={message.message}
                 isSender={message.senderUuid === uuid}
-                fileUrl={message.fileUrl}
-                isImageLoaded={message.isImageLoaded}
+                file={message.file}
               />
             ))}
           </>
@@ -233,19 +246,29 @@ const ChatSection = () => {
             autoComplete="off"
             className="order-0 mx-4 w-full rounded-full bg-gray-50 p-3 text-xs text-gray-900 outline-none focus:ring-0 dark:bg-slate-800 dark:text-white"
           />
+          <label
+            htmlFor="file-upload"
+            className="absolute right-14 top-1/2 mx-1 flex h-8 w-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-sky-300"
+          >
+            <FontAwesomeIcon icon={faFile} />
+          </label>
           <button
             className="absolute right-4 top-1/2 mx-1 h-8 w-8 -translate-y-1/2 rounded-full bg-sky-300"
             type="submit"
           >
             <FontAwesomeIcon icon={faPaperPlane} />
           </button>
-          <button
-            className="absolute right-14 top-1/2 mx-1 h-8 w-8 -translate-y-1/2 rounded-full bg-sky-300"
-            type="submit"
-          >
-            <FontAwesomeIcon icon={faDungeon} />
-          </button>
         </div>
+        <input
+          id="file-upload"
+          className="invisible absolute right-4 top-1/2 mx-1 h-8 w-8 -translate-y-1/2 rounded-full bg-sky-300"
+          type="file"
+          accept="image/*"
+          onChange={(e) => {
+            const file = e.target.files?.[0]
+            if (file) handleUploadImage(file)
+          }}
+        />
       </form>
     </div>
   )
