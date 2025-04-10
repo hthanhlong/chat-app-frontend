@@ -63,9 +63,8 @@ export interface IMessage {
   senderUuid: string
   receiverUuid: string
   message: string
-  fileUrl?: string
+  file?: string
   createdAt?: string
-  isImageLoaded?: boolean
 }
 
 export interface IUser {

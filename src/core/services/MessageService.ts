@@ -52,5 +52,22 @@ class MessageService {
       throw new Error('Failed to delete all message')
     }
   }
+
+  uploadImage = async (formData: FormData) => {
+    try {
+      const response = await HttpService.post(
+        END_POINT.message.uploadImage,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      )
+      return response
+    } catch (error) {
+      throw new Error('Failed to upload image')
+    }
+  }
 }
 export default new MessageService()
