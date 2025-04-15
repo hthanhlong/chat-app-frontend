@@ -22,6 +22,7 @@ const LeftTop = () => {
             name={data?.data.nickName}
             caption={data.data.caption}
             isEditable={true}
+            avatarUrl={data.data.profilePicUrl}
           />
         ) : (
           <Skeleton />

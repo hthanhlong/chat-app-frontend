@@ -21,7 +21,7 @@ const FriendRequest = () => {
     <div className="flex w-full flex-wrap overflow-auto max-lg:h-screen">
       {!isLoading ? (
         FriendRequestList?.data?.map(
-          (user: { _id: string; nickName: string }) => (
+          (user: { _id: string; nickName: string; uuid: string }) => (
             <div
               key={user.uuid}
               className="m-1 flex h-20 w-[calc(50%-8px)] items-center justify-between rounded-md border-[1px] px-2 py-1 hover:bg-gray-100 hover:dark:bg-gray-800"

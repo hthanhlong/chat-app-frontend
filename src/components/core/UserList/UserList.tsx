@@ -11,11 +11,10 @@ const TIMEOUT_DELAY_GET_ONLINE_USERS = 3000
 
 const UserList = () => {
   const { uuid } = useAuth()
-  const { partnerId, setPartnerId } = usePartner()
+  const { setPartnerId } = usePartner()
   const [listOnLineUsers, setListOnLineUsers] = useState<string[]>([])
 
   const { data, isLoading } = useGetFriends() // init data
-
   useEffect(() => {
     if (!data?.data?.length) return
     setPartnerId(data?.data?.[0].uuid)
@@ -75,17 +74,16 @@ const UserList = () => {
   }, [])
 
   return (
-    <div className="list-users lg:min-h-[calc(650px-160px)]">
+    <div className="list-users overflow-hidden lg:min-h-[calc(650px-160px)]">
       {!isLoading ? (
         data?.data?.map((user: IFriend) => (
           <div key={user.uuid} className="z-1 relative">
             <UserItem
               isOnline={listOnLineUsers.includes(user.uuid)}
               userUuid={user.uuid}
-              active={partnerId === user.uuid}
               name={user.nickName}
               caption={user.caption ?? ''}
-              onClick={() => setPartnerId(user.uuid)}
+              avatarUrl={user.profilePicUrl}
             />
           </div>
         ))
