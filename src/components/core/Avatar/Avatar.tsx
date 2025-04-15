@@ -26,8 +26,9 @@ const Avatar = ({
   const { handleSubmit, register } = useForm<{ caption: string }>()
   const queryClient = useQueryClient()
   const [isEdit, setIsEdit] = useState(false)
+
   const { mutateAsync } = useMutation({
-    mutationFn: (data: { caption: string }) => UserService.updateUser(data),
+    mutationFn: (data: FormData) => UserService.updateUser(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['get-me'] })
     },
@@ -37,7 +38,12 @@ const Avatar = ({
     if (data.caption.length > 64 || data.caption.length < 1) {
       return
     }
-    await mutateAsync(data)
+    const formData = new FormData()
+    if (data.caption.length > 64 || data.caption.length < 1) {
+      return
+    }
+    formData.append('caption', data.caption)
+    await mutateAsync(formData)
   }
 
   useEffect(() => {
@@ -62,12 +68,12 @@ const Avatar = ({
         size={size}
         avatarUrl={avatarUrl || AvatarDefaultImage}
       />
-      <div className="ml-3">
-        <div className="max-lg:text-md flex h-full items-center text-black dark:text-gray-300">
+      <div className="ml-2">
+        <div className="max-lg:text-md flex h-full items-center text-[14px] text-black dark:text-gray-300">
           <span>{name || ''}</span>
         </div>
         {caption && isEditable ? (
-          <div className="flex items-center text-xs text-gray-500 dark:text-gray-300">
+          <div className="flex items-center text-[10px] text-gray-500 dark:text-gray-300">
             {!isEdit ? (
               <>
                 <Tooltip content={caption}>
@@ -75,7 +81,7 @@ const Avatar = ({
                     onDoubleClick={
                       isEditable ? () => setIsEdit(!isEdit) : undefined
                     }
-                    className="... inline-block h-full w-[140px] truncate"
+                    className="... inline-block h-full w-[140px] truncate text-xs"
                   >
                     {caption}
                   </div>
@@ -85,7 +91,7 @@ const Avatar = ({
               <>
                 <input
                   {...register('caption', {
-                    maxLength: 64,
+                    maxLength: 256,
                     minLength: 1,
                   })}
                   type="text"

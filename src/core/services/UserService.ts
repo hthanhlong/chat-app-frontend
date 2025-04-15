@@ -1,5 +1,6 @@
 import { HttpService } from '.'
 import END_POINT from '../endpoint'
+import { ISuccessResponse } from '../../types'
 
 class UserService {
   getUser = async () => {
@@ -30,10 +31,14 @@ class UserService {
     }
   }
 
-  updateUser = async (data: Record<string, unknown>) => {
+  updateUser = async <T>(data: FormData): Promise<ISuccessResponse<T>> => {
     try {
-      const response = await HttpService.post(END_POINT.user.updateUser, data)
-      return response
+      const response = await HttpService.post(END_POINT.user.updateUser, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      return response as unknown as ISuccessResponse<T>
     } catch (error) {
       throw new Error('Failed to update user')
     }

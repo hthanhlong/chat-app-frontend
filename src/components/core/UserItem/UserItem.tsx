@@ -1,32 +1,29 @@
-import { MouseEventHandler, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Avatar from '../Avatar/Avatar'
 import { WebsocketService } from '../../../core/services'
 import { IMessage, EventPayload } from '../../../types'
 import { Timer } from '../../ui'
 import { MESSAGE_TYPE, SOCKET_CHANNEL } from '../../../core/constant'
-import { useGetLatestMessage } from '../../../core/hooks'
+import { useGetLatestMessage, usePartner } from '../../../core/hooks'
 
 const UserItem = ({
   name,
   caption,
-  active,
-  onClick,
-  onContextMenu,
   isOnline,
   userUuid,
+  avatarUrl,
 }: {
   name: string
   caption: string
-  active: boolean
   isOnline: boolean
   userUuid: string
-  onClick?: MouseEventHandler
-  onContextMenu?: MouseEventHandler
+  avatarUrl: string
 }) => {
   const [latestMessage, setLatestMessage] = useState<IMessage>()
   const [highLight, setHighLight] = useState<boolean>(false)
 
   const { data: response } = useGetLatestMessage(userUuid)
+  const { partnerId, setPartnerId } = usePartner()
 
   useEffect(() => {
     if (response?.data) {
@@ -55,15 +52,19 @@ const UserItem = ({
 
   return (
     <div
-      className={`z-0 mx-1 my-2 flex cursor-pointer items-center justify-between rounded-s-lg bg-opacity-0 p-1 dark:border-l-4 dark:border-black hover:dark:bg-slate-800 ${
-        active
-          ? '!bg-gray-100 from-yellow-800 to-black dark:!border-yellow-200 dark:bg-gradient-to-r'
-          : 'hover:bg-gray-100 dark:border-slate-800 dark:border-transparent dark:border-opacity-50 dark:hover:bg-slate-800'
+      onClick={() => {
+        setPartnerId(userUuid)
+      }}
+      className={`flex cursor-pointer items-center justify-between p-2 transition-all duration-300 ${
+        partnerId === userUuid ? 'bg-gray-100 dark:bg-gray-800' : ''
       }`}
-      onClick={onClick}
-      onContextMenu={onContextMenu}
     >
-      <Avatar name={name} caption={caption} isOnline={isOnline} />
+      <Avatar
+        name={name}
+        caption={caption}
+        isOnline={isOnline}
+        avatarUrl={avatarUrl}
+      />
       <div
         onClick={() => {
           setHighLight(false)
@@ -80,8 +81,14 @@ const UserItem = ({
                 highLight ? 'font-semibold dark:!text-sky-500' : ''
               } truncate text-xs dark:text-gray-300`}
             >
-              {latestMessage.receiverUuid === userUuid ? 'You: ' : `${name}: `}
-              {latestMessage?.message}
+              {latestMessage.receiverUuid === userUuid
+                ? 'You: '
+                : `${name.length > 8 ? name.slice(0, 7) + '...' : name}: `}
+              <span className="truncate">
+                {latestMessage?.message.length > 4
+                  ? latestMessage?.message.slice(0, 3) + '...'
+                  : latestMessage?.message}
+              </span>
             </div>
           </div>
         )}

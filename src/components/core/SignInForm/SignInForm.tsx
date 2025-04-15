@@ -75,9 +75,9 @@ const SignInForm = () => {
         register={register}
         errorMessage={errors.password?.message}
       />
-      <div className="text-center text-xs">
-        <p className="h-[16px] text-xs text-red-500">{error}</p>
-      </div>
+      <p className="h-[16px] text-center text-[10px] text-red-500">
+        {error || ''}
+      </p>
       <ButtonSignIn isLoading={isPending} />
       <SignInDivider />
       {/* <div className="flex items-center justify-center">
