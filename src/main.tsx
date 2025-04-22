@@ -9,11 +9,11 @@ import {
 } from './core/provider'
 import App from './App'
 import './global.css'
-import { googleClientId } from './config'
+import { config } from './config'
 const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <GoogleOAuthProvider clientId={googleClientId}>
+  <GoogleOAuthProvider clientId={config.googleClientId}>
     <AuthProvider>
       <QueryClientProvider client={queryClient}>
         <NotificationProvider>

@@ -1,10 +1,11 @@
-version: '3.8'
 services:
-  web:
-    build: .
+  chat-app-frontend:
     container_name: chat-app-frontend
+    build:
+      context: .
+      dockerfile: dockerfile
+    image: chat-app-frontend:latest
     ports:
-      - '80:80'
-    env_file:
-      - .env
-    restart: unless-stopped
+      - '7979:80'
+    volumes:
+      - ./env.js:/app/public/env-config.js

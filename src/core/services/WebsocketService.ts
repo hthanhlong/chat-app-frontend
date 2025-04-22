@@ -1,4 +1,4 @@
-import { hostSocket } from '../../config'
+import { config } from '../../config'
 import LocalStorageService from './LocalStorageService'
 import { io, Socket } from 'socket.io-client'
 
@@ -14,7 +14,7 @@ class WebsocketService {
 
   async init(accessToken: string) {
     return new Promise((resolve, reject) => {
-      const url = `${hostSocket}/?accessToken=${accessToken}`
+      const url = `${config.hostSocket}/?accessToken=${accessToken}`
       this.socket = io(url)
       this.socket.on('connect', () => {
         console.log('WebSocket connected')

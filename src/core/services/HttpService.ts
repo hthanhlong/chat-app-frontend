@@ -1,10 +1,10 @@
 import axios, { AxiosRequestConfig, AxiosInstance } from 'axios'
-import { host } from '../../config'
+import { config } from '../../config'
 import { AuthService, LocalStorageService } from '.'
 
 class HttpService {
   private isCalling = false
-  private baseUrl = `${host}/v1/`
+  private baseUrl = `${config.host}/v1/`
   private http: AxiosInstance
 
   constructor() {
