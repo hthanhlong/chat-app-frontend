@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
-    "dev:up": "docker compose -f docker-compose-dev.yml up",
+    "dev:up": "docker compose -f docker-compose-dev.yml up -d",
     "dev:down": "docker compose -f docker-compose-dev.yml down",
     "dev:prod": "cp .env.prod .env && vite",
     "build": "rm -rf dist && tsc -b && vite build",
