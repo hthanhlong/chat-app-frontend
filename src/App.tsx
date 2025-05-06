@@ -8,9 +8,10 @@ const App = () => {
     <>
       <div className="bg-image grid h-screen w-screen place-items-center">
         <LoadingComponent />
-        <RouterProvider router={router} />
+        <RouterProvider data-testid="router-provider" router={router} />
       </div>
       <Toaster
+        data-testid="toaster"
         position="top-right"
         toastOptions={{
           success: {
