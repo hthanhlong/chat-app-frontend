@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Dropdown } from 'flowbite-react'
+import { Dropdown, DropdownHeader, DropdownItem } from 'flowbite-react'
 import { faBell } from '@fortawesome/free-solid-svg-icons'
 import Avatar from '../Avatar/Avatar'
 import { NotificationService, WebsocketService } from '../../../core/services'
@@ -85,21 +85,20 @@ const Notification = () => {
         label={<FontAwesomeIcon icon={faBell} fontSize={20} />}
         arrowIcon={false}
         dismissOnClick={false}
-        className="h-[300px] w-[300px] overflow-auto shadow-lg lg:h-[400px] lg:w-[400px]"
+        className="overflow-auto shadow-lg"
         placement="bottom-start"
         size="xs"
         color="gray"
       >
-        <Dropdown.Header className="flex justify-between">
+        <DropdownHeader className="flex justify-between">
           <div className="text-xs">Notifications</div>
           <button className="text-xs underline">Mark as all read</button>
-        </Dropdown.Header>
-
+        </DropdownHeader>
         {isSuccess ? (
           data.data.map((notification: INotification) => (
-            <Dropdown.Item
+            <DropdownItem
               key={notification.uuid}
-              className={`text-bold relative mb-1 w-full items-center text-sm font-medium ${
+              className={`relative mb-1 w-[400px] items-center text-sm font-medium dark:hover:bg-slate-700 ${
                 notification.status === 'UNREAD'
                   ? ' bg-slate-100 text-black dark:!bg-gray-700 dark:!text-white'
                   : ''
@@ -118,7 +117,7 @@ const Notification = () => {
                   <div className="h-1 w-1 rounded-full bg-blue-500"></div>
                 )}
               </div>
-            </Dropdown.Item>
+            </DropdownItem>
           ))
         ) : (
           <Skeleton />

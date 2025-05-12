@@ -1,4 +1,10 @@
-import { Button, Modal } from 'flowbite-react'
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+} from 'flowbite-react'
 import { ReactNode } from 'react'
 
 function CustomModal({
@@ -36,17 +42,17 @@ function CustomModal({
   return (
     <>
       <Modal show={openModal} onClose={onClose} size={size || 'sm'}>
-        <Modal.Header>{header}</Modal.Header>
-        <Modal.Body>{body || 'Body'}</Modal.Body>
+        <ModalHeader>{header}</ModalHeader>
+        <ModalBody>{body || 'Body'}</ModalBody>
         {actionArea && (
-          <Modal.Footer>
+          <ModalFooter>
             <Button color="failure" onClick={onAccept}>
               {textAccept || 'Accept'}
             </Button>
             <Button color="gray" onClick={onClose}>
               {textClose || 'Close'}
             </Button>
-          </Modal.Footer>
+          </ModalFooter>
         )}
       </Modal>
     </>
